@@ -1,0 +1,39 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+        android:id="@+id/meToolbar"
+        layout="@layout/toolbar" />
+
+
+        <it.neokree.materialtabs.MaterialTabHost
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:theme="@style/My.TabText.Style"
+            app:accentColor="@color/primaryColor"
+            app:primaryColor="#FFFFFF"
+            app:textColor="@color/primaryColor"/>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/tabs"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>

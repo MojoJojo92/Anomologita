@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "gr.anomologita.anomologita"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:recyclerview-v7:22.0.0'
+    compile 'org.lucasr.dspec:dspec:0.1.1'
+    compile 'it.neokree:MaterialTabs:0.11'
+    compile 'com.mcxiaoke.volley:library:1.0.15'
+    compile 'org.apache.httpcomponents:httpclient:4.3.5'
+    compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
+    compile 'jp.wasabeef:glide-transformations:1.0.6@aar'
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.2.3@aar'
+    compile 'com.github.bumptech.glide:glide:3.6.0'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.2.4'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    compile 'me.grantland:autofittextview:0.2.1@aar'
+    compile 'com.pnikosis:materialish-progress:1.5'
+    compile "com.google.android.gms:play-services:7.3.0"
+}

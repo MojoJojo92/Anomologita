@@ -1,0 +1,58 @@
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/groupProfileContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:showDividers="beginning">
+
+            <include
+                android:id="@+id/prof"
+                android:layout_height="120dp"
+                android:layout_width="match_parent"
+                layout="@layout/group_profile_layout"/>
+
+            <it.neokree.materialtabs.MaterialTabHost
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:theme="@style/My.TabText.Style"
+                app:accentColor="@color/primaryColor"
+                app:primaryColor="@color/white"
+                app:textColor="@color/primaryColor"/>
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragment_navigation_drawer"
+        android:name="gr.anomologita.anomologita.fragments.NavFragment"
+        android:layout_width="@dimen/nav_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_nav_layout"/>
+
+</android.support.v4.widget.DrawerLayout>

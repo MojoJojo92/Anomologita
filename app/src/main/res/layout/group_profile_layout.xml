@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/group_profile_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="5"
+            android:background="@drawable/grad3"/>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@color/white"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/groupProfile"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/icon"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="2"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_background_circle_white"/>
+
+            <ImageView
+                android:id="@+id/groupIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxWidth="100dp"
+                android:src="@drawable/ic_group"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/name"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/stats"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom"
+                android:background="@android:color/transparent">
+
+                <TextView
+                    android:id="@+id/groupNameProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:paddingTop="20dp"
+                    android:text="Onoma"
+                    android:textColor="@color/black"
+                    android:layout_toLeftOf="@+id/editMeGroups"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/editMeGroups"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:onClick="editGroup"
+                    android:src="@drawable/ic_edit"
+                    android:visibility="invisible"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/stats"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/transparent"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/subs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="3000"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:background="@android:color/transparent"
+                    android:gravity="right"
+                    android:layout_margin="3dp"
+                    android:orientation="horizontal"
+                    android:theme="@style/My.SubButton.Style.Off">
+
+                    <Button
+                        android:id="@+id/favoritesButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:background="@drawable/subscribe_background"
+                        android:onClick="favoritesClick"
+                        android:layout_gravity="right"
+                        android:text="    + Αγαπημένα   "/>
+
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/prof"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    layout="@layout/subs_layout"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"
+        android:id="@+id/title"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="5"
+        android:background="@drawable/grad3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Anomologita Panepistimiou Makedonias"
+            />
+
+    </LinearLayout>
+</RelativeLayout>
