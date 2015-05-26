@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
@@ -20,7 +21,8 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
             TABLE_FAVORITES = "favorites",
             KEY_ID = "id",
             KEY_NAME = "name",
-            KEY_IMAGEURI = "imageUri";
+            KEY_USER_ID = "userID",
+            KEY_SUBS = "subs";
 
     public FavotitesDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +31,11 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_FAVORITES + "(" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT," + KEY_IMAGEURI + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_FAVORITES + "(" +
+                KEY_ID + " INTEGER PRIMARY KEY, " +
+                KEY_NAME + " TEXT, " +
+                KEY_USER_ID + " TEXT, " +
+                KEY_SUBS + " INTEGER);");
     }
 
     @Override
@@ -43,7 +49,8 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, groupProfile.getGroup_id());
         values.put(KEY_NAME, groupProfile.getGroupName());
-        values.put(KEY_IMAGEURI, "null");//String.valueOf(favorite.get_imageURL()));
+        values.put(KEY_USER_ID, groupProfile.getUser_id());
+        values.put(KEY_SUBS, groupProfile.getSubscribers());
         db.insert(TABLE_FAVORITES, null, values);
         db.close();
     }
@@ -54,11 +61,17 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
         Cursor cursor1 = db.rawQuery(Query, null);
         cursor1.moveToFirst();
         int id = Integer.parseInt(cursor1.getString(0));
-        Cursor cursor = db.query(TABLE_FAVORITES, new String[]{KEY_ID, KEY_NAME, KEY_IMAGEURI}, KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null) cursor.moveToFirst();
-        Favorite favorite = new Favorite(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Uri.parse(cursor.getString(2)));
+        Cursor cursor = db.query(TABLE_FAVORITES, new String[]{KEY_ID, KEY_NAME, KEY_USER_ID, KEY_SUBS}, KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Favorite favorite = new Favorite();
+        if (cursor != null){
+            cursor.moveToFirst();
+            favorite.setId(cursor.getInt(0));
+            favorite.set_name(cursor.getString(1));
+            favorite.setUserID(cursor.getString(2));
+            favorite.setSubs(cursor.getInt(3));
+            cursor.close();
+        }
         db.close();
-        cursor.close();
         cursor1.close();
         return favorite;
     }
@@ -89,7 +102,8 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, groupProfile.getGroup_id());
         values.put(KEY_NAME, groupProfile.getGroupName());
-        values.put(KEY_IMAGEURI, String.valueOf(groupProfile.getImage()));
+        values.put(KEY_USER_ID, groupProfile.getUser_id());
+        values.put(KEY_SUBS, groupProfile.getSubscribers());
         return db.update(TABLE_FAVORITES, values, KEY_ID + "=?", new String[]{String.valueOf(groupProfile.getGroup_id())});
 
     }
@@ -100,7 +114,12 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVORITES, null);
         if (cursor.moveToFirst()) {
             do {
-                Favorite favorite = new Favorite(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Uri.parse(cursor.getString(2)));
+                Favorite favorite = new Favorite();
+                favorite.setId(cursor.getInt(0));
+                favorite.set_name(cursor.getString(1));
+                favorite.setUserID(cursor.getString(2));
+                favorite.setSubs(cursor.getInt(3));
+                Log.e("subsss", cursor.getInt(3) + "");
                 favorites.add(favorite);
             }
             while (cursor.moveToNext());

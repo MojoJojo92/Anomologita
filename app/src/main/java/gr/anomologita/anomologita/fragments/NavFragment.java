@@ -57,19 +57,12 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, V
         View layout = inflater.inflate(R.layout.fragment_nav_layout, container, false);
         navAdapter = new NavAdapter(getActivity(), this, drawerLayout);
         navAdapter.setMainData();
-        navAdapter.setTitles(getTitles());
         navAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         recyclerView.setAdapter(navAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
-    }
-
-    public static List<String> getTitles() {
-        List<String> titles = new ArrayList<>();
-        titles.add("ΑΓΑΠΗΜΕΝΑ");
-        return titles;
     }
 
     public void setUp(int fragmentId, final DrawerLayout drawerLayout, Toolbar toolbar) {
@@ -143,7 +136,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, V
     public void updateDrawer() {
         navAdapter = new NavAdapter(getActivity(), this, drawerLayout);
         navAdapter.setMainData();
-        navAdapter.setTitles(getTitles());
         navAdapter.setClickListener(this);
         recyclerView.setAdapter(navAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

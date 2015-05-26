@@ -114,7 +114,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         ImageView actionButtonIcon = new ImageView(this);
         actionButtonIcon.setImageResource(R.drawable.ic_action_abplus);
         actionButton = new FloatingActionButton.Builder(this).setContentView(actionButtonIcon).setBackgroundDrawable(R.drawable.ic_ab_background).build();
-        actionButton.setX(-400);
+        actionButton.setX(-R.dimen.action_button_offset);
         actionButton.setY(20);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,7 +231,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     Anomologita.setCurrentGroupName(groupProfile.getGroupName());
                     db.updateFavorite(groupProfile);
                 }
-                Log.e("is", Anomologita.userID);
                 if (Anomologita.userID.equals(String.valueOf(groupProfile.getUser_id())))
                     editGroup.setVisibility(View.VISIBLE);
                 else

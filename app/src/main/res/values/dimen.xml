@@ -5,4 +5,5 @@
     <dimen name="nav_drawer_width">310dp</dimen>
     <dimen name="group_profile_height">50dp</dimen>
     <dimen name="toolbar_height">50dp</dimen>
+    <dimen name="action_button_offset">10dp</dimen>
 </resources>

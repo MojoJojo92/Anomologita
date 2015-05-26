@@ -35,8 +35,6 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
 
     public SearchActivity() {
 
-
-
     }
 
     @Override
@@ -74,8 +72,6 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-
-        // Associate searchable configuration with the SearchView
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setActivated(true);
         searchView.setQueryHint("Αναζήτηση γκρουπ..");

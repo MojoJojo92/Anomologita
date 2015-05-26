@@ -1,37 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="50dp"
-              android:background="@android:color/transparent"
-              android:clickable="true"
-              android:orientation="horizontal" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:background="@android:color/transparent"
+                android:clickable="true">
+
+    <ImageView
+        android:id="@+id/circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_background_circle_small"/>
 
     <ImageView
         android:id="@+id/groupIcon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/groups"/>
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_background_circle_small"/>
 
     <TextView
         android:id="@+id/groupNameNav"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:text="Fotiiiiiiis"
-        android:textColor="#FFFFFF"
-        />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/groupIcon"
+        android:text="My group"
+        android:textColor="@color/white"/>
 
-    <include
-        android:id="@+id/prof"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/subs"
         android:layout_width="wrap_content"
-        layout="@layout/subs_layout"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="2dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/sublayoutbackground_white"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="1dp"
+            android:background="@android:color/transparent"
+            android:gravity="left"
+            android:src="@drawable/ic_star_white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/subCount"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:padding="1dp"
+            android:onClick="favoritesClick"
+            android:textColor="@color/white"
+            android:text="99k"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

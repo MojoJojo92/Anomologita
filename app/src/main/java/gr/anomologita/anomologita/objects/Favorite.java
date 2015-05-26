@@ -1,25 +1,30 @@
 package gr.anomologita.anomologita.objects;
 
-import android.net.Uri;
-
 public class Favorite {
 
     private int id;
-    private Uri _imageURL;
+    private String userID;
     private String _name;
+    private int subs;
 
-    public Favorite(int id, String _name,Uri _imageURL) {
-        this._imageURL = _imageURL;
-        this._name = _name;
-        this.id = id;
+    public Favorite() {
+
     }
 
-    public Uri get_imageURL() {
-        return _imageURL;
+    public int getSubs() {
+        return subs;
     }
 
-    public void set_imageURL(Uri _imageURL) {
-        this._imageURL = _imageURL;
+    public void setSubs(int subs) {
+        this.subs = subs;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String get_name() {

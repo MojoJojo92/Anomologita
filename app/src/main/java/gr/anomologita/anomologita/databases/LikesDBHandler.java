@@ -26,7 +26,9 @@ public class LikesDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_LIKES + "(" + POST_ID + " INTEGER PRIMARY KEY, " + LIKED + " INTEGER)");
+        db.execSQL("CREATE TABLE " + TABLE_LIKES + "(" +
+                POST_ID + " INTEGER PRIMARY KEY, " +
+                LIKED + " INTEGER)");
     }
 
     @Override

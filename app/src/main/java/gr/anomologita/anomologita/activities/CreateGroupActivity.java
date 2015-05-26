@@ -26,12 +26,14 @@ import java.io.ByteArrayOutputStream;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.databases.FavotitesDBHandler;
 import gr.anomologita.anomologita.extras.Keys.CheckGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
+import gr.anomologita.anomologita.objects.GroupProfile;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static android.util.Base64.DEFAULT;
@@ -131,6 +133,14 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         wheel.stopSpinning();
         Anomologita.setCurrentGroupID(groupID);
         Anomologita.setCurrentGroupName(groupName);
+        GroupProfile groupProfile = new GroupProfile();
+        groupProfile.setGroup_id(Integer.parseInt(groupID));
+        groupProfile.setGroupName(groupName);
+        groupProfile.setUser_id(Integer.parseInt(Anomologita.userID));
+        groupProfile.setSubscribers(0);
+        FavotitesDBHandler db = new FavotitesDBHandler(this);
+        db.createFavorite(groupProfile);
+        db.close();
         onBackPressed();
     }
 

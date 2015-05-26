@@ -4,10 +4,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:padding="5dp"
+    android:padding="2dp"
     android:background="@drawable/subscribe_background"
-    android:orientation="horizontal"
-    android:theme="@style/My.SubButton.Style.Off">
+    android:orientation="horizontal">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -16,7 +15,7 @@
         android:padding="1dp"
         android:background="@android:color/transparent"
         android:gravity="left"
-        android:src="@drawable/ic_star"/>
+        android:src="@drawable/ic_star_white"/>
 
     <TextView
         android:layout_width="wrap_content"

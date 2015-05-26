@@ -48,8 +48,7 @@
     <style name="My.SubButton.Style.Off" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#008080</item>
-        <item name="android:background">@drawable/tabs_background</item>
+        <item name="android:textColor">@color/tempColor</item>
         <item name="android:textAllCaps">false</item>
         <!-- <item name="android:ellipsize">none</item> -->
         <item name="android:maxLines">1</item>
