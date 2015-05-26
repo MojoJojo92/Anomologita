@@ -3,6 +3,7 @@ package gr.anomologita.anomologita.adapters;
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         FavotitesDBHandler db = new FavotitesDBHandler(context);
         this.data = db.getAllFavorites();
         for (int i = 0; i < data.size(); i++) {
+         //   data.get(i).getSubs();
             if (data.get(i).getUserID().equals(Anomologita.userID))
                 myGroups.add(data.get(i));
             else
@@ -107,6 +109,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             titleHolder.title.setText("Αγαπημένα");
         } else {
             FavoritesHolder favoritesHolder = (FavoritesHolder) holder;
+           // Log.e("subbs",currentFavorite.getSubs()+"");
             favoritesHolder.subCount.setText(createSubs(0));
             currentFavorite = favotites.get(position - myGroups.size() - 3);
             favoritesHolder.title.setText(currentFavorite.get_name());
