@@ -57,8 +57,11 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         db.close();
     }
 
-    public Favorite getData(int position) {
-        return data.get(position);
+    public Favorite getData(int position, int viewType) {
+        if(viewType == 2)
+           return myGroups.get(position- 2);
+        else
+            return favotites.get(position- myGroups.size() - 3);
     }
 
     @Override
@@ -155,7 +158,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void onClick(View v) {
             if (clickListener != null) {
-                clickListener.itemClicked(v, getPosition());
+                clickListener.itemClicked(v, getPosition(), getItemViewType());
             }
         }
     }
@@ -174,6 +177,6 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface ClickListener {
-        public void itemClicked(View view, int position);
+        public void itemClicked(View view, int position, int viewType);
     }
 }

@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     final Handler handler = new Handler();
     private ViewPager viewPager;
-    private LinearLayout mGroupProfileContainer;
+    private LinearLayout mGroupProfileContainer, name;
     private Button favoritesButton;
     private ImageView groupImage;
     private MaterialTabHost tabHost;
@@ -85,11 +85,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-        // getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_action_a));
         toolbar.setNavigationIcon(R.drawable.ic_action_a);
 
 
         mGroupProfileContainer = (LinearLayout) findViewById(R.id.groupProfileContainer);
+        name = (LinearLayout) findViewById(R.id.title);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         fragmentNav = (NavFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -106,6 +106,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 tabHost.setSelectedNavigationItem(position);
                 mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                 HidingGroupProfileListener.mGroupProfileOffset = 0;
+                name.setAlpha(0);
             }
         });
         for (int i = 0; i < adapter.getCount(); i++) {
@@ -306,12 +307,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
             Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void onCreateGroupClick(View view) {
-        Intent i = new Intent(getApplicationContext(), CreateGroupActivity.class);
-        startActivity(i);
-        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     @Override

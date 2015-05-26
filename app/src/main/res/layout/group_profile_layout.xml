@@ -11,6 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:weightSum="6"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -38,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="bottom"
+        android:weightSum="3"
         android:background="@android:color/transparent"
         android:orientation="horizontal">
 
@@ -117,11 +119,10 @@
                 android:id="@+id/stats"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@android:color/transparent"
-                android:gravity="bottom"
-                android:orientation="horizontal">
+                android:gravity="bottom">
 
                 <LinearLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -146,8 +147,8 @@
 
                 <LinearLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="175dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_gravity="right"
                     android:background="@android:color/transparent"
@@ -159,12 +160,12 @@
                     <Button
                         android:id="@+id/favoritesButton"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:background="@drawable/subscribe_background"
                         android:onClick="favoritesClick"
                         android:layout_gravity="right"
-                        android:text="    + Αγαπημένα   "/>
+                        android:text="+ Αγαπημένα"/>
 
                 </LinearLayout>
 
@@ -182,8 +183,8 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_gravity="bottom"
-        android:visibility="invisible"
         android:id="@+id/title"
+        android:alpha="0"
         android:layout_alignParentBottom="true"
         android:layout_weight="5"
         android:background="@drawable/grad3">

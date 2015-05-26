@@ -46,7 +46,6 @@ public abstract class HidingGroupProfileListener extends RecyclerView.OnScrollLi
         clipGroupProfileOffset();
         onMoved(mGroupProfileOffset);
 
-        mTotalScrolledDistance += dy;
         if(mTotalScrolledDistance > mGroupProfileHeight){
             mGroupProfileOffset = mGroupProfileHeight;
         }else if(mTotalScrolledDistance <= mGroupProfileHeight){
@@ -54,11 +53,13 @@ public abstract class HidingGroupProfileListener extends RecyclerView.OnScrollLi
         }else {
             mGroupProfileOffset = 0;
         }
-        clipGroupProfileOffset();
-       /* if ((mGroupProfileOffset < mGroupProfileHeight && dy > 0) || (mGroupProfileOffset > 0 && dy < 0)) {
-            mGroupProfileOffset += dy;
-        }*/
-      //  mTotalScrolledDistance += dy;
+        if(mTotalScrolledDistance <= mGroupProfileHeight){
+            if ((mGroupProfileOffset < mGroupProfileHeight && dy > 0) || (mGroupProfileOffset > 0 && dy < 0)) {
+                mGroupProfileOffset += dy;
+            }
+        }
+        mTotalScrolledDistance += dy;
+
     }
 
     private void clipGroupProfileOffset() {

@@ -145,14 +145,6 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        setResult(RESULT_CANCELED, intent);
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.createGroupComplete) {
@@ -194,5 +186,13 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             if (Anomologita.isConnected())
                 new AttemptLogin(CREATE_GROUP, hashtag, groupName, this, null).execute();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        finish();
     }
 }

@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
@@ -39,7 +40,6 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     private MainAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayout name;
-
 
     public static MainFragment newInstance(String sort) {
         MainFragment fragment = new MainFragment();
@@ -92,14 +92,14 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
             @Override
             public void onShow() {
-                //   mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-                //    name.setAlpha(0);
+                   mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                   name.setAlpha(0);
             }
 
             @Override
             public void onHide() {
-                //    mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
-                //    name.setAlpha(1);
+                    mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
+                    name.setAlpha(1);
             }
         });
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
