@@ -49,7 +49,6 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         FavotitesDBHandler db = new FavotitesDBHandler(context);
         this.data = db.getAllFavorites();
         for (int i = 0; i < data.size(); i++) {
-         //   data.get(i).getSubs();
             if (data.get(i).getUserID().equals(Anomologita.userID))
                 myGroups.add(data.get(i));
             else
@@ -109,9 +108,8 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             titleHolder.title.setText("Αγαπημένα");
         } else {
             FavoritesHolder favoritesHolder = (FavoritesHolder) holder;
-           // Log.e("subbs",currentFavorite.getSubs()+"");
-            favoritesHolder.subCount.setText(createSubs(0));
             currentFavorite = favotites.get(position - myGroups.size() - 3);
+            favoritesHolder.subCount.setText(createSubs(currentFavorite.getSubs()));
             favoritesHolder.title.setText(currentFavorite.get_name());
             Glide.with(context).load("http://anomologita.gr/img/" + currentFavorite.getId() + ".png")
                     .asBitmap()
@@ -132,16 +130,12 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return "0";
     }
 
-    public void setClickListener(ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
     @Override
     public int getItemCount() {
         return data.size() + 3;
     }
 
-    class FavoritesHolder extends RecyclerView.ViewHolder {
+    class FavoritesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView title;
         TextView subCount;
         ImageView icon;
@@ -150,21 +144,33 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public FavoritesHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.groupNameNav);
             subCount = (TextView) itemView.findViewById(R.id.subCount);
             icon = (ImageView) itemView.findViewById(R.id.groupIcon);
             backgroundIcon = (ImageView) itemView.findViewById(R.id.circle);
             subs = (LinearLayout) itemView.findViewById(R.id.subs);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (clickListener != null) {
+                clickListener.itemClicked(v, getPosition());
+            }
+        }
     }
 
-    class TitleHolder extends RecyclerView.ViewHolder {
+    class TitleHolder extends RecyclerView.ViewHolder  {
         TextView title;
 
         public TitleHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView5);
         }
+    }
+
+    public void setClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     public interface ClickListener {

@@ -119,7 +119,6 @@ public class FavotitesDBHandler extends SQLiteOpenHelper {
                 favorite.set_name(cursor.getString(1));
                 favorite.setUserID(cursor.getString(2));
                 favorite.setSubs(cursor.getInt(3));
-                Log.e("subsss", cursor.getInt(3) + "");
                 favorites.add(favorite);
             }
             while (cursor.moveToNext());

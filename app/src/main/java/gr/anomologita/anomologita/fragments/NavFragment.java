@@ -32,7 +32,7 @@ import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.SearchComplete;
 import gr.anomologita.anomologita.objects.GroupSearch;
 
-public class NavFragment extends Fragment implements NavAdapter.ClickListener, View.OnClickListener, LoginMode {
+public class NavFragment extends Fragment implements NavAdapter.ClickListener, LoginMode {
 
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -124,13 +124,13 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, V
 
     @Override
     public void itemClicked(View view, int position) {
-        LinearLayout mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
-        mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
+     //   LinearLayout mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
+     //   mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+    //    HidingGroupProfileListener.mGroupProfileOffset = 0;
         Toast.makeText(this.getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
-        Anomologita.setCurrentGroupID(String.valueOf(navAdapter.getData(position - 1).getId()));
-        Anomologita.setCurrentGroupName(navAdapter.getData(position - 1).get_name());
-        ((MainActivity) getActivity()).setGroup();
+    //    Anomologita.setCurrentGroupID(String.valueOf(navAdapter.getData(position - 1).getId()));
+    //    Anomologita.setCurrentGroupName(navAdapter.getData(position - 1).get_name());
+    //    ((MainActivity) getActivity()).setGroup();
     }
 
     public void updateDrawer() {
@@ -139,10 +139,5 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, V
         navAdapter.setClickListener(this);
         recyclerView.setAdapter(navAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
