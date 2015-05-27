@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_action_a);
+       // toolbar.setNavigationIcon(R.drawable.ic_action_a);
 
 
         mGroupProfileContainer = (LinearLayout) findViewById(R.id.groupProfileContainer);
@@ -122,10 +122,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         actionButtonIcon.setImageResource(R.drawable.ic_action_abplus);
         actionButton = new FloatingActionButton.Builder(this).setContentView(actionButtonIcon).setBackgroundDrawable(R.drawable.ic_ab_background).build();
         params =  (FloatingActionButton.LayoutParams)actionButton.getLayoutParams();
-       // params.setMargins(0,0,screenWidth()/2 + actionButton.getLayoutParams().width,0);
         abPosition = -screenWidth()/2 + actionButton.getLayoutParams().width/2 + ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin;
         actionButton.setX(abPosition);
-        Log.e("www", screenWidth() +" "+ ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin);
         actionButton.setLayoutParams(params);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,7 +350,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
     public void onDrawerSlide(float drawerOffset) {
-        actionButton.setTranslationX((drawerOffset * 720) + abPosition);
+        actionButton.setTranslationX((drawerOffset * screenWidth()) + abPosition);
     }
 
     @Override

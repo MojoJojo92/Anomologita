@@ -55,7 +55,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
         final View containerView = getActivity().findViewById(fragmentId);
         containerView.isInEditMode();
         this.drawerLayout = drawerLayout;
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -67,7 +67,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
                 ((MainActivity) getActivity()).onDrawerSlide(slideOffset);
             }
         };
-        mDrawerToggle.setDrawerIndicatorEnabled(false);
+       // mDrawerToggle.setDrawerIndicatorEnabled(false);
         drawerLayout.setDrawerListener(mDrawerToggle);
         drawerLayout.post(new Runnable() {
             @Override
