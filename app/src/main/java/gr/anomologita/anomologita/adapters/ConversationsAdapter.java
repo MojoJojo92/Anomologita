@@ -73,6 +73,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 conversationsActivity.selected(currentCon);
             }
         });
+
       /*  conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
