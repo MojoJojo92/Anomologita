@@ -27,7 +27,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
 
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout drawerLayout;
     private NavAdapter navAdapter;
 
     public NavFragment() {
@@ -41,7 +40,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_nav_layout, container, false);
-        navAdapter = new NavAdapter(getActivity(), this, drawerLayout);
+        navAdapter = new NavAdapter(getActivity());
         navAdapter.setMainData();
         navAdapter.setClickListener(this);
 
@@ -54,7 +53,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     public void setUp(int fragmentId, final DrawerLayout drawerLayout, Toolbar toolbar) {
         final View containerView = getActivity().findViewById(fragmentId);
         containerView.isInEditMode();
-        this.drawerLayout = drawerLayout;
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -102,7 +100,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     }
 
     public void updateDrawer() {
-        navAdapter = new NavAdapter(getActivity(), this, drawerLayout);
+        navAdapter = new NavAdapter(getActivity());
         navAdapter.setMainData();
         navAdapter.setClickListener(this);
         recyclerView.setAdapter(navAdapter);

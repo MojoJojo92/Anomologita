@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
         android:id="@+id/chatCommentLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,15 +44,18 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="5dp"
                 android:layout_toLeftOf="@+id/submit"
-                android:hint="Γράψε το μήνυμα σου..."
+                android:layout_toStartOf="@+id/submit"
+                android:hint="@string/chatPostHint"
                 android:padding="7dp"/>
 
             <ImageView
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/postDesc"
                 android:onClick="chatOk"
                 android:src="@drawable/ic_action_send"/>
 

@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
     <string name="app_name">Ανομολόγητα</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -38,8 +38,6 @@
         <item>ΤΑ ΓΚΡΟΥΠ ΜΟΥ</item>
     </string-array>
 
-
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ok">OK</string>
     <string name="titlos1">Γραψε το μυστικό σου</string>
@@ -57,5 +55,26 @@
     <string name="messageDescription">The personal message icon. Invisible when the post is yours. Visible when post is not yours</string>
     <string name="editPostDescription">Edit icon. Invisible when post is not yours. Visible when post is yours.</string>
     <string name="splashLogoDescription">Center image logo in splash screen</string>
+    <string name="notificationDescription">Image that displays the type of notification. Like, comment or subscribe</string>
+    <string name="notification">Notification</string>
+    <string name="deleteNotificationDesc">Image for deleting the notification</string>
+    <string name="navTitle">TITLE</string>
+    <string name="editGroupDesc">Icon for editing the current group</string>
+    <string name="groupIconDesc">The current group icon</string>
+    <string name="groupName">Name</string>
+    <string name="subsTitle">Subscribers</string>
+    <string name="subs">0</string>
+    <string name="groupTitle">Γκρουπ:</string>
+    <string name="editPostDesc">Icon for editing the current post</string>
+    <string name="bigCircleDesc">Background white circle</string>
+    <string name="subscribeButton">+ Προσθήκή στα Αγαπημένα</string>
+    <string name="createGroupNameHint">Όνομα\n (π.χ Πανεπιστήμιο Μακεδονίας)</string>
+    <string name="createHashTagHint">Πρώτο hashtag!\n(π.χ έφαγακεφτέδες)</string>
+    <string name="deleteConversationDesc">Icon for deleting the current group</string>
+    <string name="conTitle">Conversation</string>
+    <string name="sender">Ποιός</string>
+    <string name="lastMessage">Last Personal Message</string>
+    <string name="chatPostHint">Γράψε το μήνυμα σου…</string>
+    <string name="postDesc">Icon for posting</string>
 
 </resources>

@@ -1,9 +1,7 @@
 package gr.anomologita.anomologita.adapters;
 
 import android.content.Context;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import java.util.UUID;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.databases.FavotitesDBHandler;
-import gr.anomologita.anomologita.fragments.NavFragment;
 import gr.anomologita.anomologita.objects.Favorite;
 
 public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,17 +29,10 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Favorite> myGroups = new ArrayList<>();
     private Context context;
     private ClickListener clickListener;
-    private NavFragment fragmentNav;
-    private Favorite currentFavorite;
-    private DrawerLayout drawerLayout;
-    private View view;
 
-    public NavAdapter(Context context, NavFragment fragmentNav, DrawerLayout drawerLayout) {
+    public NavAdapter(Context context) {
         this.context = context;
-        this.fragmentNav = fragmentNav;
         inflater = LayoutInflater.from(context);
-        this.drawerLayout = drawerLayout;
-        this.view = view;
     }
 
     public void setMainData() {
@@ -87,6 +77,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        Favorite currentFavorite;
         if (getItemViewType(position) == 0) {
             TitleHolder titleHolder = (TitleHolder) holder;
             titleHolder.title.setText("Τα Γκρούπ Μου");
@@ -150,7 +141,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.groupNameNav);
             subCount = (TextView) itemView.findViewById(R.id.subCount);
-            icon = (ImageView) itemView.findViewById(R.id.groupIcon);
+            icon = (ImageView) itemView.findViewById(R.id.icon);
             backgroundIcon = (ImageView) itemView.findViewById(R.id.circle);
             subs = (LinearLayout) itemView.findViewById(R.id.subs);
         }
@@ -168,7 +159,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public TitleHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.textView5);
+            title = (TextView) itemView.findViewById(R.id.title);
         }
     }
 

@@ -16,12 +16,14 @@
         android:weightSum="6">
 
         <LinearLayout
+            android:id="@+id/topStrip"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
             android:layout_weight="5"
-            android:background="@drawable/bottom_gradient"/>
+            android:background="@drawable/bottom_gradient"
+            android:orientation="horizontal"/>
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -40,11 +42,12 @@
         android:layout_height="120dp"
         android:layout_gravity="bottom"
         android:background="@android:color/transparent"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:weightSum="3">
 
         <RelativeLayout
-            android:id="@+id/icon"
+            android:id="@+id/iconLayout"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,13 +61,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/bigCircleDesc"
                 android:src="@drawable/ic_background_circle_white"/>
 
             <ImageView
-                android:id="@+id/groupIcon"
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/groupIconDesc"
                 android:maxWidth="100dp"
                 android:src="@drawable/ic_group"/>
 
@@ -86,6 +91,7 @@
                 android:layout_above="@+id/stats"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"
+                android:layout_margin="5dp"
                 android:background="@android:color/transparent">
 
                 <TextView
@@ -93,22 +99,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@+id/editMeGroups"
+                    android:layout_toLeftOf="@+id/edit"
+                    android:layout_toStartOf="@+id/edit"
                     android:gravity="center"
                     android:maxLines="2"
                     android:paddingTop="20dp"
-                    android:text="Onoma"
+                    android:text="@string/groupName"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
                 <ImageView
-                    android:id="@+id/editMeGroups"
+                    android:id="@+id/edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/editGroupDesc"
                     android:onClick="editGroup"
                     android:src="@drawable/ic_edit"
                     android:visibility="invisible"/>
@@ -122,50 +131,36 @@
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:background="@android:color/transparent"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <Button
                     android:id="@+id/favoritesButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3"
                     android:background="@drawable/subscribe_background"
                     android:gravity="center"
                     android:onClick="favoritesClick"
-                    android:text="+ Προσθήκή στα Αγαπημένα"
+                    android:text="@string/subscribeButton"
                     android:theme="@style/My.SubButton.Style.Off"/>
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/subs"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:layout_weight="2"
+                    android:layout_weight="0.5"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/ic_star"
+                    android:drawableStart="@drawable/ic_star"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:maxLines="1"
+                    android:onClick="favoritesClick"
+                    android:text="@string/subs"
+                    android:textColor="@color/accentColor"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="start"
-                        android:src="@drawable/ic_star"/>
-
-                    <TextView
-                        android:id="@+id/subs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:maxLines="1"
-                        android:onClick="favoritesClick"
-                        android:padding="1dp"
-                        android:text="999k"
-                        android:textColor="@color/accentColor"/>
-
-                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -177,17 +172,16 @@
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:layout_weight="5"
         android:alpha="0"
         android:background="@drawable/bottom_gradient">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Title"
-            android:id="@+id/title"
+            android:text="@string/groupName"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 

@@ -63,7 +63,7 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
-                .margin(50).color(getResources().getColor(R.color.primaryColor)).build());
+                .margin(Anomologita.convert(10)).color(getResources().getColor(R.color.primaryColor)).build());
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
             db.createConversation(conversation);
     }
 
-    public void selected(int position, Conversation conversation) {
+    public void selected(Conversation conversation) {
         conversation.setSeen("yes");
         db.updateConversation(conversation);
         Anomologita.conversation = conversation;

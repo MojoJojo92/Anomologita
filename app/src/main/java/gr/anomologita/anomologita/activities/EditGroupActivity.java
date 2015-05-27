@@ -69,7 +69,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         currentGroupName = Anomologita.getCurrentGroupName();
         groupID = Anomologita.getCurrentGroupID();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.createGroupToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,9 +82,9 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         });
 
         layout = (RelativeLayout) findViewById(R.id.createGroupLayout);
-        picture = (ImageView) findViewById(R.id.default_group_image);
+        picture = (ImageView) findViewById(R.id.groupImage);
         groupNameET = (EditText) findViewById(R.id.groupName);
-        hashtagET = (EditText) findViewById(R.id.groupHashtagName);
+        hashtagET = (EditText) findViewById(R.id.hashTag);
         wheel = (ProgressWheel) findViewById(R.id.wheel);
         wheel.stopSpinning();
 

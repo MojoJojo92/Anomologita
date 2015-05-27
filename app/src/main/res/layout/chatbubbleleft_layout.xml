@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="5dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:layout_marginEnd="100dp"
+    android:layout_marginRight="100dp"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:layout_marginRight="100dp"
-        android:orientation="vertical">
+        android:background="@drawable/chat_bubble_left"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="7dp"
+        tools:ignore="UselessParent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/meTxtId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chatbubbleleft"
-            android:gravity="bottom"
-            android:orientation="vertical"
-            android:padding="7dp">
+            android:gravity="center"
+            android:text="@string/lastMessage"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/meTxtId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Last PersonalMessage"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"/>
-
-            <TextView
-                android:id="@+id/meTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="16:45"
-                android:textColor="@color/primaryColorLight"
-                android:textSize="10sp"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/meTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:textColor="@color/primaryColorLight"
+            android:textSize="12sp"/>
 
     </LinearLayout>
 

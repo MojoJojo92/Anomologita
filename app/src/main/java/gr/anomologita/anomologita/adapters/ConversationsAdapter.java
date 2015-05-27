@@ -44,7 +44,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ConversationsHolder(inflater.inflate(R.layout.conversations_row_layout, parent, false));
+        return new ConversationsHolder(inflater.inflate(R.layout.conversation_row_layout, parent, false));
     }
 
     public int getItemViewType(int position) {
@@ -55,14 +55,13 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ConversationsHolder conversationsHolder = (ConversationsHolder) holder;
         final Conversation currentCon = Conversations.get(position);
+        AutofitHelper.create(conversationsHolder.senderName);
         if (!Conversations.get(position).getName().equals("Εγώ"))
-            conversationsHolder.senderName.setText(currentCon.getName());
+            conversationsHolder.senderName.setText("Με "+currentCon.getName()+ " στο "+currentCon.getHashtag());
         if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.getCurrentGroupID())))
             conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
         else
             conversationsHolder.lastSenderName.setText("Εγώ: ");
-        AutofitHelper.create(conversationsHolder.postHashtag);
-        conversationsHolder.postHashtag.setText(currentCon.getHashtag());
         AutofitHelper.create(conversationsHolder.txtMessage);
         if (currentCon.getLastMessage().length() < 30)
             conversationsHolder.txtMessage.setText(currentCon.getLastMessage());
@@ -71,7 +70,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversationsActivity.selected(position, currentCon);
+                conversationsActivity.selected(currentCon);
             }
         });
       /*  conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +130,6 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     class ConversationsHolder extends RecyclerView.ViewHolder {
         TextView lastSenderName;
         TextView senderName;
-        TextView postHashtag;
         TextView txtMessage;
         TextView time;
         ImageView delete;
@@ -145,11 +143,10 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             conRowLayout = (RelativeLayout) itemView.findViewById(R.id.conRowLayout);
             chatClick = (LinearLayout) itemView.findViewById(R.id.chatClick);
             lastSenderName = (TextView) itemView.findViewById(R.id.lastSenderName);
-            senderName = (TextView) itemView.findViewById(R.id.senderName);
-            postHashtag = (TextView) itemView.findViewById(R.id.postHashtagName);
+            senderName = (TextView) itemView.findViewById(R.id.conversationTitle);
             txtMessage = (TextView) itemView.findViewById(R.id.txtMessageName);
-            time = (TextView) itemView.findViewById(R.id.lastMessageTime);
-            delete = (ImageView) itemView.findViewById(R.id.deleteConversation);
+            time = (TextView) itemView.findViewById(R.id.time);
+            delete = (ImageView) itemView.findViewById(R.id.delete);
         }
     }
 }

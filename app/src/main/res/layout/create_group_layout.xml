@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
+    android:id="@+id/createGroupLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/createGroupLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/paper_gradient">
 
     <include
-        android:id="@+id/createGroupToolbar"
+        android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/fakeView2"
-        android:layout_below="@+id/createGroupToolbar">
+        android:layout_below="@+id/toolbar">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:contentDescription="@string/bigCircleDesc"
             android:src="@drawable/ic_background_circle_white_big"/>
 
         <ImageView
-            android:id="@+id/default_group_image"
+            android:id="@+id/groupImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_group"
-            android:contentDescription="@string/selectImage"/>
+            android:contentDescription="@string/selectImage"
+            android:src="@drawable/ic_group"/>
 
         <TextView
             android:id="@+id/setImage"
@@ -39,7 +40,7 @@
             android:gravity="bottom|center"
             android:paddingBottom="10dp"
             android:text="@string/add_new_image"
-            android:textColor="#008080"/>
+            android:textColor="@color/accentColor"/>
 
 
     </RelativeLayout>
@@ -65,7 +66,7 @@
             android:layout_alignParentTop="true"
             android:focusable="true"
             android:gravity="center"
-            android:hint="Όνομα\n (π.χ Πανεπιστήμιο Μακεδονίας)"
+            android:hint="@string/createGroupNameHint"
             android:padding="10dp"/>
 
         <LinearLayout
@@ -76,13 +77,13 @@
             android:orientation="horizontal"/>
 
         <EditText
-            android:id="@+id/groupHashtagName"
+            android:id="@+id/hashTag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/fakeView"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:hint="Πρώτο  hashtag!\n(π.χ έφαγακεφτέδες)"
+            android:hint="@string/createHashTagHint"
             android:padding="10dp"/>
 
     </RelativeLayout>

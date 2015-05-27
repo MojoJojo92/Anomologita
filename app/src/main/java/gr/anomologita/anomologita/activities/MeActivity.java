@@ -30,7 +30,7 @@ public class MeActivity extends ActionBarActivity implements MaterialTabListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.meToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

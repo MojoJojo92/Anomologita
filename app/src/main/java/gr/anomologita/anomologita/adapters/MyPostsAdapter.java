@@ -16,11 +16,7 @@ import gr.anomologita.anomologita.activities.CommentActivity;
 import gr.anomologita.anomologita.fragments.MyPostsFragment;
 import gr.anomologita.anomologita.objects.Post;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -43,7 +39,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyPostsHolder(layoutInflater.inflate(R.layout.me_posts_row_layout, parent, false));
+        return new MyPostsHolder(layoutInflater.inflate(R.layout.myposts_row_layout, parent, false));
     }
 
     @Override
@@ -97,7 +93,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyItemRangeChanged(0, this.myPosts.size());
     }
 
-    private String getTime(String postTimeStamp){
+  /*  private String getTime(String postTimeStamp){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Timestamp t2 = new Timestamp(System.currentTimeMillis());
@@ -125,7 +121,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             e.printStackTrace();
         }
         return "τώρα";
-    }
+    } */
 
     @Override
     public int getItemViewType(int position) {
@@ -147,12 +143,12 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public MyPostsHolder(View itemView) {
             super(itemView);
-            mePostTxt = (TextView) itemView.findViewById(R.id.my_posts_txt);
+            mePostTxt = (TextView) itemView.findViewById(R.id.post);
             time = (TextView) itemView.findViewById(R.id.time);
-            mePostLikes = (TextView) itemView.findViewById(R.id.me_posts_likes);
-            mePostComments = (TextView) itemView.findViewById(R.id.me_posts_comments);
+            mePostLikes = (TextView) itemView.findViewById(R.id.likeCount);
+            mePostComments = (TextView) itemView.findViewById(R.id.commentCount);
             deletePost = (ImageView) itemView.findViewById(R.id.deletePost);
-            group_name = (TextView) itemView.findViewById(R.id.mePost_groupName);
+            group_name = (TextView) itemView.findViewById(R.id.groupName);
 
         }
     }

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.fragments.NavFragment;
 import gr.anomologita.anomologita.objects.GroupSearch;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
@@ -79,7 +78,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.groupNameNav);
             title.setOnClickListener(this);
-            icon = (ImageView) itemView.findViewById(R.id.groupIcon);
+            icon = (ImageView) itemView.findViewById(R.id.icon);
             icon.setOnClickListener(this);
         }
 

@@ -4,96 +4,76 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="90dp"
     android:layout_margin="5dp"
+    android:minHeight="90dp"
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/deleteConversation"
+        android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/deleteConversationDesc"
         android:src="@drawable/ic_delete"/>
 
     <TextView
-        android:id="@+id/lastMessageTime"
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:text=" 16:05 "
-        android:textColor="@color/secondaryTextColor"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/time"
+        android:textColor="@color/primaryColorDark"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/conversationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Μέ "
-            android:textSize="17sp"/>
-
-        <TextView
-            android:id="@+id/senderName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ανώνυμο"
-            android:textSize="17sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" στο "
-            android:textSize="17sp"/>
-
-        <TextView
-            android:id="@+id/postHashtagName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="(postHashtag)"
-            android:textSize="17sp"/>
-
-    </LinearLayout>
+        android:text="@string/conTitle"
+        android:textSize="17sp"/>
 
     <LinearLayout
         android:id="@+id/conLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/lastMessageTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/time"
+        android:layout_toStartOf="@+id/time"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/lastSenderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ποιός"
+            android:text="@string/sender"
             android:textColor="@color/secondaryTextColor"/>
 
         <TextView
             android:id="@+id/txtMessageName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Last Personal Message"
             android:maxLines="5"
+            android:text="@string/lastMessage"
             android:textColor="@color/secondaryTextColor"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:clickable="true"
         android:id="@+id/chatClick"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/delete"
+        android:layout_toStartOf="@+id/delete"
+        android:clickable="true"
         android:orientation="horizontal"
-        android:visibility="gone"
-        android:layout_toLeftOf="@id/deleteConversation"/>
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -88,7 +88,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-       // toolbar.setNavigationIcon(R.drawable.ic_action_a);
+        // toolbar.setNavigationIcon(R.drawable.ic_action_a);
 
 
         mGroupProfileContainer = (LinearLayout) findViewById(R.id.groupProfileContainer);
@@ -118,8 +118,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         ImageView actionButtonIcon = new ImageView(this);
         actionButtonIcon.setImageResource(R.drawable.ic_action_abplus);
         actionButton = new FloatingActionButton.Builder(this).setContentView(actionButtonIcon).setBackgroundDrawable(R.drawable.ic_ab_background).build();
-        params =  (FloatingActionButton.LayoutParams)actionButton.getLayoutParams();
-        abPosition = -screenWidth()/2 + actionButton.getLayoutParams().width/2 + ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin;
+        params = (FloatingActionButton.LayoutParams) actionButton.getLayoutParams();
+        abPosition = -screenWidth() / 2 + actionButton.getLayoutParams().width / 2 + ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin;
         actionButton.setX(abPosition);
         actionButton.setLayoutParams(params);
         actionButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         favoritesButton = (Button) findViewById(R.id.favoritesButton);
         db = new FavotitesDBHandler(this);
-        groupImage = (ImageView) findViewById(R.id.groupIcon);
+        groupImage = (ImageView) findViewById(R.id.icon);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         groupSubs = (TextView) findViewById(R.id.subs);
         title = (TextView) findViewById(R.id.title);
@@ -199,7 +199,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             startActivity(i);
             this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             finish();
-        } else if (id == R.id.search){
+        } else if (id == R.id.search) {
             Intent i = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(i);
             this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -231,7 +231,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     @Override
     public void onGetGroupComplete(GroupProfile groupProfile) {
         this.groupProfile = groupProfile;
-        ImageView editGroup = (ImageView) findViewById(R.id.editMeGroups);
+        ImageView editGroup = (ImageView) findViewById(R.id.edit);
         if (groupProfile != null) {
             if (groupProfile.getGroupName() != null) {
                 if (!groupProfile.getGroupName().equals(Anomologita.getCurrentGroupName())) {
@@ -265,7 +265,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         }
     }
 
-    private int screenWidth(){
+    private int screenWidth() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -358,17 +358,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     protected void onPause() {
         super.onPause();
         Anomologita.activityPaused();
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                data.getStringExtra("group");
-            }
-            if (resultCode == RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
     }
 
     class FetchCountTask extends AsyncTask<Void, Void, Integer> {

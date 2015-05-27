@@ -55,7 +55,7 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chatcomment_layout);
+        setContentView(R.layout.chat_comment_layout);
         layout = (RelativeLayout) findViewById(R.id.chatCommentLayout);
         editText = (EditText) findViewById(R.id.editText);
         messageLayout = (RelativeLayout) findViewById(R.id.textField);

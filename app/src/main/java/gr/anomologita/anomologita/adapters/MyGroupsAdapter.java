@@ -25,7 +25,6 @@ import me.grantland.widget.AutofitHelper;
 public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<GroupProfile> groups = Collections.emptyList();
-    private GroupProfile groupProfile;
     private LayoutInflater layoutInflater;
     private MyGroupsFragment fragmentMeGroups;
     private View view;
@@ -107,7 +106,7 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             group_name = (TextView) itemView.findViewById(R.id.myGroupNameProfile);
             subscribers = (TextView) itemView.findViewById(R.id.subscribers);
-            delete = (ImageView) itemView.findViewById(R.id.deleteGroup);
+            delete = (ImageView) itemView.findViewById(R.id.edit);
             icon = (ImageView) itemView.findViewById(R.id.groupIcon);
         }
     }

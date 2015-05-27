@@ -52,7 +52,7 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getActivity())
-                        .margin(50)
+                        .margin(Anomologita.convert(10))
                         .color(getResources().getColor(R.color.primaryColor))
                         .build());
 

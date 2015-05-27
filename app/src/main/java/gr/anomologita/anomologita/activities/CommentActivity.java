@@ -27,6 +27,7 @@ import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Comment;
 import gr.anomologita.anomologita.objects.Post;
 
+@SuppressWarnings("deprecation")
 public class CommentActivity extends ActionBarActivity implements CommentComplete, LoginMode {
 
     private CommentAdapter adapter;
@@ -38,7 +39,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chatcomment_layout);
+        setContentView(R.layout.chat_comment_layout);
         layout = (RelativeLayout) findViewById(R.id.chatCommentLayout);
         post = Anomologita.currentPost;
         wheel = (ProgressWheel) findViewById(R.id.wheel);

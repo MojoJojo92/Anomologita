@@ -26,9 +26,9 @@
 
             <include
                 android:id="@+id/prof"
-                android:layout_height="@dimen/groupProfileHeight"
+                layout="@layout/group_profile_layout"
                 android:layout_width="match_parent"
-                layout="@layout/group_profile_layout"/>
+                android:layout_height="@dimen/groupProfileHeight"/>
 
             <it.neokree.materialtabs.MaterialTabHost
                 android:id="@+id/tabs"

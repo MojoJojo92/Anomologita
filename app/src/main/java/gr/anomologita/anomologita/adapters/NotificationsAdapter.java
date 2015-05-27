@@ -50,10 +50,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         db.close();
     }
 
-    public Notification getData(int position) {
-        return notifications.get(position);
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NotificationHolder(inflater.inflate(R.layout.notification_row_layout, parent, false));
@@ -76,7 +72,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (getItemViewType(position) == 0) {
             notificationHolder.text.setText(currentNotification.getText());
             notificationHolder.time.setText(getTime(currentNotification.getTime()));
-            notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_fire_red));
+            notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fire_big));
         } else if (getItemViewType(position) == 1) {
             notificationHolder.text.setText(currentNotification.getText());
             notificationHolder.time.setText(getTime(currentNotification.getTime()));
