@@ -1,8 +1,10 @@
 package gr.anomologita.anomologita.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,12 +68,14 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private MaterialTabHost tabHost;
     private TextView groupNameTV, groupSubs;
     private FloatingActionButton actionButton;
+    private FloatingActionButton.LayoutParams params;
     private ViewPagerAdapter adapter;
     private List<Favorite> Favorites = new ArrayList<>();
     private FavotitesDBHandler db;
     private DrawerLayout drawerLayout;
     private NavFragment fragmentNav;
     private GroupProfile groupProfile = null;
+    private int abPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +121,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         ImageView actionButtonIcon = new ImageView(this);
         actionButtonIcon.setImageResource(R.drawable.ic_action_abplus);
         actionButton = new FloatingActionButton.Builder(this).setContentView(actionButtonIcon).setBackgroundDrawable(R.drawable.ic_ab_background).build();
-        actionButton.setX(-R.dimen.action_button_offset);
-        actionButton.setY(20);
+        params =  (FloatingActionButton.LayoutParams)actionButton.getLayoutParams();
+       // params.setMargins(0,0,screenWidth()/2 + actionButton.getLayoutParams().width,0);
+        abPosition = -screenWidth()/2 + actionButton.getLayoutParams().width/2 + ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin;
+        actionButton.setX(abPosition);
+        Log.e("www", screenWidth() +" "+ ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin);
+        actionButton.setLayoutParams(params);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,6 +267,18 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         }
     }
 
+    private int convert(int dp){
+        Resources r = this.getResources();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+    }
+
+    private int screenWidth(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
+    }
+
     public void editGroup(View view) {
         if (Anomologita.isConnected()) {
             Intent i = new Intent(this, EditGroupActivity.class);
@@ -330,7 +352,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
     public void onDrawerSlide(float drawerOffset) {
-        actionButton.setTranslationX((drawerOffset * 720) - 400);
+        actionButton.setTranslationX((drawerOffset * 720) + abPosition);
     }
 
     @Override

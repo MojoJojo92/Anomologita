@@ -1,38 +1,41 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.anomologita.m2.anomologita2.activities.MainActivity">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.anomologita.m2.anomologita2.activities.MainActivity">
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/me_settings"
-        android:title="search"
-        android:orderInCategory="200"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_action_me"/>
+        android:icon="@drawable/ic_action_me"
+        android:orderInCategory="101"
+        android:title="Εγώ"
+        app:showAsAction="never">
+    </item>
 
     <item
         android:id="@+id/messages_settings"
-        android:title="@string/chat"
+        android:icon="@drawable/ic_menu_messages"
         android:orderInCategory="199"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_menu_messages"/>
+        android:title="@string/chat"
+        app:showAsAction="always"/>
 
-    <item android:id = "@+id/notification_settings"
-        android:title="@string/notifications"
+    <item
+        android:id="@+id/notification_settings"
+        android:icon="@drawable/ic_menu_notifications"
         android:orderInCategory="198"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_menu_notifications"/>
+        android:title="@string/notifications"
+        app:showAsAction="always"/>
 
-    <item android:id = "@+id/search"
-          android:orderInCategory="197"
-          app:showAsAction="always"
-          android:icon="@drawable/ic_action_search"
-          android:title="search"/>
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_action_search"
+        android:orderInCategory="197"
+        android:title="search"
+        app:showAsAction="always"/>
 
 </menu>
