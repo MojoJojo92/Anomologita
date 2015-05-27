@@ -11,9 +11,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="6"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="6">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="top"
             android:layout_weight="5"
-            android:background="@drawable/grad3"/>
+            android:background="@drawable/bottom_gradient"/>
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,9 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="bottom"
-        android:weightSum="3"
         android:background="@android:color/transparent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <RelativeLayout
             android:id="@+id/icon"
@@ -71,7 +71,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/name"
+            android:id="@+id/location"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,12 +93,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/editMeGroups"
                     android:gravity="center"
                     android:maxLines="2"
                     android:paddingTop="20dp"
                     android:text="Onoma"
                     android:textColor="@color/black"
-                    android:layout_toLeftOf="@+id/editMeGroups"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -107,8 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_gravity="center"
                     android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:onClick="editGroup"
                     android:src="@drawable/ic_edit"
                     android:visibility="invisible"/>
@@ -119,86 +119,77 @@
                 android:id="@+id/stats"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
-                android:padding="5dp"
                 android:background="@android:color/transparent"
-                android:gravity="bottom">
+                android:weightSum="3">
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/favoritesButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
+                    android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:visibility="gone"
-                    android:gravity="bottom"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/subs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="3000"/>
-
-                </LinearLayout>
+                    android:background="@drawable/subscribe_background"
+                    android:gravity="center"
+                    android:onClick="favoritesClick"
+                    android:text="+ Προσθήκή στα Αγαπημένα"
+                    android:theme="@style/My.SubButton.Style.Off"/>
 
                 <LinearLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_gravity="right"
-                    android:background="@android:color/transparent"
-                    android:gravity="right"
-                    android:layout_margin="3dp"
-                    android:orientation="horizontal"
-                    android:theme="@style/My.SubButton.Style.Off">
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/favoritesButton"
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:background="@drawable/subscribe_background"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:gravity="start"
+                        android:src="@drawable/ic_star"/>
+
+                    <TextView
+                        android:id="@+id/subs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:maxLines="1"
                         android:onClick="favoritesClick"
-                        android:layout_gravity="right"
-                        android:text="+ Προσθήκή στα Αγαπημένα"/>
+                        android:padding="1dp"
+                        android:text="999k"
+                        android:textColor="@color/accentColor"/>
 
                 </LinearLayout>
-
-                <include
-                    android:id="@+id/prof"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    layout="@layout/subs_layout"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/titleLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_gravity="bottom"
-        android:id="@+id/title"
-        android:alpha="0"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:layout_weight="5"
-        android:background="@drawable/grad3">
+        android:alpha="0"
+        android:background="@drawable/bottom_gradient">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textStyle="bold"
-            android:text="Anomologita Panepistimiou Makedonias"
-            />
+            android:text="Title"
+            android:id="@+id/title"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 </RelativeLayout>

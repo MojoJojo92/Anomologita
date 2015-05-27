@@ -46,7 +46,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0)
-            return new PostHolder(inflater.inflate(R.layout.post_row_layout, parent, false));
+            return new PostHolder(inflater.inflate(R.layout.post_layout, parent, false));
         else
             return new CommentHolder(inflater.inflate(R.layout.comment_row_layout, parent, false));
     }
@@ -70,7 +70,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (String.valueOf(post.getUser_id()).equals(Anomologita.userID)) {
                 postHolder.editPost.setVisibility(View.VISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.postRowLayout.setBackground(context.getResources().getDrawable(R.drawable.post_background_user));
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
@@ -143,16 +142,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public PostHolder(View itemView) {
             super(itemView);
-            post = (TextView) itemView.findViewById(R.id.PostName);
-            hashtag = (TextView) itemView.findViewById(R.id.postHashtag);
-            postTime = (TextView) itemView.findViewById(R.id.postTime);
-            comments_word = (ImageView) itemView.findViewById(R.id.Comments);
-            send_personal_message = (ImageView) itemView.findViewById(R.id.personal_message);
-            editPost = (ImageView) itemView.findViewById(R.id.editPost);
-            like = (ImageView) itemView.findViewById(R.id.like_id);
-            numberOfLikes = (TextView) itemView.findViewById(R.id.numberOfLikes);
-            numberOfComments = (TextView) itemView.findViewById(R.id.numberOfComments);
-            postRowLayout = (LinearLayout) itemView.findViewById(R.id.postRowLayout);
+            post = (TextView) itemView.findViewById(R.id.post);
+            hashtag = (TextView) itemView.findViewById(R.id.hashTag);
+            postTime = (TextView) itemView.findViewById(R.id.time);
+            comments_word = (ImageView) itemView.findViewById(R.id.comment);
+            send_personal_message = (ImageView) itemView.findViewById(R.id.message);
+            editPost = (ImageView) itemView.findViewById(R.id.edit);
+            like = (ImageView) itemView.findViewById(R.id.like);
+            numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
+            numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);
+            postRowLayout = (LinearLayout) itemView.findViewById(R.id.postLayout);
         }
     }
 }

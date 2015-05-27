@@ -56,7 +56,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NotificationHolder(inflater.inflate(R.layout.notifications_row_layout, parent, false));
+        return new NotificationHolder(inflater.inflate(R.layout.notification_row_layout, parent, false));
     }
 
     public int getItemViewType(int position) {

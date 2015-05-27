@@ -45,7 +45,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
         navAdapter.setMainData();
         navAdapter.setClickListener(this);
 
-        recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(navAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;

@@ -4,14 +4,14 @@
                 android:background="@drawable/paper_gradient">
 
     <include
-        android:id="@+id/conversationsToolbar"
+        android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/conversationsRV"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/conversationsToolbar"
+        android:layout_below="@+id/toolbar"
         android:background="@android:color/transparent"/>
 
 </RelativeLayout>

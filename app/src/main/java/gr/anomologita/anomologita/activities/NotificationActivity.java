@@ -14,6 +14,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.NotificationsAdapter;
 import gr.anomologita.anomologita.databases.PostsDBHandler;
@@ -37,9 +38,9 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notifications_layout);
+        setContentView(R.layout.toolbar_recycler_view_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.notificationsToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,12 +55,12 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         db = new PostsDBHandler(this);
         notificationsAdapter = new NotificationsAdapter(this);
         notificationsAdapter.setMainData(notifications);
-        recyclerView = (RecyclerView) findViewById(R.id.NotificationsRecyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(notificationsAdapter);
         recyclerView.addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(this)
-                        .margin(50)
+                        .margin(Anomologita.convert(10))
                         .color(getResources().getColor(R.color.primaryColor))
                         .build());
 

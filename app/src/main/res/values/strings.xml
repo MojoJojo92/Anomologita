@@ -46,5 +46,16 @@
     <string name="postName">FotisPost</string>
     <string name="add_new_image">+<u> Αλλαγη εικόνας γκρουπ</u></string>
     <string name="selectImage">setImage</string>
+    <string name="HashTag">HashTag</string>
+    <string name="time">10min</string>
+    <string name="post">Post</string>
+    <string name="location">(Location)</string>
+    <string name="likeCount">0</string>
+    <string name="likeDescription">the like image</string>
+    <string name="commentDescription">the comment icon</string>
+    <string name="commentCount">0</string>
+    <string name="messageDescription">The personal message icon. Invisible when the post is yours. Visible when post is not yours</string>
+    <string name="editPostDescription">Edit icon. Invisible when post is not yours. Visible when post is yours.</string>
+    <string name="splashLogoDescription">Center image logo in splash screen</string>
 
 </resources>

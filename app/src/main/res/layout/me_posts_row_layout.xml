@@ -54,11 +54,11 @@
         android:paddingTop="2dp">
 
         <ImageView
-            android:id="@+id/like_id"
+            android:id="@+id/like"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:clickable="true"
-            android:src="@drawable/fire_post_grey"/>
+            android:src="@drawable/ic_action_fire_grey"/>
 
         <TextView
             android:id="@+id/me_posts_likes"
@@ -69,10 +69,10 @@
             android:text="0" />
 
         <ImageView
-            android:id="@+id/Comments"
+            android:id="@+id/comment"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/comment_post_grey"/>
+            android:src="@drawable/ic_action_comment"/>
 
         <TextView
             android:id="@+id/me_posts_comments"
@@ -82,7 +82,7 @@
             android:text="0" />
 
         <TextView
-            android:id="@+id/postTime"
+            android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#9E9E9E"

@@ -42,7 +42,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:background="@drawable/sublayoutbackground_white"
+        android:background="@drawable/subs_background"
         android:orientation="horizontal">
 
         <ImageView

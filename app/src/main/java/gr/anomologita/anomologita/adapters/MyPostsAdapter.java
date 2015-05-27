@@ -148,7 +148,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public MyPostsHolder(View itemView) {
             super(itemView);
             mePostTxt = (TextView) itemView.findViewById(R.id.my_posts_txt);
-            time = (TextView) itemView.findViewById(R.id.postTime);
+            time = (TextView) itemView.findViewById(R.id.time);
             mePostLikes = (TextView) itemView.findViewById(R.id.me_posts_likes);
             mePostComments = (TextView) itemView.findViewById(R.id.me_posts_comments);
             deletePost = (ImageView) itemView.findViewById(R.id.deletePost);

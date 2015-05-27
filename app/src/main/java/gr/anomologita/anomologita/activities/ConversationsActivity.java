@@ -35,9 +35,9 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.conversations_layout);
+        setContentView(R.layout.toolbar_recycler_view_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.conversationsToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -58,7 +58,7 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.conversationsRV);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

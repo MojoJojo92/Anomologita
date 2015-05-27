@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -28,6 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater layoutInflater;
     private MainFragment mainFragment;
     private int previousPosition;
+    private int offset = Anomologita.convert(100);
 
     public MainAdapter(MainFragment fragmentNew) {
         layoutInflater = LayoutInflater.from(fragmentNew.getActivity());
@@ -44,7 +45,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == 0)
             return new SpaceHolder(layoutInflater.inflate(R.layout.space_layout, parent, false));
         else
-            return new PostHolder(layoutInflater.inflate(R.layout.post_row_layout, parent, false));
+            return new PostHolder(layoutInflater.inflate(R.layout.post_layout, parent, false));
     }
 
     @Override
@@ -52,13 +53,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) != 0) {
             final PostHolder postHolder = (PostHolder) holder;
             final Post currentPost = posts.get(position - 1);
-            postHolder.post.setText(currentPost.getPost_txt() + " (" + currentPost.getLocation() + ") ");
+            postHolder.post.setText(currentPost.getPost_txt());
+            postHolder.location.setText("(" + currentPost.getLocation() + ")");
             postHolder.hashtag.setText(currentPost.getHashtagName());
             postHolder.postTime.setText(getTime(currentPost.getTimestamp()));
             if (currentPost.isLiked())
-                postHolder.like.setImageResource(R.drawable.ic_action_fire_red);
+                postHolder.like.setImageResource(R.drawable.ic_fire_red);
             else
-                postHolder.like.setImageResource(R.drawable.ic_action_fire_grey);
+                postHolder.like.setImageResource(R.drawable.ic_fire_grey);
             postHolder.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -67,7 +69,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         db.deleteLike(currentPost.getPost_id());
                         posts.get(position - 1).setLiked(false);
                         currentPost.setLiked(false);
-                        postHolder.like.setImageResource(R.drawable.ic_action_fire_grey);
+                        postHolder.like.setImageResource(R.drawable.ic_fire_grey);
                         mainFragment.setLike("-1", currentPost);
                         currentPost.setLikes(currentPost.getLikes() - 1);
                         postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
@@ -77,7 +79,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         db.createLikes(currentPost.getPost_id());
                         posts.get(position - 1).setLiked(true);
                         currentPost.setLiked(true);
-                        postHolder.like.setImageResource(R.drawable.ic_action_fire_red);
+                        postHolder.like.setImageResource(R.drawable.ic_fire_red);
                         mainFragment.setLike("1", currentPost);
                         currentPost.setLikes(currentPost.getLikes() + 1);
                         postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
@@ -114,7 +116,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
                 postHolder.editPost.setVisibility(View.VISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.postRowLayout.setBackground(mainFragment.getResources().getDrawable(R.drawable.post_background_user));
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
@@ -180,7 +181,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void animate(PostHolder postHolder, Boolean down) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(postHolder.postRowLayout, "translationY", down ? 100 : -100, 0);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(postHolder.postRowLayout, "translationY", down ? offset : -offset, 0);
         objectAnimator.setDuration(1000);
         objectAnimator.start();
     }
@@ -189,26 +190,28 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView post;
         private TextView hashtag;
         private TextView postTime;
+        private TextView location;
         private ImageView comments_word;
         private ImageView send_personal_message;
         private ImageView like;
         private ImageView editPost;
         private TextView numberOfLikes;
         private TextView numberOfComments;
-        private LinearLayout postRowLayout;
+        private RelativeLayout postRowLayout;
 
         public PostHolder(View itemView) {
             super(itemView);
-            post = (TextView) itemView.findViewById(R.id.PostName);
-            hashtag = (TextView) itemView.findViewById(R.id.postHashtag);
-            postTime = (TextView) itemView.findViewById(R.id.postTime);
-            comments_word = (ImageView) itemView.findViewById(R.id.Comments);
-            send_personal_message = (ImageView) itemView.findViewById(R.id.personal_message);
-            editPost = (ImageView) itemView.findViewById(R.id.editPost);
-            like = (ImageView) itemView.findViewById(R.id.like_id);
-            numberOfLikes = (TextView) itemView.findViewById(R.id.numberOfLikes);
-            numberOfComments = (TextView) itemView.findViewById(R.id.numberOfComments);
-            postRowLayout = (LinearLayout) itemView.findViewById(R.id.postRowLayout);
+            post = (TextView) itemView.findViewById(R.id.post);
+            hashtag = (TextView) itemView.findViewById(R.id.hashTag);
+            postTime = (TextView) itemView.findViewById(R.id.time);
+            location = (TextView) itemView.findViewById(R.id.location);
+            comments_word = (ImageView) itemView.findViewById(R.id.comment);
+            send_personal_message = (ImageView) itemView.findViewById(R.id.message);
+            editPost = (ImageView) itemView.findViewById(R.id.edit);
+            like = (ImageView) itemView.findViewById(R.id.like);
+            numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
+            numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);
+            postRowLayout = (RelativeLayout) itemView.findViewById(R.id.postLayout);
         }
     }
 

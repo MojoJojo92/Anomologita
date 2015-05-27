@@ -15,6 +15,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
+import java.util.List;
+
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.ChatActivity;
@@ -28,8 +30,6 @@ import gr.anomologita.anomologita.extras.Keys.GetPostsComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Post;
-
-import java.util.List;
 
 public class MainFragment extends Fragment implements LoginMode, GetPostsComplete {
 
@@ -71,10 +71,10 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         View view = inflater.inflate(R.layout.main_fragment_layout, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listPostsNew);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        name = (LinearLayout) getActivity().findViewById(R.id.title);
+        name = (LinearLayout) getActivity().findViewById(R.id.titleLayout);
 
         mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
-        mGroupProfileHeight = 270;
+        mGroupProfileHeight = Anomologita.convert(120 - 30);
 
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(100);
@@ -92,20 +92,20 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
             @Override
             public void onShow() {
-                   mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-                   name.setAlpha(0);
+                mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                name.setAlpha(0);
             }
 
             @Override
             public void onHide() {
-                    mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
-                    name.setAlpha(1);
+                mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
+                name.setAlpha(1);
             }
         });
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, -200, getResources().getDimensionPixelSize(typed_value.resourceId));
+        mSwipeRefreshLayout.setProgressViewOffset(false, -Anomologita.convert(50), getResources().getDimensionPixelSize(typed_value.resourceId) + Anomologita.convert(50));
         mSwipeRefreshLayout.setDistanceToTriggerSync(20);
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 
 import gr.anomologita.anomologita.activities.MainActivity;
 import gr.anomologita.anomologita.databases.FavotitesDBHandler;
@@ -152,5 +154,10 @@ public class Anomologita extends Application implements Preferences {
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.clear();
         prefsEditor.apply();
+    }
+
+    public static int convert(int dp) {
+        Resources r = getsInstance().getResources();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 }

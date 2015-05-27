@@ -13,12 +13,12 @@ public class Splash extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.splashscreen_layout);
+        setContentView(R.layout.splash_screen_layout);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Splash.this.finish();
+                finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

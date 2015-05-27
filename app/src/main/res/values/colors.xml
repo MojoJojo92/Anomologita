@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primaryColor">#ae161c</color>
-    <color name="tempColor">#79A615</color>
+    <color name="accentColor">#79A615</color>
     <color name="primaryColorDark">#404040</color>
     <color name="primaryColorLight">#E0E0E0</color>
-    <color name="accentColor">#ffcc66</color>
     <color name="primaryTextColor">#212121</color>
     <color name="secondaryTextColor">#727272</color>
     <color name="dividerColor">#B6B6B6</color>
-    <color name="iconColor">#FFFFFF</color>
-    <color name="colorHighlight">#B6B6B6</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 </resources>

@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:background="#F0404040">
 
-        <include
-            android:id="@+id/recyclerView"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            layout="@layout/recyclerview_layout"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@android:color/transparent"/>
 
 </LinearLayout>
 

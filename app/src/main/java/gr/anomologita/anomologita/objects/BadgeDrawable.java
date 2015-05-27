@@ -26,7 +26,7 @@ public class BadgeDrawable extends Drawable {
         mTextSize = context.getResources().getDimension(R.dimen.abc_text_size_small_material);
 
         mBadgePaint = new Paint();
-        mBadgePaint.setColor(context.getResources().getColor(R.color.tempColor));
+        mBadgePaint.setColor(context.getResources().getColor(R.color.accentColor));
         mBadgePaint.setAntiAlias(true);
         mBadgePaint.setStyle(Paint.Style.FILL);
 

@@ -1,9 +1,7 @@
 package gr.anomologita.anomologita.activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
@@ -17,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private Button favoritesButton;
     private ImageView groupImage;
     private MaterialTabHost tabHost;
-    private TextView groupNameTV, groupSubs;
+    private TextView groupNameTV, groupSubs, title;
     private FloatingActionButton actionButton;
     private FloatingActionButton.LayoutParams params;
     private ViewPagerAdapter adapter;
@@ -95,7 +92,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
 
         mGroupProfileContainer = (LinearLayout) findViewById(R.id.groupProfileContainer);
-        name = (LinearLayout) findViewById(R.id.title);
+        name = (LinearLayout) findViewById(R.id.titleLayout);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         fragmentNav = (NavFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -141,6 +138,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         groupImage = (ImageView) findViewById(R.id.groupIcon);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         groupSubs = (TextView) findViewById(R.id.subs);
+        title = (TextView) findViewById(R.id.title);
 
         if (db.getFavoriteCount() != 0) Favorites.addAll(db.getAllFavorites());
 
@@ -246,10 +244,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     editGroup.setVisibility(View.INVISIBLE);
 
                 groupSubs.setText(String.valueOf(groupProfile.getSubscribers()));
+                title.setText(groupProfile.getGroupName());
                 if (!db.exists(groupProfile.getGroup_name())) {
+                    db.updateFavorite(groupProfile);
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
                     favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
-                    favoritesButton.setTextColor(Color.parseColor("#008080"));
+                    favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 } else {
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
                     favoritesButton.setText("Αγαπημένο");
@@ -263,11 +263,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 }
             }
         }
-    }
-
-    private int convert(int dp){
-        Resources r = this.getResources();
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 
     private int screenWidth(){
@@ -312,7 +307,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             } else {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
                 favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
-                favoritesButton.setTextColor(Color.parseColor("#008080"));
+                favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 Favorites.remove(db.getFavorite(Anomologita.getCurrentGroupName()));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 Toast.makeText(getApplicationContext(), Anomologita.getCurrentGroupName() + " has been unsubscribed", Toast.LENGTH_SHORT).show();

@@ -40,7 +40,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_layout);
+        setContentView(R.layout.toolbar_recycler_view_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,6 +75,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setActivated(true);
         searchView.setQueryHint("Αναζήτηση γκρουπ..");
+        searchView.setIconified(false);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
