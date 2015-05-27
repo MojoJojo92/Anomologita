@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/fragment_navigation_drawer"
         android:name="gr.anomologita.anomologita.fragments.NavFragment"
-        android:layout_width="@dimen/nav_drawer_width"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:layout="@layout/fragment_nav_layout"/>
