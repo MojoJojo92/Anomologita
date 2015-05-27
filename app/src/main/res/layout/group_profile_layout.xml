@@ -121,6 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:padding="5dp"
                 android:background="@android:color/transparent"
                 android:gravity="bottom">
 
@@ -165,7 +166,7 @@
                         android:background="@drawable/subscribe_background"
                         android:onClick="favoritesClick"
                         android:layout_gravity="right"
-                        android:text="+ Αγαπημένα"/>
+                        android:text="+ Προσθήκή στα Αγαπημένα"/>
 
                 </LinearLayout>
 

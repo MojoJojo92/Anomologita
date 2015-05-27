@@ -248,7 +248,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 groupSubs.setText(String.valueOf(groupProfile.getSubscribers()));
                 if (!db.exists(groupProfile.getGroup_name())) {
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                    favoritesButton.setText("+ Αγαπημένα");
+                    favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
                     favoritesButton.setTextColor(Color.parseColor("#008080"));
                 } else {
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
@@ -311,7 +311,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 }
             } else {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                favoritesButton.setText("+ Αγαπημένα");
+                favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
                 favoritesButton.setTextColor(Color.parseColor("#008080"));
                 Favorites.remove(db.getFavorite(Anomologita.getCurrentGroupName()));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
