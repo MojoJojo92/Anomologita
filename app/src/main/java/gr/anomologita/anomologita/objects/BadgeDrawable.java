@@ -14,7 +14,6 @@ import gr.anomologita.anomologita.R;
 
 public class BadgeDrawable extends Drawable {
 
-    private float mTextSize;
     private Paint mBadgePaint;
     private Paint mTextPaint;
     private Rect mTxtRect = new Rect();
@@ -23,7 +22,7 @@ public class BadgeDrawable extends Drawable {
     private boolean mWillDraw = false;
 
     public BadgeDrawable(Context context) {
-        mTextSize = context.getResources().getDimension(R.dimen.abc_text_size_small_material);
+        float mTextSize = context.getResources().getDimension(R.dimen.abc_text_size_small_material);
 
         mBadgePaint = new Paint();
         mBadgePaint.setColor(context.getResources().getColor(R.color.accentColor));

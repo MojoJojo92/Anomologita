@@ -9,7 +9,6 @@ public class GroupProfile implements Parcelable{
     private String group_name;
     private int subscribers;
     private String hashtag_name;
-    private int hashtag_counter;
     private int group_id;
     private int user_id;
     private Bitmap image;
@@ -19,11 +18,9 @@ public class GroupProfile implements Parcelable{
 
     }
 
-    public GroupProfile(Parcel input){
+    private GroupProfile(Parcel input){
         group_name = input.readString();
-       // subscribers = input.readString();
         hashtag_name = input.readString();
-        //hashtag_counter = input.readString();
     }
 
     public String getRegID() {
@@ -36,10 +33,6 @@ public class GroupProfile implements Parcelable{
 
     public String getGroup_name() {
         return group_name;
-    }
-
-    public void setGroup_name(String group_name) {
-        this.group_name = group_name;
     }
 
     public int getUser_id() {
@@ -84,17 +77,10 @@ public class GroupProfile implements Parcelable{
     public void setHashtag_name(String hashtag_name) {
         this.hashtag_name = hashtag_name;
     }
-    public int getHashtag_counter() {
-        return hashtag_counter;
-    }
-    public void setHashtag_counter(int hashtag_counter) {
-        this.hashtag_counter = hashtag_counter;
-    }
-
 
     @Override
     public String toString() {
-        return  "Name: "+ group_name + "Members "+ subscribers + "Hashtag Name: "+ hashtag_name+ "HashtagCounter: "+ hashtag_counter;
+        return  "Name: "+ group_name + "Members "+ subscribers + "Hashtag Name: "+ hashtag_name;
     }
 
     @Override
@@ -105,9 +91,7 @@ public class GroupProfile implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(group_name);
-      //  dest.writeString(subscribers);
         dest.writeString(hashtag_name);
-       // dest.writeString(hashtag_counter);
     }
 
     public static final Creator<GroupProfile> CREATOR = new Creator<GroupProfile>(){

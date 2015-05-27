@@ -45,9 +45,8 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
     private EditText groupNameET, hashtagET;
     private RelativeLayout layout;
     private Boolean imageChanged = false;
-    private ProgressWheel wheel;
 
-    public static String encodeToBase64(Bitmap image) {
+    private static String encodeToBase64(Bitmap image) {
         System.gc();
         if (image == null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -85,7 +84,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         picture = (ImageView) findViewById(R.id.groupImage);
         groupNameET = (EditText) findViewById(R.id.groupName);
         hashtagET = (EditText) findViewById(R.id.hashTag);
-        wheel = (ProgressWheel) findViewById(R.id.wheel);
+        ProgressWheel wheel = (ProgressWheel) findViewById(R.id.wheel);
         wheel.stopSpinning();
 
         groupNameET.setText(currentGroupName);

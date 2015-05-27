@@ -25,10 +25,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.sql.Timestamp;
 
 public class GcmIntentService extends IntentService {
-    public static final int NOTIFICATION_ID = 1;
-    private NotificationManager mNotificationManager;
-    NotificationCompat.Builder builder;
-    public static final String TAG = "GcmIntentService";
+    private static final int NOTIFICATION_ID = 1;
+   // NotificationCompat.Builder builder;
+    private static final String TAG = "GcmIntentService";
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -76,7 +75,7 @@ public class GcmIntentService extends IntentService {
 
 
         } else {
-            mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ChatActivity.class), 0);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                     this).setSmallIcon(R.drawable.ic_action_a)

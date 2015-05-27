@@ -2,12 +2,9 @@ package gr.anomologita.anomologita.extras;
 
 import android.graphics.Bitmap;
 
-import gr.anomologita.anomologita.objects.ChatMessage;
 import gr.anomologita.anomologita.objects.Comment;
-import gr.anomologita.anomologita.objects.Conversation;
 import gr.anomologita.anomologita.objects.GroupProfile;
 import gr.anomologita.anomologita.objects.GroupSearch;
-import gr.anomologita.anomologita.objects.Notification;
 import gr.anomologita.anomologita.objects.Post;
 
 import java.util.List;
@@ -22,14 +19,12 @@ public interface Keys {
         public static final String URL_GET_USER_GROUPS = "http://anomologita.gr/getUserGroups.php";
         public static final String URL_SET_LIKE = "http://anomologita.gr/setLike.php";
         public static final String URL_SET_SUBSCRIBERS = "http://anomologita.gr/setSubscribers.php";
-        public static final String URL_SET_MESSAGE = "http://anomologita.gr/setMessage.php";
         public static final String URL_SET_GROUP = "http://anomologita.gr/setGroup.php";
         public static final String URL_SET_USER = "http://anomologita.gr/setUser.php";
         public static final String URL_POST = "http://anomologita.gr/post.php";
         public static final String URL_SEARCH = "http://anomologita.gr/search.php";
         public static final String URL_COMMENT = "http://anomologita.gr/comment.php";
         public static final String URL_SET_GROUP_IMG = "http://anomologita.gr/setGroupImage.php";
-        public static final String URL_GET_GROUP_IMG = "http://anomologita.gr/getGroupImage.php";
         public static final String URL_EDIT_HASHTAG = "http://anomologita.gr/editHashtag.php";
         public static final String URL_DELETE_POST = "http://anomologita.gr/deletePost.php";
         public static final String URL_DELETE_GROUP = "http://anomologita.gr/deleteGroup.php";
@@ -40,8 +35,6 @@ public interface Keys {
         public static final String URL_SEND_MESSAGE = "http://anomologita.gr/GCM.php";
         public static final String URL_SEND_NOTIFICATION = "http://anomologita.gr/gcmLike.php";
 
-        public static final String PREF_FILE_NAME = "testpref";
-        public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
         public static final String ACTION_BUTTON_TAG = "post";
         public static final String TAG_SUCCESS = "success";
         public static final String TAG_MESSAGE = "message";
@@ -92,9 +85,7 @@ public interface Keys {
         public static final int CREATE_GROUP = 21;
         public static final int CHECK_GROUP = 23;
         public static final int SET_GROUP_NAME = 24;
-        public static final int DELETE_CONVERSATION = 25;
         public static final int EDIT_POST = 26;
-        public static final int SET_USER = 27;
         public static final int SEND_NOTIFICATION = 28;
 
     }
@@ -113,24 +104,8 @@ public interface Keys {
         void onPostComplete(String postID, String hashtag);
     }
 
-    public interface GetConComplete {
-        void onGetConversationsCompleted(List<Conversation> conversations);
-    }
-
-    public interface MessComplete {
-        void onGetMessagesCompleted(List<ChatMessage> chatMessages);
-        void onSetMessagesCompleted();
-    }
-
     public interface CommentComplete {
         void onCommentCompleted(List<Comment> comments, String what);
-    }
-
-    public interface NotificationsComplete {
-        void onCheckUserCompleted(String liked, String commented, String subscribed);
-        void onCheckLikedCompleted(List<Notification> likedNotifications);
-        void onCheckCommentedCompleted(List<Notification> commentedNotifications);
-        void onCheckSubscribedCompleted(List<Notification> subscribedNotifications);
     }
 
     public interface SearchComplete {

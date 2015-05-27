@@ -85,12 +85,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         @Override
         public void onClick(View v) {
            if (clickListener != null) {
-               clickListener.itemClicked(v, getPosition());
+               clickListener.itemClicked(getPosition());
            }
         }
     }
 
     public interface ClickListener {
-        public void itemClicked(View view, int position);
+        public void itemClicked(int position);
     }
 }

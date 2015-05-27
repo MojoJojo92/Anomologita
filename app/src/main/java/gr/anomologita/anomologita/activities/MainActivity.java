@@ -38,7 +38,7 @@ import java.util.UUID;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.databases.FavotitesDBHandler;
+import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.EndpointGroups;
 import gr.anomologita.anomologita.extras.Keys.GetGroupProfileComplete;
@@ -57,7 +57,7 @@ import me.grantland.widget.AutofitHelper;
 
 public class MainActivity extends ActionBarActivity implements MaterialTabListener, GetGroupProfileComplete, ImageEditComplete, LoginMode {
 
-    final Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private ViewPager viewPager;
     private LinearLayout mGroupProfileContainer, name;
     private Button favoritesButton;
@@ -65,10 +65,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private MaterialTabHost tabHost;
     private TextView groupNameTV, groupSubs, title;
     private FloatingActionButton actionButton;
-    private FloatingActionButton.LayoutParams params;
     private ViewPagerAdapter adapter;
     private List<Favorite> Favorites = new ArrayList<>();
-    private FavotitesDBHandler db;
+    private FavoritesDBHandler db;
     private DrawerLayout drawerLayout;
     private NavFragment fragmentNav;
     private GroupProfile groupProfile = null;
@@ -118,7 +117,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         ImageView actionButtonIcon = new ImageView(this);
         actionButtonIcon.setImageResource(R.drawable.ic_action_abplus);
         actionButton = new FloatingActionButton.Builder(this).setContentView(actionButtonIcon).setBackgroundDrawable(R.drawable.ic_ab_background).build();
-        params = (FloatingActionButton.LayoutParams) actionButton.getLayoutParams();
+        FloatingActionButton.LayoutParams params = (FloatingActionButton.LayoutParams) actionButton.getLayoutParams();
         abPosition = -screenWidth() / 2 + actionButton.getLayoutParams().width / 2 + ((FloatingActionButton.LayoutParams) actionButton.getLayoutParams()).rightMargin;
         actionButton.setX(abPosition);
         actionButton.setLayoutParams(params);
@@ -134,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         actionButton.setTag(EndpointGroups.ACTION_BUTTON_TAG);
 
         favoritesButton = (Button) findViewById(R.id.favoritesButton);
-        db = new FavotitesDBHandler(this);
+        db = new FavoritesDBHandler(this);
         groupImage = (ImageView) findViewById(R.id.icon);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         groupSubs = (TextView) findViewById(R.id.subs);
@@ -145,7 +144,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                favoritesClick(v);
+                favoritesClick();
             }
         });
 
@@ -272,7 +271,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return size.x;
     }
 
-    public void editGroup(View view) {
+    public void editGroup() {
         if (Anomologita.isConnected()) {
             Intent i = new Intent(this, EditGroupActivity.class);
             i.putExtra("hashtag", groupProfile.getHashtag_name());
@@ -284,7 +283,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         }
     }
 
-    public void favoritesClick(View view) {
+    void favoritesClick() {
         if (Anomologita.isConnected()) {
             if (!db.exists(Anomologita.getCurrentGroupName())) {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
@@ -360,7 +359,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         Anomologita.activityPaused();
     }
 
-    class FetchCountTask extends AsyncTask<Void, Void, Integer> {
+    private class FetchCountTask extends AsyncTask<Void, Void, Integer> {
 
         @Override
         protected Integer doInBackground(Void... params) {

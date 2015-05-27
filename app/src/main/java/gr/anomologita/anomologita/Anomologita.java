@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.TypedValue;
 
 import gr.anomologita.anomologita.activities.MainActivity;
-import gr.anomologita.anomologita.databases.FavotitesDBHandler;
+import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.extras.Keys.Preferences;
 import gr.anomologita.anomologita.network.GCMRegister;
 import gr.anomologita.anomologita.objects.Conversation;
@@ -40,11 +40,7 @@ public class Anomologita extends Application implements Preferences {
         return sInstance;
     }
 
-    public static boolean isVisible() {
-        return activityVisible;
-    }
-
-    public static void getUserID() {
+    private static void getUserID() {
         if (SP.contains(USER_ID))
             userID = SP.getString(USER_ID, null);
     }
@@ -138,22 +134,8 @@ public class Anomologita extends Application implements Preferences {
 
     public static boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) sInstance.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
-            return true;
-        else
-            return false;
-    }
-
-    public static void clearFavorites() {
-        FavotitesDBHandler db = new FavotitesDBHandler(getAppContext());
-        db.clearAll();
-    }
-
-    private void clearPreferences() {
-        SharedPreferences.Editor prefsEditor = SP.edit();
-        prefsEditor.clear();
-        prefsEditor.apply();
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
     public static int convert(int dp) {

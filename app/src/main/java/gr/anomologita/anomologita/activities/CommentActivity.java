@@ -67,7 +67,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         getComments();
     }
 
-    public void getComments() {
+    void getComments() {
         if (Anomologita.isConnected()) {
             new AttemptLogin(COMMENT, String.valueOf(post.getPost_id()), null, "getComments", this).execute();
         } else {
@@ -97,7 +97,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
-    public void chatOk(View view) {
+    public void chatOk() {
         EditText commentET = (EditText) findViewById(R.id.editText);
         String comment = commentET.getText().toString();
         if (comment.equals("")) {

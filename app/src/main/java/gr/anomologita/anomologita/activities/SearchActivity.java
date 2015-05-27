@@ -27,11 +27,10 @@ import gr.anomologita.anomologita.objects.GroupSearch;
 
 public class SearchActivity extends ActionBarActivity implements LoginMode, Keys.SearchComplete, SearchAdapter.ClickListener {
 
-    private List<GroupSearch> searches = new ArrayList<GroupSearch>();
+    private List<GroupSearch> searches = new ArrayList<>();
     private RecyclerView recyclerView;
     private SearchAdapter adapter;
     private PostsDBHandler db;
-    private String search = "";
 
     public SearchActivity() {
 
@@ -110,7 +109,6 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
     }
 
     private void search(String search) {
-        this.search = search;
         if (Anomologita.isConnected())
             new AttemptLogin(SEARCH, search, this).execute();
     }
@@ -132,7 +130,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
     }
 
     @Override
-    public void itemClicked(View view, int position) {
+    public void itemClicked(int position) {
           Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getGroupID()));
           Anomologita.setCurrentGroupName(adapter.getData(position).getTitle());
           onBackPressed();

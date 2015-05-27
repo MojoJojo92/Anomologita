@@ -53,10 +53,6 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
     }
 
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

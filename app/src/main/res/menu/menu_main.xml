@@ -13,7 +13,7 @@
         android:id="@+id/me_settings"
         android:icon="@drawable/ic_action_me"
         android:orderInCategory="101"
-        android:title="Εγώ"
+        android:title="@string/me"
         app:showAsAction="never">
     </item>
 
@@ -29,13 +29,13 @@
         android:icon="@drawable/ic_menu_notifications"
         android:orderInCategory="198"
         android:title="@string/notifications"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_action_search"
         android:orderInCategory="197"
-        android:title="search"
-        app:showAsAction="always"/>
+        android:title="@string/searchAction"
+        app:showAsAction="ifRoom"/>
 
 </menu>

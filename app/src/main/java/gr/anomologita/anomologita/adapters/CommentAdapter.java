@@ -6,13 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import gr.anomologita.anomologita.Anomologita;
-import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.objects.Comment;
-import gr.anomologita.anomologita.objects.Post;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -20,17 +14,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import gr.anomologita.anomologita.Anomologita;
+import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.objects.Comment;
+import gr.anomologita.anomologita.objects.Post;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<Comment> comments = new ArrayList<>();
     private Post post;
-    private Context context;
 
     public CommentAdapter(Context context) {
         inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     public void setPost(Post post) {
@@ -75,9 +73,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
             }
             if (post.isLiked())
-                postHolder.like.setImageResource(R.drawable.ic_action_fire_red);
+                postHolder.like.setImageResource(R.drawable.ic_fire_red);
             else
-                postHolder.like.setImageResource(R.drawable.ic_action_fire_grey);
+                postHolder.like.setImageResource(R.drawable.ic_fire_grey);
         } else {
             CommentHolder commentHolder = (CommentHolder) holder;
             commentHolder.comment_txt.setText(comments.get(position - 1).getComment());
@@ -85,7 +83,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private String getTime(String postTimeStamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         try {
             Timestamp t2 = new Timestamp(System.currentTimeMillis());
             Date postDate = dateFormat.parse(postTimeStamp);
@@ -132,26 +130,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView post;
         private TextView hashtag;
         private TextView postTime;
-        private ImageView comments_word;
         private ImageView send_personal_message;
         private ImageView like;
         private ImageView editPost;
         private TextView numberOfLikes;
         private TextView numberOfComments;
-        private LinearLayout postRowLayout;
 
         public PostHolder(View itemView) {
             super(itemView);
             post = (TextView) itemView.findViewById(R.id.post);
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
             postTime = (TextView) itemView.findViewById(R.id.time);
-            comments_word = (ImageView) itemView.findViewById(R.id.comment);
             send_personal_message = (ImageView) itemView.findViewById(R.id.message);
             editPost = (ImageView) itemView.findViewById(R.id.edit);
             like = (ImageView) itemView.findViewById(R.id.like);
             numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
             numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);
-            postRowLayout = (LinearLayout) itemView.findViewById(R.id.postLayout);
         }
     }
 }

@@ -1,16 +1,11 @@
 package gr.anomologita.anomologita.objects;
 
 public class Comment {
-    int commentID;
-    int postID;
-    String comment;
-
-    public int getCommentID() {
-        return commentID;
-    }
+    private int postID;
+    private String comment;
 
     public void setCommentID(int commentID) {
-        this.commentID = commentID;
+        int commentID1 = commentID;
     }
 
     public int getPostID() {

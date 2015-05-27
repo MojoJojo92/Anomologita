@@ -33,11 +33,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_nav_layout, container, false);
         navAdapter = new NavAdapter(getActivity());
@@ -54,11 +49,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
         final View containerView = getActivity().findViewById(fragmentId);
         containerView.isInEditMode();
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
@@ -83,7 +73,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     }
 
     @Override
-    public void itemClicked(View view, int position, int viewType) {
+    public void itemClicked(int position, int viewType) {
         if (viewType == 1) {
             Intent i = new Intent(getActivity(), CreateGroupActivity.class);
             startActivity(i);

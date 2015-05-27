@@ -36,16 +36,7 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
         return new MyGroupsFragment();
     }
 
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
     public MyGroupsFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

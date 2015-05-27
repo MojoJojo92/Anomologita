@@ -33,8 +33,8 @@ import gr.anomologita.anomologita.objects.Conversation;
 
 public class ChatActivity extends ActionBarActivity implements LoginMode {
 
-    final Handler handler = new Handler();
-    public Runnable runnable = new Runnable() {
+    private final Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             refresh();
@@ -50,7 +50,6 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
     private String receiverName, receiverRegID, message, hashtag, postID;
     private RelativeLayout layout, messageLayout;
     private Boolean connection = true;
-    private ProgressWheel wheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,7 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
         layout = (RelativeLayout) findViewById(R.id.chatCommentLayout);
         editText = (EditText) findViewById(R.id.editText);
         messageLayout = (RelativeLayout) findViewById(R.id.textField);
-        wheel = (ProgressWheel) findViewById(R.id.wheel);
+        ProgressWheel wheel = (ProgressWheel) findViewById(R.id.wheel);
         wheel.stopSpinning();
 
         conversation = Anomologita.conversation;
@@ -106,7 +105,7 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
         handler.postDelayed(runnable, 500);
     }
 
-    public void refresh() {
+    void refresh() {
         int currentCount = adapter.getItemCount();
         int newCount = db.getConversationMessages(conversationID).size();
         if (newCount > currentCount) {

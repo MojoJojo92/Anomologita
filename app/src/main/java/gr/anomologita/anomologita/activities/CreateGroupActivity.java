@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.databases.FavotitesDBHandler;
+import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.extras.Keys.CheckGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
@@ -49,7 +49,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     private RelativeLayout layout;
     private ProgressWheel wheel;
 
-    public static String encodeTobase64(Bitmap image) {
+    private static String encodeToBase64(Bitmap image) {
         System.gc();
         if (image == null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -114,7 +114,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
     @Override
     public void onImageEditComplete(Bitmap imageBitmap) {
-        image = encodeTobase64(imageBitmap);
+        image = encodeToBase64(imageBitmap);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         this.groupID = groupID;
         if (image == null) {
             Bitmap bitmap = ((BitmapDrawable) picture.getDrawable()).getBitmap();
-            image = encodeTobase64(bitmap);
+            image = encodeToBase64(bitmap);
         }
         if (Anomologita.isConnected())
             new AttemptLogin(SET_IMAGE, image, groupID, this).execute();
@@ -138,7 +138,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         groupProfile.setGroupName(groupName);
         groupProfile.setUser_id(Integer.parseInt(Anomologita.userID));
         groupProfile.setSubscribers(0);
-        FavotitesDBHandler db = new FavotitesDBHandler(this);
+        FavoritesDBHandler db = new FavoritesDBHandler(this);
         db.createFavorite(groupProfile);
         db.close();
         onBackPressed();

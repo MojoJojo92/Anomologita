@@ -1,6 +1,7 @@
 package gr.anomologita.anomologita.extras;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -33,7 +34,7 @@ public class NotificationHandler {
                 //.addAction(0,"Nothing",pIntent)
                 .build();
         NotificationManager mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotify.flags |= mNotify.FLAG_AUTO_CANCEL;
+        mNotify.flags |= Notification.FLAG_AUTO_CANCEL;
         mNM.notify(0,mNotify);
 
     }
@@ -52,7 +53,7 @@ public class NotificationHandler {
                         //.addAction(0,"Nothing",pIntent)
                 .build();
         NotificationManager mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotify.flags |= mNotify.FLAG_AUTO_CANCEL;
+        mNotify.flags |= Notification.FLAG_AUTO_CANCEL;
         mNM.notify(0,mNotify);
     }
 
@@ -69,7 +70,7 @@ public class NotificationHandler {
                         //.addAction(0,"Nothing",pIntent)
                 .build();
         NotificationManager mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotify.flags |= mNotify.FLAG_AUTO_CANCEL;
+        mNotify.flags |= Notification.FLAG_AUTO_CANCEL;
         mNM.notify(0,mNotify);
     }
 
@@ -86,7 +87,7 @@ public class NotificationHandler {
                         //.addAction(0,"Nothing",pIntent)
                 .build();
         NotificationManager mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotify.flags |= mNotify.FLAG_AUTO_CANCEL;
+        mNotify.flags |= Notification.FLAG_AUTO_CANCEL;
         mNM.notify(0,mNotify);
     }
 

@@ -13,7 +13,6 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -34,33 +33,24 @@ import gr.anomologita.anomologita.extras.Keys.CheckGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.CommentComplete;
 import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.EndpointGroups;
-import gr.anomologita.anomologita.extras.Keys.GetConComplete;
 import gr.anomologita.anomologita.extras.Keys.GetGroupProfileComplete;
 import gr.anomologita.anomologita.extras.Keys.GetPostsComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
 import gr.anomologita.anomologita.extras.Keys.InputValues;
-import gr.anomologita.anomologita.extras.Keys.MessComplete;
 import gr.anomologita.anomologita.extras.Keys.MyGroupsComplete;
 import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
-import gr.anomologita.anomologita.extras.Keys.NotificationsComplete;
 import gr.anomologita.anomologita.extras.Keys.PostComplete;
 import gr.anomologita.anomologita.extras.Keys.SearchComplete;
-import gr.anomologita.anomologita.objects.ChatMessage;
 import gr.anomologita.anomologita.objects.Comment;
-import gr.anomologita.anomologita.objects.Conversation;
 import gr.anomologita.anomologita.objects.GroupProfile;
 import gr.anomologita.anomologita.objects.GroupSearch;
-import gr.anomologita.anomologita.objects.Notification;
 import gr.anomologita.anomologita.objects.Post;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class AttemptLogin extends AsyncTask<String, String, String> implements EndpointGroups, InputValues {
 
-    private GetConComplete getConComplete;
-    private MessComplete messComplete;
     private CommentComplete commentComplete;
-    private NotificationsComplete notificationsComplete;
     private SearchComplete searchComplete;
     private MyPostsComplete myPostsComplete;
     private MyGroupsComplete myGroupsComplete;
@@ -72,20 +62,17 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private PostComplete postComplete;
     private CheckGroupComplete checkGroupComplete;
 
-    private JSONParser jsonParser = new JSONParser();
-    private String counter, groupName, post, location, conID, receiverID, message, postID, comment, what, type, text, id,
-            liked, commented, name, search, hashtag, image, subscribed, groupID, sort, topRange, bottomRange, regID, operation, senderRegID, receiverRegID;
+    private final JSONParser jsonParser = new JSONParser();
+    private String counter, groupName, post, location, conID, message, postID, comment, what, type, text, id,
+            liked, name, search, hashtag, image, groupID, sort, topRange, bottomRange, regID, operation, senderRegID, receiverRegID;
     private int mode;
-    private Context context = Anomologita.getAppContext();
+    private final Context context = Anomologita.getAppContext();
     private GroupProfile groupProfile;
     private Bitmap imageBitmap;
     private Uri uri;
     private Boolean exists;
 
-    private List<Conversation> conversations;
-    private List<ChatMessage> chatMessages;
     private List<Comment> comments;
-    private List<Notification> likedNotifications, commentedNotifications, subscribedNotifications;
     private List<GroupSearch> groupSearches;
     private List<Post> posts;
     private List<GroupProfile> userGroups;
@@ -121,11 +108,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.imageSetComplete = imageSetComplete;
     }
 
-    public AttemptLogin(int mode, GetConComplete getConComplete) {
-        this.mode = mode;
-        this.getConComplete = getConComplete;
-    }
-
     public AttemptLogin(int mode, String post, String location, String groupID, PostComplete postComplete) {
         this.mode = mode;
         this.post = post;
@@ -134,31 +116,12 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.postComplete = postComplete;
     }
 
-    public AttemptLogin(int mode, String conID, MessComplete messComplete) {
-        this.mode = mode;
-        this.conID = conID;
-        this.messComplete = messComplete;
-    }
-
-    public AttemptLogin(int mode, String conID, String receiverID, String message, MessComplete messComplete) {
-        this.mode = mode;
-        this.conID = conID;
-        this.receiverID = receiverID;
-        this.message = message;
-        this.messComplete = messComplete;
-    }
-
     public AttemptLogin(int mode, String postID, String comment, String what, CommentComplete commentComplete) {
         this.mode = mode;
         this.postID = postID;
         this.comment = comment;
         this.what = what;
         this.commentComplete = commentComplete;
-    }
-
-    public AttemptLogin(int mode, NotificationsComplete notificationsComplete) {
-        this.mode = mode;
-        this.notificationsComplete = notificationsComplete;
     }
 
     public AttemptLogin(int mode, String senderRegID, String receiverRegID, String name, String message, String hashtag, String operation, String postID) {
@@ -287,8 +250,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 return deleteGroup();
             case 19:
                 return setImage();
-            case 20:
-                return editImage();
             case 21:
                 return createGroup();
             case 23:
@@ -310,29 +271,11 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         switch (mode) {
-            case 1:
-                getConComplete.onGetConversationsCompleted(conversations);
-                break;
             case 2:
                 postComplete.onPostComplete(postID, hashtag);
                 break;
-            case 3:
-                messComplete.onGetMessagesCompleted(chatMessages);
-                break;
-            case 4:
-                messComplete.onSetMessagesCompleted();
-                break;
             case 5:
                 commentComplete.onCommentCompleted(comments, what);
-                break;
-            case 6:
-                notificationsComplete.onCheckUserCompleted(liked, commented, subscribed);
-                break;
-            case 7:
-                notificationsComplete.onCheckLikedCompleted(likedNotifications);
-                break;
-            case 8:
-                notificationsComplete.onCheckCommentedCompleted(commentedNotifications);
                 break;
             case 10:
                 searchComplete.onSearchCompleted(groupSearches);
@@ -360,9 +303,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 break;
             case 21:
                 createGroupComplete.onCreateGroupComplete(groupID);
-                break;
-            case 22:
-                notificationsComplete.onCheckSubscribedCompleted(subscribedNotifications);
                 break;
             case 23:
                 checkGroupComplete.onCheckGroupComplete(exists);
@@ -777,7 +717,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         int success;
         try {
 
-            if (!hashtag.equals(null)) {
+            if (!(hashtag == null)) {
                 List<BasicNameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("new_hashtag", hashtag));
                 params.add(new BasicNameValuePair("group_id", groupID));
@@ -833,7 +773,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         params.add(new BasicNameValuePair("image", image));
         params.add(new BasicNameValuePair("group_id", groupID));
 
-        HttpEntity httpEntity = null;
+        HttpEntity httpEntity;
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
 
@@ -848,24 +788,19 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             Log.e("Entity Response  : ", entityResponse);
             return "1";
 
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private String editImage() {
+    private void editImage() {
         try {
             BitmapPool pool = Glide.get(context).getBitmapPool();
             imageBitmap = Glide.with(context).load(uri).asBitmap().transform(new CropCircleTransformation(pool), new FitCenter(pool)).into(250, 250).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     private String createGroup() {
@@ -913,10 +848,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             Log.d("success", String.valueOf(success));
             if (success == 1) {
                 Log.d("Login Successful!", json.toString());
-                if (json.getInt("exists") == 0)
-                    exists = false;
-                else
-                    exists = true;
+                exists = json.getInt("exists") != 0;
                 return json.getString(TAG_MESSAGE);
             } else {
                 Log.d("Login Failure!", json.getString(TAG_MESSAGE));

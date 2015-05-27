@@ -29,7 +29,6 @@ import gr.anomologita.anomologita.objects.Conversation;
 public class MessageActivity extends ActionBarActivity implements LoginMode {
 
     private String hashtag;
-    private String receiverID;
     private String message;
     private String regID;
     private String postID;
@@ -43,7 +42,7 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             hashtag = extras.getString("hashtag");
-            receiverID = String.valueOf(extras.getInt("userID"));
+            String receiverID = String.valueOf(extras.getInt("userID"));
             regID = extras.getString("regID");
             postID = extras.getString("postID");
         }

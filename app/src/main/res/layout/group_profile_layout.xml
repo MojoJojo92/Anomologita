@@ -157,7 +157,6 @@
                     android:drawableStart="@drawable/ic_star"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:onClick="favoritesClick"
                     android:text="@string/subs"
                     android:textColor="@color/accentColor"/>
 

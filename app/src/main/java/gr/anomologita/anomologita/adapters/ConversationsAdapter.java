@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import me.grantland.widget.AutofitHelper;
 
@@ -73,7 +74,6 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 conversationsActivity.selected(currentCon);
             }
         });
-
       /*  conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +88,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private String getTime(String postTimeStamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         try {
             Timestamp t2 = new Timestamp(System.currentTimeMillis());
             Date postDate = dateFormat.parse(postTimeStamp);

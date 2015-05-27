@@ -2,7 +2,6 @@ package gr.anomologita.anomologita.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +23,7 @@ import gr.anomologita.anomologita.objects.Notification;
 
 public class NotificationActivity extends ActionBarActivity implements LoginMode {
 
-    final Handler handler = new Handler();
     private List<Notification> notifications = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private NotificationsAdapter notificationsAdapter;
     private PostsDBHandler db;
 
 
@@ -53,9 +49,9 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         });
 
         db = new PostsDBHandler(this);
-        notificationsAdapter = new NotificationsAdapter(this);
+        NotificationsAdapter notificationsAdapter = new NotificationsAdapter(this);
         notificationsAdapter.setMainData(notifications);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(notificationsAdapter);
         recyclerView.addItemDecoration(
@@ -67,7 +63,7 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     }
 
 
-    public void itemClicked(View view, int position) {
+  //  public void itemClicked(View view, int position) {
      /*   if (notificationsAdapter.getData(position).getType() != 2) {
             Post post = db.getPost(notificationsAdapter.getData(position).getPost_id());
             Intent i = new Intent(getApplicationContext(), CommentActivity.class);
@@ -88,7 +84,7 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             finish();
         } */
-    }
+  //  }
 
     @Override
     public void onBackPressed() {

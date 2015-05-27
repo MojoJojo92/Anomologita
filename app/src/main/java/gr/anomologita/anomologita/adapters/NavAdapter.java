@@ -18,14 +18,14 @@ import java.util.UUID;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.databases.FavotitesDBHandler;
+import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.objects.Favorite;
 
 public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<Favorite> data = new ArrayList<>();
-    private List<Favorite> favotites = new ArrayList<>();
+    private List<Favorite> favorites = new ArrayList<>();
     private List<Favorite> myGroups = new ArrayList<>();
     private Context context;
     private ClickListener clickListener;
@@ -36,13 +36,13 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void setMainData() {
-        FavotitesDBHandler db = new FavotitesDBHandler(context);
+        FavoritesDBHandler db = new FavoritesDBHandler(context);
         this.data = db.getAllFavorites();
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getUserID().equals(Anomologita.userID))
                 myGroups.add(data.get(i));
             else
-                favotites.add(data.get(i));
+                favorites.add(data.get(i));
         }
         db.close();
     }
@@ -51,7 +51,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(viewType == 2)
            return myGroups.get(position- 2);
         else
-            return favotites.get(position- myGroups.size() - 3);
+            return favorites.get(position- myGroups.size() - 3);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             titleHolder.title.setText("Αγαπημένα");
         } else {
             FavoritesHolder favoritesHolder = (FavoritesHolder) holder;
-            currentFavorite = favotites.get(position - myGroups.size() - 3);
+            currentFavorite = favorites.get(position - myGroups.size() - 3);
             favoritesHolder.subCount.setText(createSubs(currentFavorite.getSubs()));
             favoritesHolder.title.setText(currentFavorite.get_name());
             Glide.with(context).load("http://anomologita.gr/img/" + currentFavorite.getId() + ".png")
@@ -149,7 +149,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void onClick(View v) {
             if (clickListener != null) {
-                clickListener.itemClicked(v, getPosition(), getItemViewType());
+                clickListener.itemClicked(getPosition(), getItemViewType());
             }
         }
     }
@@ -168,6 +168,6 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface ClickListener {
-        public void itemClicked(View view, int position, int viewType);
+        public void itemClicked(int position, int viewType);
     }
 }

@@ -85,8 +85,8 @@ public class Conversation {
         return hashtag;
     }
 
-    public void setHashtag(String hastag) {
-        this.hashtag = hastag;
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
     }
 
     public String getLastMessage() {

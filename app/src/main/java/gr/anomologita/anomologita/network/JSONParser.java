@@ -18,70 +18,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class JSONParser {
+class JSONParser {
 
-    static InputStream is = null;
-    static JSONObject jObj = null;
-    static String json = "";
+    private static InputStream is = null;
+    private static JSONObject jObj = null;
+    private static String json = "";
 
     // constructor
     public JSONParser() {
 
     }
-
-    public JSONObject getJSONFromUrl(final String url) {
-
-        // Making HTTP request
-        try {
-            // Construct the client and the HTTP request.
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
-
-            // Execute the POST request and store the response locally.
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            // Extract data from the response.
-            HttpEntity httpEntity = httpResponse.getEntity();
-            // Open an inputStream with the data content.
-            is = httpEntity.getContent();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            // Create a BufferedReader to parse through the inputStream.
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    is, "iso-8859-1"), 8);
-            // Declare a string builder to help with the parsing.
-            StringBuilder sb = new StringBuilder();
-            // Declare a string to store the JSON object data in string form.
-            String line = null;
-
-            // Build the string until null.
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-
-            // Close the input stream.
-            is.close();
-            // Convert the string builder data to an actual string.
-            json = sb.toString();
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-
-        // Try to parse the string to a JSON object
-        try {
-            jObj = new JSONObject(json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
-
-        // Return the JSON Object.
-        return jObj;
-
-    }
-
 
     public JSONObject makeHttpRequest(String url, String method,
                                       List params) {
@@ -100,7 +46,7 @@ public class JSONParser {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
 
-            }else if(method == "GET"){
+            }else if(method.equals("GET")){
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "UTF-8");
@@ -120,9 +66,9 @@ public class JSONParser {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     is, "UTF-8"), 8);
             StringBuilder sb = new StringBuilder();
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+                sb.append(line).append("\n");
             }
             is.close();
             json = sb.toString();

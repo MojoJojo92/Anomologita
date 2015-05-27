@@ -33,10 +33,10 @@ public class GCMRegister extends Activity {
     private GoogleCloudMessaging gcm;
     private String regId;
 
-    public static final String REG_ID = "regId";
+    private static final String REG_ID = "regId";
     private static final String APP_VERSION = "appVersion";
 
-    static final String TAG = "Register Activity";
+    private static final String TAG = "Register Activity";
 
     public GCMRegister() {
         this.context = Anomologita.getsInstance();

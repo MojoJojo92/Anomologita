@@ -34,16 +34,7 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         return new MyPostsFragment();
     }
 
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
     public MyPostsFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -81,11 +72,6 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
     private void getPosts(){
         if (Anomologita.isConnected())
             new AttemptLogin(GET_USER_POSTS, this).execute();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 
     @Override

@@ -15,19 +15,15 @@ import android.widget.Toast;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.Collections;
-import java.util.List;
-
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.ConversationsAdapter;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
-import gr.anomologita.anomologita.extras.Keys.GetConComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.objects.Conversation;
 
-public class ConversationsActivity extends ActionBarActivity implements LoginMode, GetConComplete {
+public class ConversationsActivity extends ActionBarActivity implements LoginMode {
 
     private ConversationsDBHandler db;
     private ConversationsAdapter adapter;
@@ -64,33 +60,6 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
                 .margin(Anomologita.convert(10)).color(getResources().getColor(R.color.primaryColor)).build());
-    }
-
-    @Override
-    public void onGetConversationsCompleted(List<Conversation> conversations) {
-        for (Conversation conversation : conversations) {
-            String postID = conversation.getPostID();
-            if (!db.exists(postID) || db.getConversation(postID).getSeen().equals("no")) {
-                conversation.setSeen("no");
-                db.createConversation(conversation);
-            } else {
-                String senderID = String.valueOf(conversation.getLastSenderID());
-                String lastTXT = conversation.getLastMessage();
-                if (!senderID.equals(Anomologita.userID) && !lastTXT.equals(db.getConversation(postID).getLastMessage())) {
-                    conversation.setSeen("no");
-                    db.updateConversation(conversation);
-                } else {
-                    conversation.setSeen("yes");
-                    db.updateConversation(conversation);
-                }
-            }
-        }
-        List<Conversation> tempCon = db.sortByTime();
-        Collections.reverse(tempCon);
-        adapter.setMainData(tempCon);
-        db.clearAll();
-        for (Conversation conversation : tempCon)
-            db.createConversation(conversation);
     }
 
     public void selected(Conversation conversation) {
