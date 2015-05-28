@@ -28,8 +28,8 @@ import static gr.anomologita.anomologita.Anomologita.userID;
 
 public class GCMRegister extends Activity {
 
-    private Context context;
-    private JSONParser jsonParser = new JSONParser();
+    private final Context context;
+    private final JSONParser jsonParser = new JSONParser();
     private GoogleCloudMessaging gcm;
     private String regId;
 

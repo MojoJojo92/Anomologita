@@ -24,11 +24,11 @@ import me.grantland.widget.AutofitHelper;
 
 public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final LayoutInflater layoutInflater;
+    private final MyGroupsFragment fragmentMeGroups;
+    private final View view;
+    private final Context context;
     private List<GroupProfile> groups = Collections.emptyList();
-    private LayoutInflater layoutInflater;
-    private MyGroupsFragment fragmentMeGroups;
-    private View view;
-    private Context context;
 
     public MyGroupsAdapter(Context context, MyGroupsFragment fragmentMeGroups, View view) {
         layoutInflater = LayoutInflater.from(context);
@@ -96,10 +96,10 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class MyGroupsHolder extends RecyclerView.ViewHolder {
 
-        ImageView icon;
-        TextView group_name;
-        TextView subscribers;
-        ImageView delete;
+        final ImageView icon;
+        final TextView group_name;
+        final TextView subscribers;
+        final ImageView delete;
 
 
         public MyGroupsHolder(View itemView) {

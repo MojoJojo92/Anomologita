@@ -14,9 +14,9 @@ import gr.anomologita.anomologita.R;
 
 public class BadgeDrawable extends Drawable {
 
-    private Paint mBadgePaint;
-    private Paint mTextPaint;
-    private Rect mTxtRect = new Rect();
+    private final Paint mBadgePaint;
+    private final Paint mTextPaint;
+    private final Rect mTxtRect = new Rect();
 
     private String mCount = "";
     private boolean mWillDraw = false;

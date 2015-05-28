@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -27,10 +25,10 @@ import me.grantland.widget.AutofitHelper;
 
 public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
+    private final Context context;
+    private final ConversationsActivity conversationsActivity;
     private List<Conversation> Conversations = Collections.emptyList();
-    private Context context;
-    private ConversationsActivity conversationsActivity;
 
     public ConversationsAdapter(Context context, ConversationsActivity conversationsActivity) {
         inflater = LayoutInflater.from(context);
@@ -129,20 +127,14 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     class ConversationsHolder extends RecyclerView.ViewHolder {
-        TextView lastSenderName;
-        TextView senderName;
-        TextView txtMessage;
-        TextView time;
-        ImageView delete;
-        LinearLayout conLayout;
-        RelativeLayout conRowLayout;
-        LinearLayout chatClick;
+        final TextView lastSenderName;
+        final TextView senderName;
+        final TextView txtMessage;
+        final TextView time;
+        final ImageView delete;
 
         public ConversationsHolder(View itemView) {
             super(itemView);
-            conLayout = (LinearLayout) itemView.findViewById(R.id.conLayout);
-            conRowLayout = (RelativeLayout) itemView.findViewById(R.id.conRowLayout);
-            chatClick = (LinearLayout) itemView.findViewById(R.id.chatClick);
             lastSenderName = (TextView) itemView.findViewById(R.id.lastSenderName);
             senderName = (TextView) itemView.findViewById(R.id.conversationTitle);
             txtMessage = (TextView) itemView.findViewById(R.id.txtMessageName);

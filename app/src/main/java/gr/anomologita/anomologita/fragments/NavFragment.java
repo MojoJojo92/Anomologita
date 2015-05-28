@@ -29,9 +29,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     private ActionBarDrawerToggle mDrawerToggle;
     private NavAdapter navAdapter;
 
-    public NavFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_nav_layout, container, false);

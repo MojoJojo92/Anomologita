@@ -25,16 +25,13 @@ import java.util.List;
 public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginMode {
 
 
-    private List<Post> myPosts = new ArrayList<>();
+    private final List<Post> myPosts = new ArrayList<>();
     private MyPostsAdapter fragmentMePostsAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public static MyPostsFragment newInstance() {
         return new MyPostsFragment();
-    }
-
-    public MyPostsFragment() {
     }
 
     @Override

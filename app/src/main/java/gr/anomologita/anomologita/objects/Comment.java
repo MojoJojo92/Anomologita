@@ -4,10 +4,6 @@ public class Comment {
     private int postID;
     private String comment;
 
-    public void setCommentID(int commentID) {
-        int commentID1 = commentID;
-    }
-
     public int getPostID() {
         return postID;
     }

@@ -21,10 +21,10 @@ import java.util.List;
 
 public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final LayoutInflater layoutInflater;
+    private final Context context;
+    private final MyPostsFragment fragmentMePosts;
     private List<Post> myPosts = Collections.emptyList();
-    private LayoutInflater layoutInflater;
-    private Context context;
-    private MyPostsFragment fragmentMePosts;
 
     public MyPostsAdapter(Context context, MyPostsFragment fragmentMePosts) {
         layoutInflater = LayoutInflater.from(context);
@@ -134,12 +134,12 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class MyPostsHolder extends RecyclerView.ViewHolder {
-        private TextView mePostTxt;
-        private TextView mePostLikes;
-        private TextView mePostComments;
-        private TextView time;
-        private ImageView deletePost;
-        private TextView group_name;
+        private final TextView mePostTxt;
+        private final TextView mePostLikes;
+        private final TextView mePostComments;
+        private final TextView time;
+        private final ImageView deletePost;
+        private final TextView group_name;
 
         public MyPostsHolder(View itemView) {
             super(itemView);

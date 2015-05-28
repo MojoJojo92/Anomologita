@@ -2,8 +2,8 @@ package gr.anomologita.anomologita.objects;
 
 public class Like {
 
-    private int post_id;
-    private int liked;
+    private final int post_id;
+    private final int liked;
 
     public Like(int post_id, int liked) {
         this.post_id = post_id;

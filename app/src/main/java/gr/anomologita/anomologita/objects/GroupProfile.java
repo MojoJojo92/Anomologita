@@ -1,6 +1,5 @@
 package gr.anomologita.anomologita.objects;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,7 +10,6 @@ public class GroupProfile implements Parcelable{
     private String hashtag_name;
     private int group_id;
     private int user_id;
-    private Bitmap image;
     private String regID;
 
     public GroupProfile() {
@@ -41,14 +39,6 @@ public class GroupProfile implements Parcelable{
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
-    }
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
     }
 
     public int getGroup_id() {

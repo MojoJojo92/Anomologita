@@ -28,15 +28,12 @@ import gr.anomologita.anomologita.objects.GroupProfile;
 
 public class MyGroupsFragment extends Fragment implements MyGroupsComplete, LoginMode {
 
-    private List<GroupProfile> groups = new ArrayList<>();
+    private final List<GroupProfile> groups = new ArrayList<>();
     private MyGroupsAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static MyGroupsFragment newInstance() {
         return new MyGroupsFragment();
-    }
-
-    public MyGroupsFragment() {
     }
 
     @Override

@@ -23,7 +23,7 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     private List<Comment> comments = new ArrayList<>();
     private Post post;
 
@@ -118,7 +118,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class CommentHolder extends RecyclerView.ViewHolder {
-        TextView comment_txt;
+        final TextView comment_txt;
 
         public CommentHolder(View itemView) {
             super(itemView);
@@ -127,14 +127,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class PostHolder extends RecyclerView.ViewHolder {
-        private TextView post;
-        private TextView hashtag;
-        private TextView postTime;
-        private ImageView send_personal_message;
-        private ImageView like;
-        private ImageView editPost;
-        private TextView numberOfLikes;
-        private TextView numberOfComments;
+        private final TextView post;
+        private final TextView hashtag;
+        private final TextView postTime;
+        private final ImageView send_personal_message;
+        private final ImageView like;
+        private final ImageView editPost;
+        private final TextView numberOfLikes;
+        private final TextView numberOfComments;
 
         public PostHolder(View itemView) {
             super(itemView);

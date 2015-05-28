@@ -404,7 +404,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 for (int i = 0; i < json.length() - 2; i++) {
                     Comment comment = new Comment();
                     comment.setComment(json.getJSONObject(String.valueOf(i)).getString("Comment"));
-                    comment.setCommentID(json.getJSONObject(String.valueOf(i)).getInt("comment_id"));
                     comment.setPostID(json.getJSONObject(String.valueOf(i)).getInt("id_post"));
                     comments.add(comment);
                 }

@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private TextView groupNameTV, groupSubs, title;
     private FloatingActionButton actionButton;
     private ViewPagerAdapter adapter;
-    private List<Favorite> Favorites = new ArrayList<>();
+    private final List<Favorite> Favorites = new ArrayList<>();
     private FavoritesDBHandler db;
     private DrawerLayout drawerLayout;
     private NavFragment fragmentNav;
@@ -335,18 +335,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         actionButton.setTranslationX((drawerOffset * screenWidth()) + abPosition);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Anomologita.activityResumed();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Anomologita.activityPaused();
-    }
-
     public void editGroup(View view) {
         if (Anomologita.isConnected()) {
             Intent i = new Intent(this, EditGroupActivity.class);
@@ -377,7 +365,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        String tabs[];
+        final String tabs[];
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);

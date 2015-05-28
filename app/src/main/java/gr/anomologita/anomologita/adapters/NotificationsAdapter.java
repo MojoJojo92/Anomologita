@@ -26,10 +26,10 @@ import java.util.UUID;
 
 public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
+    private final Context context;
     private List<Notification> notifications = new ArrayList<>();
     private NotificationDBHandler db;
-    private Context context;
 
     public NotificationsAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -129,9 +129,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class NotificationHolder extends RecyclerView.ViewHolder {
 
-        TextView text;
-        TextView time;
-        ImageView image;
+        final TextView text;
+        final TextView time;
+        final ImageView image;
 
         public NotificationHolder(View itemView) {
             super(itemView);

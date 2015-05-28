@@ -27,14 +27,10 @@ import gr.anomologita.anomologita.objects.GroupSearch;
 
 public class SearchActivity extends ActionBarActivity implements LoginMode, Keys.SearchComplete, SearchAdapter.ClickListener {
 
-    private List<GroupSearch> searches = new ArrayList<>();
+    private final List<GroupSearch> searches = new ArrayList<>();
     private RecyclerView recyclerView;
     private SearchAdapter adapter;
     private PostsDBHandler db;
-
-    public SearchActivity() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

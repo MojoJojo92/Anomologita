@@ -11,8 +11,4 @@ public class NotifyService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-    public NotifyService() {
-    }
-
 }

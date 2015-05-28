@@ -23,13 +23,8 @@ import gr.anomologita.anomologita.objects.Notification;
 
 public class NotificationActivity extends ActionBarActivity implements LoginMode {
 
-    private List<Notification> notifications = new ArrayList<>();
+    private final List<Notification> notifications = new ArrayList<>();
     private PostsDBHandler db;
-
-
-    public NotificationActivity() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,7 +21,7 @@ import java.util.Locale;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     private List<ChatMessage> messages = new ArrayList<>();
    // private Context context;
 
@@ -106,8 +106,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class MeConversationsHolder extends RecyclerView.ViewHolder {
 
-        TextView meTxtMessage;
-        TextView meTime;
+        final TextView meTxtMessage;
+        final TextView meTime;
 
         public MeConversationsHolder(View itemView) {
             super(itemView);
@@ -118,8 +118,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class OthersConversationsHolder extends RecyclerView.ViewHolder {
 
-        TextView othersTxtMessage;
-        TextView anonymousTime;
+        final TextView othersTxtMessage;
+        final TextView anonymousTime;
 
         public OthersConversationsHolder(View itemView) {
             super(itemView);

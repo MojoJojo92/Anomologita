@@ -25,11 +25,11 @@ import java.util.Locale;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Post> posts = new ArrayList<>();
-    private LayoutInflater layoutInflater;
-    private MainFragment mainFragment;
+    private final List<Post> posts = new ArrayList<>();
+    private final LayoutInflater layoutInflater;
+    private final MainFragment mainFragment;
+    private final int offset = Anomologita.convert(100);
     private int previousPosition;
-    private int offset = Anomologita.convert(100);
 
     public MainAdapter(MainFragment fragmentNew) {
         layoutInflater = LayoutInflater.from(fragmentNew.getActivity());
@@ -188,17 +188,17 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class PostHolder extends RecyclerView.ViewHolder {
-        private TextView post;
-        private TextView hashtag;
-        private TextView postTime;
-        private TextView location;
-        private ImageView comments_word;
-        private ImageView send_personal_message;
-        private ImageView like;
-        private ImageView editPost;
-        private TextView numberOfLikes;
-        private TextView numberOfComments;
-        private RelativeLayout postRowLayout;
+        private final TextView post;
+        private final TextView hashtag;
+        private final TextView postTime;
+        private final TextView location;
+        private final ImageView comments_word;
+        private final ImageView send_personal_message;
+        private final ImageView like;
+        private final ImageView editPost;
+        private final TextView numberOfLikes;
+        private final TextView numberOfComments;
+        private final RelativeLayout postRowLayout;
 
         public PostHolder(View itemView) {
             super(itemView);

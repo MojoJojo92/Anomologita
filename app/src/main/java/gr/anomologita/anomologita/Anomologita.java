@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.util.TypedValue;
 
 import gr.anomologita.anomologita.activities.MainActivity;
-import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.extras.Keys.Preferences;
 import gr.anomologita.anomologita.network.GCMRegister;
 import gr.anomologita.anomologita.objects.Conversation;
@@ -20,7 +19,6 @@ import gr.anomologita.anomologita.objects.Post;
 public class Anomologita extends Application implements Preferences {
 
     private static Anomologita sInstance;
-    private static boolean activityVisible;
     public static Post currentPost;
     private static SharedPreferences SP;
     public static String userID;
@@ -118,14 +116,6 @@ public class Anomologita extends Application implements Preferences {
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.putString(CURRENT_GROUP_NAME, currentGroupName);
         prefsEditor.apply();
-    }
-
-    public static void activityResumed() {
-        activityVisible = true;
-    }
-
-    public static void activityPaused() {
-        activityVisible = false;
     }
 
     public static Context getAppContext() {

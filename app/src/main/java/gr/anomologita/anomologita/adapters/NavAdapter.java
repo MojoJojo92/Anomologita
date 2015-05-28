@@ -23,11 +23,11 @@ import gr.anomologita.anomologita.objects.Favorite;
 
 public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
+    private final List<Favorite> favorites = new ArrayList<>();
+    private final List<Favorite> myGroups = new ArrayList<>();
+    private final Context context;
     private List<Favorite> data = new ArrayList<>();
-    private List<Favorite> favorites = new ArrayList<>();
-    private List<Favorite> myGroups = new ArrayList<>();
-    private Context context;
     private ClickListener clickListener;
 
     public NavAdapter(Context context) {
@@ -48,10 +48,10 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public Favorite getData(int position, int viewType) {
-        if(viewType == 2)
-           return myGroups.get(position- 2);
+        if (viewType == 2)
+            return myGroups.get(position - 2);
         else
-            return favorites.get(position- myGroups.size() - 3);
+            return favorites.get(position - myGroups.size() - 3);
     }
 
     @Override
@@ -113,13 +113,13 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private String createSubs(int subs){
-        if(subs < 1000){
-            return ""+subs;
-        }else if(subs < 10000){
-            String s = ""+(float)subs/1000;
-            s = s.substring(0,1);
-            return s+"k";
+    private String createSubs(int subs) {
+        if (subs < 1000) {
+            return "" + subs;
+        } else if (subs < 10000) {
+            String s = "" + (float) subs / 1000;
+            s = s.substring(0, 1);
+            return s + "k";
         }
         return "0";
     }
@@ -129,12 +129,12 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return data.size() + 3;
     }
 
-    class FavoritesHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView title;
-        TextView subCount;
-        ImageView icon;
-        ImageView backgroundIcon;
-        LinearLayout subs;
+    class FavoritesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        final TextView title;
+        final TextView subCount;
+        final ImageView icon;
+        final ImageView backgroundIcon;
+        final LinearLayout subs;
 
         public FavoritesHolder(View itemView) {
             super(itemView);
@@ -154,8 +154,8 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    class TitleHolder extends RecyclerView.ViewHolder  {
-        TextView title;
+    class TitleHolder extends RecyclerView.ViewHolder {
+        final TextView title;
 
         public TitleHolder(View itemView) {
             super(itemView);

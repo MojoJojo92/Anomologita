@@ -9,7 +9,7 @@ public abstract class HidingGroupProfileListener extends RecyclerView.OnScrollLi
 
     public static int mGroupProfileOffset = 0;
     private boolean mControlsVisible = true;
-    private int mGroupProfileHeight;
+    private final int mGroupProfileHeight;
     private int mTotalScrolledDistance;
 
     public HidingGroupProfileListener(int height) {

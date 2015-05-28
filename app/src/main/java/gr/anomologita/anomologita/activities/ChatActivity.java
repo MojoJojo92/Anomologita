@@ -34,13 +34,7 @@ import gr.anomologita.anomologita.objects.Conversation;
 public class ChatActivity extends ActionBarActivity implements LoginMode {
 
     private final Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            refresh();
-            handler.postDelayed(this, 500);
-        }
-    };
+
     private RecyclerView recyclerView;
     private ChatAdapter adapter;
     private Conversation conversation;
@@ -104,6 +98,14 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
 
         handler.postDelayed(runnable, 500);
     }
+
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            refresh();
+            handler.postDelayed(this, 500);
+        }
+    };
 
     void refresh() {
         int currentCount = adapter.getItemCount();

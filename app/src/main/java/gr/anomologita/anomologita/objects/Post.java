@@ -60,10 +60,6 @@ public class Post {
         return dbID;
     }
 
-    public void setDbID(int dbID) {
-        this.dbID = dbID;
-    }
-
     public String getGroup_name() {
         return group_name;
     }

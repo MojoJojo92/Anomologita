@@ -20,11 +20,10 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
+    private final Context context;
     private List<GroupSearch> groupSearches = new ArrayList<>();
-    private Context context;
     private ClickListener clickListener;
-   // private NavFragment fragmentNav;
 
     public SearchAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -70,8 +69,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class SearchHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title;
-        ImageView icon;
+        final TextView title;
+        final ImageView icon;
 
         public SearchHolder(View itemView) {
             super(itemView);

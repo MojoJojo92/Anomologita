@@ -88,7 +88,7 @@ public class MeActivity extends ActionBarActivity implements MaterialTabListener
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        String tabs[];
+        final String tabs[];
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
