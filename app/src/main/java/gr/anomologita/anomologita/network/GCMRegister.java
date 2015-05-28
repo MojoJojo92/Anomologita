@@ -53,7 +53,7 @@ public class GCMRegister extends Activity {
         } else {
             Toast.makeText(context, "RegId already available. RegId: " + regId, Toast.LENGTH_LONG).show();
         }
-        Anomologita.StartMain();
+       // Anomologita.StartMain();
         return regId;
     }
 

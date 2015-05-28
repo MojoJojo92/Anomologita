@@ -1,5 +1,7 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -130,28 +132,56 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.editGroupComplete) {
-            newHashtag = hashtagET.getText().toString();
-            newGroupName = groupNameET.getText().toString();
-            if (newHashtag.equals("")) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);
-                Toast.makeText(Anomologita.getAppContext(), "Το hashtag είναι κενό!!!", Toast.LENGTH_SHORT).show();
-            } else if (newGroupName.equals("")) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
-                Toast.makeText(Anomologita.getAppContext(), "Το όνομα είναι κενό!!!", Toast.LENGTH_SHORT).show();
-            } else if (newHashtag.length() > 20) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);
-                Toast.makeText(Anomologita.getAppContext(), "Το hashtag δεν πρέπει να ξεπερνά τους 20 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
-            } else if (newGroupName.length() > 30) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
-                Toast.makeText(Anomologita.getAppContext(), "Το όνομα δεν πρέπει να ξεπερνά τους 30 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
-            } else {
-                return checkChanges();
-            }
+            editGroup();
+        } else if (id == R.id.delete) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Διαγραφή Γκρουπ")
+                    .setMessage("Are you sure you want to delete this group?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteGroup();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean checkChanges() {
+    private void editGroup() {
+        newHashtag = hashtagET.getText().toString();
+        newGroupName = groupNameET.getText().toString();
+        if (newHashtag.equals("")) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);
+            Toast.makeText(Anomologita.getAppContext(), "Το hashtag είναι κενό!!!", Toast.LENGTH_SHORT).show();
+        } else if (newGroupName.equals("")) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
+            Toast.makeText(Anomologita.getAppContext(), "Το όνομα είναι κενό!!!", Toast.LENGTH_SHORT).show();
+        } else if (newHashtag.length() > 20) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);
+            Toast.makeText(Anomologita.getAppContext(), "Το hashtag δεν πρέπει να ξεπερνά τους 20 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
+        } else if (newGroupName.length() > 30) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
+            Toast.makeText(Anomologita.getAppContext(), "Το όνομα δεν πρέπει να ξεπερνά τους 30 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
+        } else {
+            checkChanges();
+        }
+    }
+
+    private void deleteGroup() {
+        if (Anomologita.isConnected()) {
+            new AttemptLogin(DELETE_GROUP, groupID).execute();
+            Toast.makeText(this, "Το γκρουπ " + currentGroupName + " έχει διαγραφεί", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
+    }
+
+    private void checkChanges() {
         if (Anomologita.isConnected()) {
             if (imageChanged)
                 new AttemptLogin(SET_IMAGE, image, groupID, this).execute();
@@ -165,7 +195,6 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
             Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
         }
         onBackPressed();
-        return true;
     }
 
     @Override

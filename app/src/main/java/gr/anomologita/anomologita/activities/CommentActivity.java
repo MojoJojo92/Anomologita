@@ -88,16 +88,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-    }
-
-    public void chatOk() {
+    public void okClick(View view) {
         EditText commentET = (EditText) findViewById(R.id.editText);
         String comment = commentET.getText().toString();
         if (comment.equals("")) {
@@ -119,5 +110,14 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                 Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        finish();
     }
 }

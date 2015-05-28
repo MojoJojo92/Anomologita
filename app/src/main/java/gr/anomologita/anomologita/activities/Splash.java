@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 
 public class Splash extends Activity {
@@ -17,6 +18,7 @@ public class Splash extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                Anomologita.StartMain();
                 finish();
             }
         }, SPLASH_DISPLAY_LENGTH);

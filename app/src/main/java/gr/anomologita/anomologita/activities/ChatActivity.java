@@ -118,7 +118,7 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
         }
     }
 
-    public void chatOk(View view) {
+    public void okClick(View view) {
         message = editText.getText().toString();
         if (message.equals("")) {
             YoYo.with(Techniques.Tada).duration(700).playOn(messageLayout);

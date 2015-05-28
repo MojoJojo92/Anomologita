@@ -9,4 +9,11 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_action_check"/>
 
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_action_delete"
+        android:orderInCategory="199"
+        android:title="@string/toolbarDelete"
+        app:showAsAction="ifRoom"/>
+
 </menu>

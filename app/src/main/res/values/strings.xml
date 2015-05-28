@@ -53,5 +53,6 @@
     <string name="search">Search</string>
     <string name="me">Εγώ</string>
     <string name="searchAction">Search</string>
+    <string name="toolbarDelete">Delete</string>
 
 </resources>

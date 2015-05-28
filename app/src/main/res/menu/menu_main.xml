@@ -29,13 +29,13 @@
         android:icon="@drawable/ic_menu_notifications"
         android:orderInCategory="198"
         android:title="@string/notifications"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_action_search"
         android:orderInCategory="197"
         android:title="@string/searchAction"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
 </menu>

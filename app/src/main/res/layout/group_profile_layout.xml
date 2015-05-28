@@ -143,7 +143,6 @@
                     android:layout_weight="3"
                     android:background="@drawable/subscribe_background"
                     android:gravity="center"
-                    android:onClick="favoritesClick"
                     android:text="@string/subscribeButton"
                     android:theme="@style/My.SubButton.Style.Off"/>
 

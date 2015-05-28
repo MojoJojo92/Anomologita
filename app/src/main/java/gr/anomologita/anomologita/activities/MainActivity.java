@@ -271,18 +271,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return size.x;
     }
 
-    public void editGroup() {
-        if (Anomologita.isConnected()) {
-            Intent i = new Intent(this, EditGroupActivity.class);
-            i.putExtra("hashtag", groupProfile.getHashtag_name());
-            startActivityForResult(i, 1);
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-        } else {
-            YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΥΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     void favoritesClick() {
         if (Anomologita.isConnected()) {
             if (!db.exists(Anomologita.getCurrentGroupName())) {
@@ -291,7 +279,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 db.createFavorite(groupProfile);
                 Favorites.add(db.getFavorite(Anomologita.getCurrentGroupName()));
-                Toast.makeText(getApplicationContext(), Anomologita.getCurrentGroupName() + " has been added to your Contacts!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Το "+ Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
                 AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "1", Anomologita.getCurrentGroupName());
                 attemptLogin.execute();
                 int subs = Integer.parseInt((String) groupSubs.getText());
@@ -309,7 +297,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 Favorites.remove(db.getFavorite(Anomologita.getCurrentGroupName()));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
-                Toast.makeText(getApplicationContext(), Anomologita.getCurrentGroupName() + " has been unsubscribed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
                 fragmentNav.updateDrawer();
                 AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "-1", Anomologita.getCurrentGroupName());
                 attemptLogin.execute();
@@ -357,6 +345,18 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     protected void onPause() {
         super.onPause();
         Anomologita.activityPaused();
+    }
+
+    public void editGroup(View view) {
+        if (Anomologita.isConnected()) {
+            Intent i = new Intent(this, EditGroupActivity.class);
+            i.putExtra("hashtag", groupProfile.getHashtag_name());
+            startActivityForResult(i, 1);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        } else {
+            YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
+            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΥΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class FetchCountTask extends AsyncTask<Void, Void, Integer> {

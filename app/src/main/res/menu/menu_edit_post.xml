@@ -7,6 +7,13 @@
         android:icon="@drawable/ic_action_check"
         android:orderInCategory="200"
         android:title="@string/chat"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_action_delete"
+        android:orderInCategory="199"
+        android:title="@string/toolbarDelete"
+        app:showAsAction="ifRoom"/>
 
 </menu>

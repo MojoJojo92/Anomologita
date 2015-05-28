@@ -1,5 +1,7 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,13 +17,17 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.util.List;
+
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
+import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
+import gr.anomologita.anomologita.objects.Post;
 
-public class EditPostActivity extends ActionBarActivity implements LoginMode {
+public class EditPostActivity extends ActionBarActivity implements LoginMode, MyPostsComplete {
 
     private String postID;
     private String currentPost;
@@ -69,36 +75,60 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.editPostComplete)
+            editPost();
+        else if (id == R.id.delete)
+            new AlertDialog.Builder(this)
+                    .setTitle("Διαγραφή Ανομολόγητου")
+                    .setMessage("Are you sure you want to delete this group?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            deletePost();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void deletePost() {
+        if (Anomologita.isConnected()) {
+            new AttemptLogin(DELETE_POST, postID, this).execute();
+        }
+    }
+
+    private void editPost() {
         String newPost = postET.getText().toString();
         String newLocation = locationET.getText().toString();
-        int id = item.getItemId();
-        if (id == R.id.editPostComplete) {
-            if (newPost.equals("")) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(postET);
-                Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
-            } else if (newLocation.equals("")) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-                Toast.makeText(this, "Δώσε σχολή, κατοικια ή άλλο", Toast.LENGTH_SHORT).show();
-            } else if (newPost.length() > 200) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(postET);
-                Toast.makeText(this, "Το μήνυμα ξεπερνά τους 200 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
-            } else if (newLocation.length() > 20) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-                Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 20 χαρακτήρες", Toast.LENGTH_SHORT).show();
-            } else if (newPost.equals(currentPost) && newLocation.equals(currentLocation)) {
+        if (newPost.equals("")) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(postET);
+            Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
+        } else if (newLocation.equals("")) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
+            Toast.makeText(this, "Δώσε σχολή, κατοικια ή άλλο", Toast.LENGTH_SHORT).show();
+        } else if (newPost.length() > 200) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(postET);
+            Toast.makeText(this, "Το μήνυμα ξεπερνά τους 200 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
+        } else if (newLocation.length() > 20) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
+            Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 20 χαρακτήρες", Toast.LENGTH_SHORT).show();
+        } else if (newPost.equals(currentPost) && newLocation.equals(currentLocation)) {
+            onBackPressed();
+        } else {
+            if (Anomologita.isConnected()) {
+                new AttemptLogin(EDIT_POST, postID, newPost, newLocation).execute();
                 onBackPressed();
             } else {
-                if (Anomologita.isConnected()) {
-                    new AttemptLogin(EDIT_POST, postID, newPost, newLocation).execute();
-                    onBackPressed();
-                } else {
-                    YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                    Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
-                }
+                YoYo.with(Techniques.Tada).duration(700).playOn(layout);
+                Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
             }
-            return true;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -108,5 +138,16 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode {
         finish();
         HidingGroupProfileListener.mGroupProfileOffset = 0;
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    @Override
+    public void onGetUserPostsCompleted(List<Post> userPosts) {
+
+    }
+
+    @Override
+    public void onDeleteUserPostCompleted() {
+        Toast.makeText(this, "Το ανομολόγητο έχει διαγραφεί", Toast.LENGTH_SHORT).show();
+        onBackPressed();
     }
 }
