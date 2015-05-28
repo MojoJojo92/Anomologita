@@ -32,8 +32,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -48,7 +46,6 @@ import gr.anomologita.anomologita.extras.Utils;
 import gr.anomologita.anomologita.fragments.MainFragment;
 import gr.anomologita.anomologita.fragments.NavFragment;
 import gr.anomologita.anomologita.network.AttemptLogin;
-import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -66,7 +63,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private TextView groupNameTV, groupSubs, title;
     private FloatingActionButton actionButton;
     private ViewPagerAdapter adapter;
-    private final List<Favorite> Favorites = new ArrayList<>();
     private FavoritesDBHandler db;
     private DrawerLayout drawerLayout;
     private NavFragment fragmentNav;
@@ -138,8 +134,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         groupSubs = (TextView) findViewById(R.id.subs);
         title = (TextView) findViewById(R.id.title);
-
-        if (db.getFavoriteCount() != 0) Favorites.addAll(db.getAllFavorites());
 
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,7 +272,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setText("Αγαπημένο");
                 favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 db.createFavorite(groupProfile);
-                Favorites.add(db.getFavorite(Anomologita.getCurrentGroupName()));
                 Toast.makeText(getApplicationContext(),"Το "+ Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
                 AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "1", Anomologita.getCurrentGroupName());
                 attemptLogin.execute();
@@ -295,7 +288,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
                 favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
                 favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
-                Favorites.remove(db.getFavorite(Anomologita.getCurrentGroupName()));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 Toast.makeText(getApplicationContext(),"Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
                 fragmentNav.updateDrawer();
