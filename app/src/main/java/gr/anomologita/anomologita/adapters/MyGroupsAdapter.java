@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.signature.StringSignature;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -76,12 +77,17 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void deleteData(int tempPosition) {
-        groups.remove(tempPosition);
-        notifyItemRemoved(tempPosition);
-        Glide.clear(view);
-        view.invalidate();
-        view.postInvalidate();
-        notifyItemRangeChanged(0, this.groups.size());
+        if(groups.size() != 1){
+            groups.remove(tempPosition);
+            notifyItemRemoved(tempPosition);
+            Glide.clear(view);
+            view.invalidate();
+            view.postInvalidate();
+            notifyItemRangeChanged(0, this.groups.size());
+        }else {
+            groups = new ArrayList<>();
+            notifyDataSetChanged();
+        }
     }
 
     @Override

@@ -9,19 +9,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.databases.LikesDBHandler;
 import gr.anomologita.anomologita.fragments.MainFragment;
 import gr.anomologita.anomologita.objects.Post;
-
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -57,7 +52,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.post.setText(currentPost.getPost_txt());
             postHolder.location.setText("(" + currentPost.getLocation() + ")");
             postHolder.hashtag.setText(currentPost.getHashtagName());
-            postHolder.postTime.setText(getTime(currentPost.getTimestamp()));
+            postHolder.postTime.setText(Anomologita.getTime(currentPost.getTimestamp()));
             if (currentPost.isLiked())
                 postHolder.like.setImageResource(R.drawable.ic_fire_red);
             else
@@ -131,36 +126,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             previousPosition = position;
         }
-    }
-
-    private String getTime(String postTimeStamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        try {
-            Timestamp t2 = new Timestamp(System.currentTimeMillis());
-            Date postDate = dateFormat.parse(postTimeStamp);
-            Date currentDate = dateFormat.parse(String.valueOf(t2));
-            int days = currentDate.getDay() - postDate.getDay();
-            int hours = currentDate.getHours() - postDate.getHours();
-            int minutes = currentDate.getMinutes() - postDate.getMinutes() + 13;
-            if (days > 0) {
-                if (days == 1)
-                    return ("Χθές");
-                else
-                    return ("" + postDate);
-            } else if (hours > 0) {
-                if (hours == 1)
-                    return ("1 hr");
-                else
-                    return (hours + " hrs");
-            } else if (minutes > 0) {
-                return (minutes + " min");
-            } else {
-                return "τώρα";
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "τώρα";
     }
 
     public void removeAll() {

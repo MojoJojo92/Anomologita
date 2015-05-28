@@ -54,5 +54,6 @@
     <string name="me">Εγώ</string>
     <string name="searchAction">Search</string>
     <string name="toolbarDelete">Delete</string>
+    <string name="chatClickDesc">Empty image view for clicking the conversation</string>
 
 </resources>

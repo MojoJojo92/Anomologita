@@ -26,14 +26,16 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="@string/time"
-        android:textColor="@color/primaryColorDark"/>
+        android:textColor="@color/secondaryTextColor"/>
 
     <TextView
         android:id="@+id/conversationTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/time"
+        android:layout_toLeftOf="@+id/time"
         android:layout_alignParentTop="true"
         android:text="@string/conTitle"
         android:textSize="17sp"/>
@@ -65,15 +67,5 @@
             android:textColor="@color/secondaryTextColor"/>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/chatClick"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@id/delete"
-        android:layout_toStartOf="@+id/delete"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:visibility="gone"/>
 
 </RelativeLayout>

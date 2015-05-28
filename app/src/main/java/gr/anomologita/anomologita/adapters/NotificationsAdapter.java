@@ -8,21 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.databases.NotificationDBHandler;
-import gr.anomologita.anomologita.objects.Notification;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
+
+import gr.anomologita.anomologita.Anomologita;
+import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.databases.NotificationDBHandler;
+import gr.anomologita.anomologita.objects.Notification;
 
 public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -42,9 +39,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setMainData(List<Notification> notifications) {
         db = new NotificationDBHandler(context);
-        for (int i = 0; i < notifications.size(); i++) {
+        for (int i = 0; i < notifications.size(); i++)
             db.createNotification(notifications.get(i));
-        }
         this.notifications = db.getAllNotifications();
         Collections.reverse(this.notifications);
         notifyItemRangeChanged(0, this.notifications.size());
@@ -70,62 +66,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Notification currentNotification = notifications.get(position);
         NotificationHolder notificationHolder = (NotificationHolder) holder;
-        if (getItemViewType(position) == 0) {
-            notificationHolder.text.setText(currentNotification.getText());
-            notificationHolder.time.setText(getTime(currentNotification.getTime()));
+        notificationHolder.time.setText(Anomologita.getTime(currentNotification.getTime()));
+        notificationHolder.text.setText(currentNotification.getText());
+        if (getItemViewType(position) == 0)
             notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fire_big));
-        } else if (getItemViewType(position) == 1) {
-            notificationHolder.text.setText(currentNotification.getText());
-            notificationHolder.time.setText(getTime(currentNotification.getTime()));
+        else if (getItemViewType(position) == 1)
             notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_comment));
-        } else if (getItemViewType(position) == 2) {
-            notificationHolder.text.setText(currentNotification.getText());
-            notificationHolder.time.setText(getTime(currentNotification.getTime()));
+        else if (getItemViewType(position) == 2)
             Glide.with(context).load("http://anomologita.gr/img/" + currentNotification.getId() + ".png")
                     .asBitmap()
                     .signature(new StringSignature(UUID.randomUUID().toString()))
                     .fitCenter()
                     .into(notificationHolder.image);
-        }
-
     }
-
-    private String getTime(String postTimeStamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        try {
-            Timestamp t2 = new Timestamp(System.currentTimeMillis());
-            Date postDate = dateFormat.parse(postTimeStamp);
-            Date currentDate = dateFormat.parse(String.valueOf(t2));
-            int days = currentDate.getDay() - postDate.getDay();
-            int hours = currentDate.getHours() - postDate.getHours();
-            int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if (days > 0) {
-                if (days == 1)
-                    return ("Χθές");
-                else
-                    return ("" + postDate);
-            } else if (hours > 0) {
-                if (hours == 1)
-                    return ("1 hr");
-                else
-                    return (hours + " hrs");
-            } else if (minutes > 0) {
-                return (minutes + " min");
-            } else {
-                return "τώρα";
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "τώρα";
-    }
-
 
     @Override
     public int getItemCount() {
         return notifications.size();
     }
-
 
     class NotificationHolder extends RecyclerView.ViewHolder {
 

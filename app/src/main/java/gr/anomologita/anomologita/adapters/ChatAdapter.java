@@ -7,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import gr.anomologita.anomologita.Anomologita;
-import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.objects.ChatMessage;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,11 +15,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import gr.anomologita.anomologita.Anomologita;
+import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.objects.ChatMessage;
+
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final LayoutInflater inflater;
     private List<ChatMessage> messages = new ArrayList<>();
-   // private Context context;
 
     public ChatAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -32,12 +31,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setMainData(List<ChatMessage> messages) {
         this.messages = messages;
         notifyDataSetChanged();
-        //notifyItemRangeChanged(0, messages.size());
     }
 
-    public  void addMessage(ChatMessage chatMessage){
+    public void addMessage(ChatMessage chatMessage) {
         messages.add(chatMessage);
-        notifyItemInserted(messages.size()-1);
+        notifyItemInserted(messages.size() - 1);
     }
 
     @Override
@@ -69,7 +67,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private String getTime(String postTimeStamp){
+    private String getTime(String postTimeStamp) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         try {
             Timestamp t2 = new Timestamp(System.currentTimeMillis());
@@ -78,19 +76,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int days = currentDate.getDay() - postDate.getDay();
             int hours = currentDate.getHours() - postDate.getHours();
             int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if(days > 0){
-                if(days== 1)
+            if (days > 0) {
+                if (days == 1)
                     return ("Χθές");
                 else
-                    return (""+postDate);
-            }else if(hours > 0){
-                if(hours== 1)
+                    return ("" + postDate);
+            } else if (hours > 0) {
+                if (hours == 1)
                     return ("1 hr");
                 else
-                    return (hours+" hrs");
-            }else if(minutes > 0){
-                    return (minutes+" min");
-            }else {
+                    return (hours + " hrs");
+            } else if (minutes > 0) {
+                return (minutes + " min");
+            } else {
                 return "τώρα";
             }
         } catch (ParseException e) {

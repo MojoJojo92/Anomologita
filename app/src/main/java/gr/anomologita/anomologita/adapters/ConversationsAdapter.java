@@ -8,19 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.ConversationsActivity;
 import gr.anomologita.anomologita.objects.Conversation;
-
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import me.grantland.widget.AutofitHelper;
 
 public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -28,7 +22,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final LayoutInflater inflater;
     private final Context context;
     private final ConversationsActivity conversationsActivity;
-    private List<Conversation> Conversations = Collections.emptyList();
+    private List<Conversation> conversations = new ArrayList<>();
 
     public ConversationsAdapter(Context context, ConversationsActivity conversationsActivity) {
         inflater = LayoutInflater.from(context);
@@ -37,7 +31,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void setMainData(List<Conversation> conversations) {
-        this.Conversations = conversations;
+        this.conversations = conversations;
         notifyDataSetChanged();
     }
 
@@ -53,10 +47,10 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ConversationsHolder conversationsHolder = (ConversationsHolder) holder;
-        final Conversation currentCon = Conversations.get(position);
+        final Conversation currentCon = conversations.get(position);
         AutofitHelper.create(conversationsHolder.senderName);
-        if (!Conversations.get(position).getName().equals("Εγώ"))
-            conversationsHolder.senderName.setText("Με "+currentCon.getName()+ " στο "+currentCon.getHashtag());
+        if (!conversations.get(position).getName().equals("Εγώ"))
+            conversationsHolder.senderName.setText("Με " + currentCon.getName() + " στο " + currentCon.getHashtag());
         if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.getCurrentGroupID())))
             conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
         else
@@ -65,66 +59,40 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (currentCon.getLastMessage().length() < 30)
             conversationsHolder.txtMessage.setText(currentCon.getLastMessage());
         else
-            conversationsHolder.txtMessage.setText(currentCon.getLastMessage().substring(0,30) + "...");
+            conversationsHolder.txtMessage.setText(currentCon.getLastMessage().substring(0, 30) + "...");
         conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conversationsActivity.delete(currentCon.getConversationID(), position);
+            }
+        });
+        conversationsHolder.senderName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 conversationsActivity.selected(currentCon);
             }
         });
-      /*  conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                conversationsActivity.delete(currentCon.getConversation_id(), position);
-            }
-        });*/
-        if (currentCon.getSeen().equals("yes")) {
+        if (currentCon.getSeen().equals("no")) {
             conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
             conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
         }
-        conversationsHolder.time.setText(getTime(currentCon.getTime()));
-    }
-
-    private String getTime(String postTimeStamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        try {
-            Timestamp t2 = new Timestamp(System.currentTimeMillis());
-            Date postDate = dateFormat.parse(postTimeStamp);
-            Date currentDate = dateFormat.parse(String.valueOf(t2));
-            int days = currentDate.getDay() - postDate.getDay();
-            int hours = currentDate.getHours() - postDate.getHours();
-            int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if (days > 0) {
-                if (days == 1)
-                    return ("Χθές");
-                else
-                    return ("" + postDate);
-            } else if (hours > 0) {
-                if (hours == 1)
-                    return ("1 hr");
-                else
-                    return (hours + " hrs");
-            } else if (minutes > 0) {
-                return (minutes + " min");
-            } else {
-                return "τώρα";
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "τώρα";
+        conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime()));
     }
 
     @Override
     public int getItemCount() {
-        return Conversations.size();
+        return conversations.size();
     }
 
     public void deleteData(int position) {
-        Conversations.remove(position);
-        notifyItemRemoved(position);
+        if (conversations.size() != 1) {
+            conversations.remove(position);
+            notifyItemRemoved(position);
+        } else {
+            conversations = new ArrayList<>();
+            notifyDataSetChanged();
+        }
     }
-
 
     class ConversationsHolder extends RecyclerView.ViewHolder {
         final TextView lastSenderName;

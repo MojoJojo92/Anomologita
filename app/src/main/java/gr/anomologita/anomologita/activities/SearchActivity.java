@@ -39,7 +39,6 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -56,11 +55,8 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(
-                new HorizontalDividerItemDecoration.Builder(this)
-                        .margin(50)
-                        .color(getResources().getColor(R.color.primaryColor))
-                        .build());
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).margin(Anomologita.convert(10))
+                        .color(getResources().getColor(R.color.primaryColor)).build());
 
     }
 
@@ -69,14 +65,8 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
         getMenuInflater().inflate(R.menu.menu_search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setActivated(true);
-        searchView.setQueryHint("Αναζήτηση γκρουπ..");
+        searchView.setQueryHint("Αναζήτηση γκρουπ...");
         searchView.setIconified(false);
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-            }
-        });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -100,7 +90,6 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
                 return false;
             }
         });
-
         return true;
     }
 
@@ -116,6 +105,13 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
     }
 
     @Override
+    public void itemClicked(int position) {
+          Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getGroupID()));
+          Anomologita.setCurrentGroupName(adapter.getData(position).getTitle());
+          onBackPressed();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -123,12 +119,5 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         HidingGroupProfileListener.mGroupProfileOffset = 0;
         finish();
-    }
-
-    @Override
-    public void itemClicked(int position) {
-          Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getGroupID()));
-          Anomologita.setCurrentGroupName(adapter.getData(position).getTitle());
-          onBackPressed();
     }
 }

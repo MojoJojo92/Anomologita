@@ -10,6 +10,12 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import gr.anomologita.anomologita.activities.MainActivity;
 import gr.anomologita.anomologita.extras.Keys.Preferences;
 import gr.anomologita.anomologita.network.GCMRegister;
@@ -131,5 +137,35 @@ public class Anomologita extends Application implements Preferences {
     public static int convert(int dp) {
         Resources r = getsInstance().getResources();
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+    }
+
+    public static String getTime(String time){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        try {
+            Timestamp t2 = new Timestamp(System.currentTimeMillis());
+            Date postDate = dateFormat.parse(time);
+            Date currentDate = dateFormat.parse(String.valueOf(t2));
+            int days = currentDate.getDay() - postDate.getDay();
+            int hours = currentDate.getHours() - postDate.getHours();
+            int minutes = currentDate.getMinutes() - postDate.getMinutes();
+            if (days > 0) {
+                if (days == 1)
+                    return ("Χθές");
+                else
+                    return (postDate.getMonth()+"/"+postDate.getDate()+"/"+(postDate.getYear()-100));
+            } else if (hours > 0) {
+                if (hours == 1)
+                    return ("1 hr");
+                else
+                    return (hours + " hrs");
+            } else if (minutes > 0) {
+                return (minutes + " min");
+            } else {
+                return "τώρα";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "τώρα";
     }
 }
