@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -87,6 +88,8 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     public boolean onOptionsItemSelected(MenuItem item) {
         postTxt = postET.getText().toString();
         location = locationET.getText().toString();
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(postET.getWindowToken(), 0);
         int id = item.getItemId();
         if (id == R.id.createPost) {
             if (postTxt.equals("")) {
@@ -94,7 +97,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
             } else if (location.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-                Toast.makeText(this, "Δώσε σχολή, κατοικια ή άλλο", Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(this, "Δώσε σχολή, κατοικια ή άλλο", Toast.LENGTH_SHORT).show();
             } else if (postTxt.length() > 1000) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(postET);
                 Toast.makeText(this, "Το μήνυμα ξεπερνά τους 1000 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();

@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/middleRow"
         android:layout_gravity="bottom"
+        android:background="@drawable/post_menu_background"
         android:orientation="horizontal">
 
         <ImageView
@@ -113,6 +114,33 @@
             android:text="@string/commentCount"
             android:textColor="@color/primaryColorLight"/>
 
+        <LinearLayout
+            android:id="@+id/messageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/message"
+            android:layout_toStartOf="@+id/message"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/messageStringA"
+                android:textColor="@color/primaryColorLight"
+                android:textSize="9sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/messageStringB"
+                android:textColor="@color/primaryColorLight"
+                android:textSize="9sp"/>
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/message"
             android:layout_width="wrap_content"
@@ -123,7 +151,7 @@
             android:clickable="true"
             android:contentDescription="@string/messageDescription"
             android:src="@drawable/ic_message"
-            android:visibility="visible"/>
+            android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/edit"
@@ -131,6 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:clickable="true"
             android:contentDescription="@string/editPostDescription"
             android:src="@drawable/ic_edit"

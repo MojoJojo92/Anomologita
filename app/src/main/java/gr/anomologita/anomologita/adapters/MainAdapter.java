@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +44,26 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0)
             return new SpaceHolder(layoutInflater.inflate(R.layout.space_layout, parent, false));
+        else if(viewType == 1)
+            return new AdHolder(layoutInflater.inflate(R.layout.ad_layout, parent, false));
         else
             return new PostHolder(layoutInflater.inflate(R.layout.post_layout, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (getItemViewType(position) != 0) {
+        if(getItemViewType(position) == 1){
+            AdHolder adHolder = (AdHolder) holder;
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adHolder.ad.loadAd(adRequest);
+            if (position != 1) {
+                if (position > previousPosition)
+                    animateAd(adHolder, true);
+                else
+                    animateAd(adHolder, false);
+            }
+            previousPosition = position;
+        }else if (getItemViewType(position) == 2) {
             final PostHolder postHolder = (PostHolder) holder;
             final Post currentPost = posts.get(position - 1);
             postHolder.post.setText(currentPost.getPost_txt());
@@ -112,17 +129,19 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
                 postHolder.editPost.setVisibility(View.VISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
+                postHolder.messageText.setVisibility(View.INVISIBLE);
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
+                postHolder.messageText.setVisibility(View.VISIBLE);
             }
             if (position == posts.size())
                 mainFragment.loadMore(position);
             if (position != 1) {
                 if (position > previousPosition)
-                    animate(postHolder, true);
+                    animatePost(postHolder, true);
                 else
-                    animate(postHolder, false);
+                    animatePost(postHolder, false);
             }
             previousPosition = position;
         }
@@ -137,8 +156,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (position == 0)
             return 0;
-        else
+        else if(position%10 == 0)
             return 1;
+        else
+            return 2;
     }
 
     @Override
@@ -146,11 +167,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return (posts.size() + 1);
     }
 
-    private void animate(PostHolder postHolder, Boolean down) {
+    private void animatePost(PostHolder postHolder, Boolean down) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(postHolder.postRowLayout, "translationY", down ? offset : -offset, 0);
         objectAnimator.setDuration(1000);
         objectAnimator.start();
     }
+
+    private void animateAd(AdHolder adHolder, Boolean down) {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(adHolder.adLayout, "translationY", down ? offset : -offset, 0);
+        objectAnimator.setDuration(1000);
+        objectAnimator.start();
+    }
+
 
     class PostHolder extends RecyclerView.ViewHolder {
         private final TextView post;
@@ -164,6 +192,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final TextView numberOfLikes;
         private final TextView numberOfComments;
         private final RelativeLayout postRowLayout;
+        private final LinearLayout messageText;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -178,6 +207,17 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
             numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);
             postRowLayout = (RelativeLayout) itemView.findViewById(R.id.postLayout);
+            messageText = (LinearLayout) itemView.findViewById(R.id.messageText);
+        }
+    }
+
+    class AdHolder extends RecyclerView.ViewHolder {
+        private final AdView ad;
+        private final LinearLayout adLayout;
+        public AdHolder(View itemView) {
+            super(itemView);
+            ad = (AdView) itemView.findViewById(R.id.adView);
+            adLayout = (LinearLayout) itemView.findViewById((R.id.adLayout));
         }
     }
 

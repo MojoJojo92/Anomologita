@@ -132,6 +132,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         db = new FavoritesDBHandler(this);
         groupImage = (ImageView) findViewById(R.id.icon);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
+        AutofitHelper.create(groupNameTV);
         groupSubs = (TextView) findViewById(R.id.subs);
         title = (TextView) findViewById(R.id.title);
 
@@ -212,7 +213,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     .signature(new StringSignature(UUID.randomUUID().toString()))
                     .fitCenter()
                     .into(groupImage);
-            AutofitHelper.create(groupNameTV);
             groupNameTV.setText(Anomologita.getCurrentGroupName());
             new AttemptLogin(GET_GROUP, Anomologita.getCurrentGroupID(), this).execute();
         } else {

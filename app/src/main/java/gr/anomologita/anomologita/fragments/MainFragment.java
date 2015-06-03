@@ -105,6 +105,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             public void onRefresh() {
                 getPosts();
                 mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                name.setAlpha(0);
             }
         });
 

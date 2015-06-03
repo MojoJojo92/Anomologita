@@ -49,9 +49,9 @@ public class GCMRegister extends Activity {
 
         if (TextUtils.isEmpty(regId)) {
             new RegisterInBackground().execute(null, null, null);
-            Log.d("RegisterActivity", "registerGCM - successfully registered with GCM server - regId: " + regId);
+          //  Log.d("RegisterActivity", "registerGCM - successfully registered with GCM server - regId: " + regId);
         } else {
-            Toast.makeText(context, "RegId already available. RegId: " + regId, Toast.LENGTH_LONG).show();
+          //  Toast.makeText(context, "RegId already available. RegId: " + regId, Toast.LENGTH_LONG).show();
         }
        // Anomologita.StartMain();
         return regId;

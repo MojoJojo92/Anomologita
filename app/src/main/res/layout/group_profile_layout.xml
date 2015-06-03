@@ -39,7 +39,7 @@
         android:id="@+id/groupProfile"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:background="@android:color/transparent"
         android:baselineAligned="false"
@@ -79,7 +79,7 @@
             android:id="@+id/location"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:orientation="vertical">
@@ -99,10 +99,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_toLeftOf="@+id/edit"
                     android:layout_toStartOf="@+id/edit"
-                    android:gravity="center"
-                    android:maxLines="2"
+                    android:gravity="start|bottom"
+                    android:maxLines="1"
                     android:paddingTop="20dp"
                     android:text="@string/groupName"
                     android:textColor="@color/black"
@@ -111,16 +112,16 @@
 
                 <ImageView
                     android:id="@+id/edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
                     android:contentDescription="@string/editGroupDesc"
                     android:onClick="editGroup"
                     android:src="@drawable/ic_edit"
-                    android:visibility="invisible"/>
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -128,36 +129,59 @@
                 android:id="@+id/stats"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="60dp"
                 android:layout_alignParentBottom="true"
                 android:background="@android:color/transparent"
-                android:weightSum="4">
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/subsTextA"
+                        android:textColor="@color/primaryColorDark"/>
+
+                    <TextView
+                        android:id="@+id/subs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/subs"
+                        android:textColor="@color/primaryColorDark"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/subsTextB"
+                        android:textColor="@color/primaryColorDark"/>
+
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/favoritesButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="3"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
                     android:background="@drawable/subscribe_background"
                     android:gravity="center"
                     android:text="@string/subscribeButton"
                     android:theme="@style/My.SubButton.Style.Off"/>
-
-                <TextView
-                    android:id="@+id/subs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/ic_star"
-                    android:drawableStart="@drawable/ic_star"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/subs"
-                    android:textColor="@color/accentColor"/>
 
             </LinearLayout>
         </RelativeLayout>
