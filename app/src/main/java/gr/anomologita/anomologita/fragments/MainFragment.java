@@ -7,13 +7,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.ChatActivity;
 import gr.anomologita.anomologita.activities.CommentActivity;
 import gr.anomologita.anomologita.activities.EditPostActivity;
+import gr.anomologita.anomologita.activities.MainActivity;
 import gr.anomologita.anomologita.activities.MessageActivity;
 import gr.anomologita.anomologita.adapters.MainAdapter;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
@@ -40,6 +44,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     private MainAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayout name;
+
 
     public static MainFragment newInstance(String sort) {
         MainFragment fragment = new MainFragment();
@@ -72,9 +77,20 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
+        TextView search = (TextView) view.findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("okok","0o");
+                Menu menu = ((MainActivity) getActivity()).getMenu();
+                getActivity().onOptionsItemSelected(menu.findItem(R.id.search));
+            }
+        });
+
         if (groupID == null) {
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
+            search.setVisibility(View.VISIBLE);
         }
 
         adapter = new MainAdapter(this);

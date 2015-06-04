@@ -69,6 +69,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private NavFragment fragmentNav;
     private GroupProfile groupProfile = null;
     private int abPosition;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +160,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
 
         MenuItem notifications = menu.findItem(R.id.notification_settings);
         MenuItem messages = menu.findItem(R.id.messages_settings);
@@ -199,6 +201,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Menu getMenu(){
+        return menu;
     }
 
     public void setGroup() {

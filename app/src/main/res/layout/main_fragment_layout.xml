@@ -6,14 +6,6 @@
     android:background="@drawable/paper_gradient"
     android:paddingTop="105dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:drawableTop="@drawable/ic_search"
-        android:textColor="@color/white"
-        android:text="@string/searchGroup"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -25,6 +17,17 @@
             android:layout_height="wrap_content"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@drawable/ic_search"
+        android:text="@string/searchGroup"
+        android:textColor="@color/white"
+        android:clickable="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>
 
