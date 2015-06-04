@@ -141,7 +141,10 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         FavoritesDBHandler db = new FavoritesDBHandler(this);
         db.createFavorite(groupProfile);
         db.close();
-        onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     @Override
@@ -190,9 +193,9 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 }

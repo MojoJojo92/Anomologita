@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,11 +13,16 @@ import android.view.ViewGroup;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.activities.CommentActivity;
+import gr.anomologita.anomologita.activities.EditPostActivity;
 import gr.anomologita.anomologita.adapters.MyPostsAdapter;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Post;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,6 +54,11 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
         recyclerView.setItemAnimator(animator);
+
+        AdView ad = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ad.loadAd(adRequest);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         fragmentMePostsAdapter = new MyPostsAdapter(getActivity(), this);
         recyclerView.setAdapter(fragmentMePostsAdapter);
@@ -82,11 +93,19 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    public void deletePost(String postID, int position) {
-        if (Anomologita.isConnected()) {
-            new AttemptLogin(DELETE_POST, postID, this).execute();
-            fragmentMePostsAdapter.deleteData(position);
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
+    public void edit(Post post) {
+        Intent i = new Intent(getActivity(), EditPostActivity.class);
+        i.putExtra("post", post.getPost_txt());
+        i.putExtra("location", post.getLocation());
+        i.putExtra("postID", String.valueOf(post.getPost_id()));
+        startActivityForResult(i,1);
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
+    public void comment(Post post) {
+        Intent i = new Intent(getActivity(), CommentActivity.class);
+        startActivityForResult(i, 1);
+        Anomologita.currentPost = post;
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 }

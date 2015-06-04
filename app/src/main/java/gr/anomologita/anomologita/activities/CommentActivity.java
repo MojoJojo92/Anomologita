@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -115,9 +116,13 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this, MainActivity.class);
+      /*  Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        finish();*/
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

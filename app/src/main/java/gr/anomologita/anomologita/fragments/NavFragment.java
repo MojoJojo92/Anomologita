@@ -73,9 +73,8 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
     public void itemClicked(int position, int viewType) {
         if (viewType == 1) {
             Intent i = new Intent(getActivity(), CreateGroupActivity.class);
-            startActivity(i);
+            startActivityForResult(i,1);
             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-            getActivity().finish();
         } else {
             LinearLayout mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
             mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();

@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +22,6 @@ import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -132,15 +132,6 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
     }
 
     @Override
-    public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-    }
-
-    @Override
     public void onGetUserPostsCompleted(List<Post> userPosts) {
 
     }
@@ -149,5 +140,13 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
     public void onDeleteUserPostCompleted() {
         Toast.makeText(this, "Το ανομολόγητο έχει διαγραφεί", Toast.LENGTH_SHORT).show();
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

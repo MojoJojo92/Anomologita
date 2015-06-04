@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -102,9 +103,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             @Override
             public void onPageSelected(int position) {
                 tabHost.setSelectedNavigationItem(position);
-                mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-                HidingGroupProfileListener.mGroupProfileOffset = 0;
-                name.setAlpha(0);
+                if (Anomologita.getCurrentGroupID() != null) {
+                    mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                    HidingGroupProfileListener.mGroupProfileOffset = 0;
+                    name.setAlpha(0);
+                }
             }
         });
         for (int i = 0; i < adapter.getCount(); i++) {
@@ -177,27 +180,23 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             return true;
         } else if (id == R.id.messages_settings) {
             Intent i = new Intent(getApplicationContext(), ConversationsActivity.class);
-            i.putExtra("done", "false");
-            startActivity(i);
-            this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            startActivityForResult(i, 1);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             Anomologita.emptyChatBadges();
-            finish();
         } else if (id == R.id.notification_settings) {
             Intent i = new Intent(getApplicationContext(), NotificationActivity.class);
-            startActivity(i);
-            this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            startActivityForResult(i, 1);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             Anomologita.emptyNotificationBadges();
-            finish();
         } else if (id == R.id.me_settings) {
             Intent i = new Intent(getApplicationContext(), MeActivity.class);
-            startActivity(i);
-            this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-            finish();
+            startActivityForResult(i, 1);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else if (id == R.id.search) {
+            Anomologita.main = this;
             Intent i = new Intent(getApplicationContext(), SearchActivity.class);
-            startActivity(i);
-            this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-            finish();
+            startActivityForResult(i, 1);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -237,6 +236,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     editGroup.setVisibility(View.INVISIBLE);
 
                 groupSubs.setText(String.valueOf(groupProfile.getSubscribers()));
+                groupNameTV.setText(groupProfile.getGroupName());
                 title.setText(groupProfile.getGroupName());
                 if (!db.exists(groupProfile.getGroup_name())) {
                     db.updateFavorite(groupProfile);
@@ -272,7 +272,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setText("Αγαπημένο");
                 favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 db.createFavorite(groupProfile);
-                Toast.makeText(getApplicationContext(),"Το "+ Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
                 AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "1", Anomologita.getCurrentGroupName());
                 attemptLogin.execute();
                 int subs = Integer.parseInt((String) groupSubs.getText());
@@ -280,7 +280,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 groupSubs.setText(String.valueOf(subs));
                 fragmentNav.updateDrawer();
                 if (groupProfile.getUser_id() != Integer.parseInt(Anomologita.userID)) {
-                    String text = "το γκρούπ " + groupProfile.getGroupName() + " έχει " + subs + " ακόλουθους";
+                    String text = "Το γκρούπ " + groupProfile.getGroupName() + " έχει " + subs + " ακόλουθους.";
                     Log.e("stuff", groupProfile.getRegID());
                     new AttemptLogin(SEND_NOTIFICATION, text, "subscribe", String.valueOf(groupProfile.getGroup_id()), groupProfile.getRegID()).execute();
                 }
@@ -289,7 +289,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
                 favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
-                Toast.makeText(getApplicationContext(),"Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
                 fragmentNav.updateDrawer();
                 AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "-1", Anomologita.getCurrentGroupName());
                 attemptLogin.execute();
@@ -331,11 +331,26 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         if (Anomologita.isConnected()) {
             Intent i = new Intent(this, EditGroupActivity.class);
             i.putExtra("hashtag", groupProfile.getHashtag_name());
+            i.putExtra("name", groupProfile.getGroupName());
+            i.putExtra("id", String.valueOf(groupProfile.getGroup_id()));
             startActivityForResult(i, 1);
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
             Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΥΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    setGroup();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    //Write your code if there's no result
+                    break;
+            }
         }
     }
 

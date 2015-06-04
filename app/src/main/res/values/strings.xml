@@ -18,6 +18,7 @@
     </string-array>
 
     <string name="add_new_image">+<u> Αλλαγη εικόνας γκρουπ</u></string>
+    <string name="searchGroup">+<u> Βρες το πρώτο γκρουπ</u></string>
     <string name="selectImage">setImage</string>
     <string name="HashTag">HashTag</string>
     <string name="time">10min</string>
@@ -36,7 +37,7 @@
     <string name="navTitle">TITLE</string>
     <string name="editGroupDesc">Icon for editing the current group</string>
     <string name="groupIconDesc">The current group icon</string>
-    <string name="groupName">Name</string>
+    <string name="groupName">Ανομολόγητα</string>
     <string name="subsTitle">Subscribers</string>
     <string name="subs">0</string>
     <string name="groupTitle">Γκρουπ:</string>
@@ -60,5 +61,6 @@
     <string name="messageStringB">Μήνυμα</string>
     <string name="subsTextA">"Το γκρουπ αρέσει σε "</string>
     <string name="subsTextB">" άτομα"</string>
+    <string name="searchDesc">Image for selecting a group when no group has been selected</string>
 
 </resources>

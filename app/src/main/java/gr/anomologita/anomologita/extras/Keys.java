@@ -3,6 +3,7 @@ package gr.anomologita.anomologita.extras;
 import android.graphics.Bitmap;
 
 import gr.anomologita.anomologita.objects.Comment;
+import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
 import gr.anomologita.anomologita.objects.GroupSearch;
 import gr.anomologita.anomologita.objects.Post;
@@ -109,7 +110,7 @@ public interface Keys {
     }
 
     public interface SearchComplete {
-        void onSearchCompleted(List<GroupSearch> groupSearches);
+        void onSearchCompleted(List<Favorite> groupSearches);
     }
 
     public interface MyPostsComplete {

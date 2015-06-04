@@ -47,41 +47,54 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ConversationsHolder conversationsHolder = (ConversationsHolder) holder;
-        final Conversation currentCon = conversations.get(position);
-        AutofitHelper.create(conversationsHolder.senderName);
-        if (!conversations.get(position).getName().equals("Εγώ"))
-            conversationsHolder.senderName.setText("Με " + currentCon.getName() + " στο " + currentCon.getHashtag());
-        if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.getCurrentGroupID())))
-            conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
-        else
-            conversationsHolder.lastSenderName.setText("Εγώ: ");
-        AutofitHelper.create(conversationsHolder.txtMessage);
-        if (currentCon.getLastMessage().length() < 30)
-            conversationsHolder.txtMessage.setText(currentCon.getLastMessage());
-        else
-            conversationsHolder.txtMessage.setText(currentCon.getLastMessage().substring(0, 30) + "...");
-        conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                conversationsActivity.delete(currentCon.getConversationID(), position);
+        if(position == conversations.size()){
+            conversationsHolder.time.setVisibility(View.INVISIBLE);
+            conversationsHolder.senderName.setVisibility(View.INVISIBLE);
+            conversationsHolder.delete.setVisibility(View.INVISIBLE);
+            conversationsHolder.txtMessage.setVisibility(View.INVISIBLE);
+            conversationsHolder.lastSenderName.setVisibility(View.INVISIBLE);
+        }else {
+            conversationsHolder.time.setVisibility(View.VISIBLE);
+            conversationsHolder.senderName.setVisibility(View.VISIBLE);
+            conversationsHolder.delete.setVisibility(View.VISIBLE);
+            conversationsHolder.txtMessage.setVisibility(View.VISIBLE);
+            conversationsHolder.lastSenderName.setVisibility(View.VISIBLE);
+            final Conversation currentCon = conversations.get(position);
+            AutofitHelper.create(conversationsHolder.senderName);
+            if (!conversations.get(position).getName().equals("Εγώ"))
+                conversationsHolder.senderName.setText("Με " + currentCon.getName() + " στο " + currentCon.getHashtag());
+            if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.userID)))
+                conversationsHolder.lastSenderName.setText("Εγώ: ");
+            else
+                conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
+            AutofitHelper.create(conversationsHolder.txtMessage);
+            if (currentCon.getLastMessage().length() < 30)
+                conversationsHolder.txtMessage.setText(currentCon.getLastMessage());
+            else
+                conversationsHolder.txtMessage.setText(currentCon.getLastMessage().substring(0, 30) + "...");
+            conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    conversationsActivity.delete(currentCon.getConversationID(), position);
+                }
+            });
+            conversationsHolder.senderName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    conversationsActivity.selected(currentCon);
+                }
+            });
+            if (currentCon.getSeen().equals("no")) {
+                conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
+                conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
             }
-        });
-        conversationsHolder.senderName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                conversationsActivity.selected(currentCon);
-            }
-        });
-        if (currentCon.getSeen().equals("no")) {
-            conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
-            conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
+            conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime()));
         }
-        conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime()));
     }
 
     @Override
     public int getItemCount() {
-        return conversations.size();
+        return conversations.size() + 1;
     }
 
     public void deleteData(int position) {

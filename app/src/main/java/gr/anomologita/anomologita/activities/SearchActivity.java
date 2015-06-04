@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -20,14 +21,14 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.SearchAdapter;
 import gr.anomologita.anomologita.databases.PostsDBHandler;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
-import gr.anomologita.anomologita.extras.Keys;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
+import gr.anomologita.anomologita.extras.Keys.SearchComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
-import gr.anomologita.anomologita.objects.GroupSearch;
+import gr.anomologita.anomologita.objects.Favorite;
 
-public class SearchActivity extends ActionBarActivity implements LoginMode, Keys.SearchComplete, SearchAdapter.ClickListener {
+public class SearchActivity extends ActionBarActivity implements LoginMode, SearchComplete, SearchAdapter.ClickListener {
 
-    private final List<GroupSearch> searches = new ArrayList<>();
+    private final List<Favorite> searches = new ArrayList<>();
     private RecyclerView recyclerView;
     private SearchAdapter adapter;
     private PostsDBHandler db;
@@ -56,7 +57,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).margin(Anomologita.convert(10))
-                        .color(getResources().getColor(R.color.primaryColor)).build());
+                .color(getResources().getColor(R.color.primaryColor)).build());
 
     }
 
@@ -99,25 +100,29 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Keys
     }
 
     @Override
-    public void onSearchCompleted(List<GroupSearch> groupSearches) {
-         adapter.setMainData(groupSearches);
-         recyclerView.setAdapter(adapter);
+    public void onSearchCompleted(List<Favorite> groupSearches) {
+        adapter.setMainData(groupSearches);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void itemClicked(int position) {
-          Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getGroupID()));
-          Anomologita.setCurrentGroupName(adapter.getData(position).getTitle());
-          onBackPressed();
+        HidingGroupProfileListener.mGroupProfileOffset = 0;
+        Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getId()));
+        Anomologita.setCurrentGroupName(adapter.getData(position).get_name());
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_OK, intent);
+        db.close();
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
         db.close();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

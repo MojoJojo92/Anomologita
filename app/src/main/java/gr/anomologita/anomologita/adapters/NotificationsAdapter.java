@@ -1,7 +1,10 @@
 package gr.anomologita.anomologita.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import java.util.UUID;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.activities.NotificationActivity;
 import gr.anomologita.anomologita.databases.NotificationDBHandler;
 import gr.anomologita.anomologita.objects.Notification;
 
@@ -53,36 +57,106 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public int getItemViewType(int position) {
-        if (notifications.get(position).getType().equals("like"))
-            return 0;
-        else if (notifications.get(position).getType().equals("comment"))
-            return 1;
-        else if (notifications.get(position).getType().equals("subscribe"))
-            return 2;
+        if(position != notifications.size()){
+            if (notifications.get(position).getType().equals("like"))
+                return 0;
+            else if (notifications.get(position).getType().equals("comment"))
+                return 1;
+            else if (notifications.get(position).getType().equals("subscribe"))
+                return 2;
+        }
         return 0;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Notification currentNotification = notifications.get(position);
         NotificationHolder notificationHolder = (NotificationHolder) holder;
-        notificationHolder.time.setText(Anomologita.getTime(currentNotification.getTime()));
-        notificationHolder.text.setText(currentNotification.getText());
-        if (getItemViewType(position) == 0)
-            notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fire_big));
-        else if (getItemViewType(position) == 1)
-            notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_comment));
-        else if (getItemViewType(position) == 2)
-            Glide.with(context).load("http://anomologita.gr/img/" + currentNotification.getId() + ".png")
-                    .asBitmap()
-                    .signature(new StringSignature(UUID.randomUUID().toString()))
-                    .fitCenter()
-                    .into(notificationHolder.image);
+        if (position == notifications.size()) {
+            notificationHolder.time.setVisibility(View.INVISIBLE);
+            notificationHolder.text.setVisibility(View.INVISIBLE);
+            notificationHolder.delete.setVisibility(View.INVISIBLE);
+            notificationHolder.image.setVisibility(View.INVISIBLE);
+        } else {
+            final Notification currentNotification = notifications.get(position);
+            notificationHolder.time.setVisibility(View.VISIBLE);
+            notificationHolder.text.setVisibility(View.VISIBLE);
+            notificationHolder.delete.setVisibility(View.VISIBLE);
+            notificationHolder.image.setVisibility(View.VISIBLE);
+            notificationHolder.time.setText(Anomologita.getTime(currentNotification.getTime()));
+            notificationHolder.text.setText(currentNotification.getText());
+            notificationHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert(position);
+                }
+            });
+            if (getItemViewType(position) == 0) {
+                notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fire_big));
+                notificationHolder.text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.e("pos",position+" "+notifications.size());
+                        ((NotificationActivity) context).postClick(currentNotification);
+                    }
+                });
+            }else if (getItemViewType(position) == 1) {
+                notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_comment));
+                notificationHolder.text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.e("pos",position+" "+notifications.size());
+                        ((NotificationActivity) context).postClick(currentNotification);
+                    }
+                });
+            }else if (getItemViewType(position) == 2) {
+                notificationHolder.text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.e("pos",position+" "+notifications.size());
+                        ((NotificationActivity) context).groupClick(currentNotification);
+                    }
+                });
+                Glide.with(context).load("http://anomologita.gr/img/" + currentNotification.getId() + ".png")
+                        .asBitmap()
+                        .signature(new StringSignature(UUID.randomUUID().toString()))
+                        .fitCenter()
+                        .into(notificationHolder.image);
+            }
+        }
+    }
+
+    private void alert(final int position){
+        new AlertDialog.Builder(context)
+                .setTitle("Διαγραφή Ενημέρωσης")
+                .setMessage("Σίγουρα θέλεις να διαγράψεις αυτή την ενημέρωση;")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                       deleteData(position);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void deleteData(int position) {
+        if (notifications.size() != 0) {
+            notifications.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(0, this.notifications.size());
+        } else {
+            notifications = new ArrayList<>();
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return notifications.size();
+        return notifications.size() + 1;
     }
 
     class NotificationHolder extends RecyclerView.ViewHolder {
@@ -90,12 +164,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         final TextView text;
         final TextView time;
         final ImageView image;
+        final ImageView delete;
 
         public NotificationHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.notificationText);
             time = (TextView) itemView.findViewById(R.id.time);
             image = (ImageView) itemView.findViewById(R.id.image);
+            delete = (ImageView) itemView.findViewById(R.id.delete);
         }
     }
 }

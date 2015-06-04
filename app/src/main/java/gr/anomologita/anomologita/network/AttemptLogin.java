@@ -43,6 +43,7 @@ import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.extras.Keys.PostComplete;
 import gr.anomologita.anomologita.extras.Keys.SearchComplete;
 import gr.anomologita.anomologita.objects.Comment;
+import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
 import gr.anomologita.anomologita.objects.GroupSearch;
 import gr.anomologita.anomologita.objects.Post;
@@ -73,7 +74,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private Boolean exists;
 
     private List<Comment> comments;
-    private List<GroupSearch> groupSearches;
+    private List<Favorite> groupSearches;
     private List<Post> posts;
     private List<GroupProfile> userGroups;
 
@@ -470,10 +471,11 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             JSONObject json = jsonParser.makeHttpRequest(URL_SEARCH, "GET", params);
 
             for (int i = 0; i < json.length() - 2; i++) {
-                GroupSearch groupSearch = new GroupSearch();
-                groupSearch.setTitle(json.getJSONObject(String.valueOf(i)).getString(KEY_GROUP_NAME));
-                groupSearch.setGroupID(json.getJSONObject(String.valueOf(i)).getInt(KEY_GROUP_ID));
-                groupSearches.add(groupSearch);
+                Favorite favorite = new Favorite();
+                favorite.set_name(json.getJSONObject(String.valueOf(i)).getString(KEY_GROUP_NAME));
+                favorite.setId(json.getJSONObject(String.valueOf(i)).getInt(KEY_GROUP_ID));
+                favorite.setSubs(json.getJSONObject(String.valueOf(i)).getInt(KEY_SUBSCRIBERS));
+                groupSearches.add(favorite);
             }
 
             Log.d("Login attempt", json.toString());

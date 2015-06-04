@@ -1,10 +1,18 @@
-<LinearLayout
+<RelativeLayout
     android:id="@+id/fragment_new"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/paper_gradient"
     android:paddingTop="105dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@drawable/ic_search"
+        android:textColor="@color/white"
+        android:text="@string/searchGroup"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -18,5 +26,5 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+</RelativeLayout>
 

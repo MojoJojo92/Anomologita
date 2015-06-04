@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys;
 import gr.anomologita.anomologita.fragments.MyGroupsFragment;
 import gr.anomologita.anomologita.fragments.MyPostsFragment;
@@ -19,7 +19,7 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
-public class MeActivity extends ActionBarActivity implements MaterialTabListener, View.OnClickListener {
+public class MeActivity extends ActionBarActivity implements MaterialTabListener {
 
 
     private ViewPager viewPager;
@@ -73,18 +73,19 @@ public class MeActivity extends ActionBarActivity implements MaterialTabListener
 
     }
 
-    @Override
-    public void onClick(View v) {
-
+    public void returnResult(){
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {

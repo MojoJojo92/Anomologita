@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -44,6 +47,10 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
                 onBackPressed();
             }
         });
+
+        AdView ad = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ad.loadAd(adRequest);
 
         db = new ConversationsDBHandler(this);
         adapter = new ConversationsAdapter(this, this);
@@ -95,11 +102,10 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
         db.close();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

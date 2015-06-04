@@ -2,6 +2,7 @@ package gr.anomologita.anomologita.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.activities.EditGroupActivity;
+import gr.anomologita.anomologita.activities.MeActivity;
 import gr.anomologita.anomologita.adapters.MyGroupsAdapter;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.MyGroupsComplete;
@@ -45,6 +50,10 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
+
+        AdView ad = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ad.loadAd(adRequest);
 
         recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -83,26 +92,17 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
     public void show(GroupProfile groupProfile) {
         Anomologita.setCurrentGroupName(groupProfile.getGroupName());
         Anomologita.setCurrentGroupID(String.valueOf(groupProfile.getGroup_id()));
-        getActivity().onBackPressed();
+        ((MeActivity)getActivity()).returnResult();
     }
 
-    public void deleteGroup(final int position, final GroupProfile groupProfile) {
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Διαγραφή Γκροθπ")
-                .setMessage("Are you sure you want to delete this group?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        new AttemptLogin(DELETE_GROUP, String.valueOf(groupProfile.getGroup_id())).execute();
-                        adapter.deleteData(position);
-                        Toast.makeText(getActivity(), "Το γκρουπ " + groupProfile.getGroupName() + " έχει διαγραφεί", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+    public void edit(GroupProfile groupProfile) {
+        if (Anomologita.isConnected()) {
+            Intent i = new Intent(getActivity(), EditGroupActivity.class);
+            i.putExtra("hashtag", groupProfile.getHashtag_name());
+            i.putExtra("name", groupProfile.getGroupName());
+            i.putExtra("id", String.valueOf(groupProfile.getGroup_id()));
+            startActivityForResult(i, 1);
+            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        }
     }
 }

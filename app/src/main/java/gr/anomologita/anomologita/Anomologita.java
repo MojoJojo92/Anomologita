@@ -30,6 +30,7 @@ public class Anomologita extends Application implements Preferences {
     public static String userID;
     public static String regID;
     public static Conversation conversation;
+    public static Context main;
 
     public void onCreate() {
         super.onCreate();

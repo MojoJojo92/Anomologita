@@ -42,7 +42,7 @@ import static android.util.Base64.DEFAULT;
 public class EditGroupActivity extends ActionBarActivity implements LoginMode, ImageEditComplete, ImageSetComplete, Keys.CheckGroupComplete {
 
     private static final int SELECT_PICTURE = 1;
-    private String currentGroupName, currentHashtag, image, newHashtag, newGroupName, groupID;
+    private String currentGroupName, currentHashtag, image, newHashtag, newGroupName, groupID = null;
     private ImageView picture;
     private EditText groupNameET, hashtagET;
     private RelativeLayout layout;
@@ -65,10 +65,9 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             currentHashtag = extras.getString("hashtag");
+            currentGroupName = extras.getString("name");
+            groupID = extras.getString("id");
         }
-
-        currentGroupName = Anomologita.getCurrentGroupName();
-        groupID = Anomologita.getCurrentGroupID();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -208,14 +207,6 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        setResult(RESULT_CANCELED, intent);
-        finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-    }
-
-    @Override
     public void onCheckGroupComplete(Boolean exists) {
         if (exists) {
             YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
@@ -226,5 +217,13 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
                 Anomologita.setCurrentGroupName(newGroupName);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

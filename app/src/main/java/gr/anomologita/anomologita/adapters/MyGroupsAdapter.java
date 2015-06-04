@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.fragments.MyGroupsFragment;
-import gr.anomologita.anomologita.objects.GroupProfile;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.signature.StringSignature;
@@ -20,6 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.fragments.MyGroupsFragment;
+import gr.anomologita.anomologita.objects.GroupProfile;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.grantland.widget.AutofitHelper;
 
@@ -51,40 +52,45 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final MyGroupsHolder groupsHolder = (MyGroupsHolder) holder;
-        final GroupProfile currentGroup = groups.get(position);
-        AutofitHelper.create(groupsHolder.group_name);
-        groupsHolder.group_name.setText(currentGroup.getGroupName());
-        groupsHolder.subscribers.setText(String.valueOf(currentGroup.getSubscribers()));
-        groupsHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentMeGroups.deleteGroup(position, currentGroup);
-            }
-        });
-        BitmapPool pool = Glide.get(context).getBitmapPool();
-        Glide.clear(view);
-        Glide.with(context)
-                .load("http://anomologita.gr/img/" + String.valueOf(groups.get(position).getGroup_id()) + ".png").asBitmap()
-                .signature(new StringSignature(UUID.randomUUID().toString()))
-                .transform(new CropCircleTransformation(pool))
-                .into(groupsHolder.icon);
-        groupsHolder.group_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentMeGroups.show(currentGroup);
-            }
-        });
+        if (position == groups.size()) {
+            groupsHolder.groupsLayout.setVisibility(View.INVISIBLE);
+        } else {
+            groupsHolder.groupsLayout.setVisibility(View.VISIBLE);
+            final GroupProfile currentGroup = groups.get(position);
+            AutofitHelper.create(groupsHolder.group_name);
+            groupsHolder.group_name.setText(currentGroup.getGroupName());
+            groupsHolder.subscribers.setText(String.valueOf(currentGroup.getSubscribers()));
+            groupsHolder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragmentMeGroups.edit(currentGroup);
+                }
+            });
+            BitmapPool pool = Glide.get(context).getBitmapPool();
+            Glide.clear(view);
+            Glide.with(context)
+                    .load("http://anomologita.gr/img/" + String.valueOf(groups.get(position).getGroup_id()) + ".png").asBitmap()
+                    .signature(new StringSignature(UUID.randomUUID().toString()))
+                    .transform(new CropCircleTransformation(pool))
+                    .into(groupsHolder.icon);
+            groupsHolder.group_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragmentMeGroups.show(currentGroup);
+                }
+            });
+        }
     }
 
     public void deleteData(int tempPosition) {
-        if(groups.size() != 1){
+        if (groups.size() != 1) {
             groups.remove(tempPosition);
             notifyItemRemoved(tempPosition);
             Glide.clear(view);
             view.invalidate();
             view.postInvalidate();
             notifyItemRangeChanged(0, this.groups.size());
-        }else {
+        } else {
             groups = new ArrayList<>();
             notifyDataSetChanged();
         }
@@ -97,7 +103,7 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return groups.size();
+        return groups.size() + 1;
     }
 
     class MyGroupsHolder extends RecyclerView.ViewHolder {
@@ -105,14 +111,16 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final ImageView icon;
         final TextView group_name;
         final TextView subscribers;
-        final ImageView delete;
+        final ImageView edit;
+        final RelativeLayout groupsLayout;
 
 
         public MyGroupsHolder(View itemView) {
             super(itemView);
             group_name = (TextView) itemView.findViewById(R.id.myGroupNameProfile);
             subscribers = (TextView) itemView.findViewById(R.id.subscribers);
-            delete = (ImageView) itemView.findViewById(R.id.edit);
+            groupsLayout = (RelativeLayout) itemView.findViewById(R.id.myGroupsRowLayout);
+            edit = (ImageView) itemView.findViewById(R.id.edit);
             icon = (ImageView) itemView.findViewById(R.id.groupIcon);
         }
     }
