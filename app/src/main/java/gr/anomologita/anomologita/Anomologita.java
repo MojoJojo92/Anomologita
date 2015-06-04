@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import gr.anomologita.anomologita.activities.MainActivity;
+import gr.anomologita.anomologita.activities.Splash;
 import gr.anomologita.anomologita.extras.Keys.Preferences;
 import gr.anomologita.anomologita.network.GCMRegister;
 import gr.anomologita.anomologita.objects.Conversation;
@@ -27,8 +28,8 @@ public class Anomologita extends Application implements Preferences {
     private static Anomologita sInstance;
     public static Post currentPost;
     private static SharedPreferences SP;
-    public static String userID;
-    public static String regID;
+    public static String userID = null;
+    public static String regID = null;
     public static Conversation conversation;
     public static Context main;
 
@@ -97,6 +98,12 @@ public class Anomologita extends Application implements Preferences {
         Intent intent = new Intent(getAppContext(),MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getAppContext().startActivity(intent);
+    }
+
+    public static void StartSplash(){
+        Intent splash = new Intent(getAppContext(),Splash.class);
+        splash.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getAppContext().startActivity(splash);
     }
 
     public static String getCurrentGroupID() {

@@ -11,9 +11,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import gr.anomologita.anomologita.Anomologita;
-import gr.anomologita.anomologita.extras.Keys;
-import gr.anomologita.anomologita.extras.Utils;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -23,6 +20,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import gr.anomologita.anomologita.Anomologita;
+import gr.anomologita.anomologita.extras.Keys;
+import gr.anomologita.anomologita.extras.Utils;
 
 import static gr.anomologita.anomologita.Anomologita.userID;
 
@@ -48,12 +49,11 @@ public class GCMRegister extends Activity {
         regId = getRegistrationId(context);
 
         if (TextUtils.isEmpty(regId)) {
-            new RegisterInBackground().execute(null, null, null);
-          //  Log.d("RegisterActivity", "registerGCM - successfully registered with GCM server - regId: " + regId);
-        } else {
-          //  Toast.makeText(context, "RegId already available. RegId: " + regId, Toast.LENGTH_LONG).show();
+            if (Anomologita.isConnected())
+                new RegisterInBackground().execute(null, null, null);
+            else
+                Toast.makeText(context, "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_LONG).show();
         }
-       // Anomologita.StartMain();
         return regId;
     }
 
@@ -138,8 +138,8 @@ public class GCMRegister extends Activity {
 
         @Override
         protected void onPostExecute(String msg) {
-            Toast.makeText(context, "Registered with GCM Server." + msg, Toast.LENGTH_LONG).show();
             Anomologita.setUserID(userID);
+            Anomologita.regID = regId;
         }
     }
 }
