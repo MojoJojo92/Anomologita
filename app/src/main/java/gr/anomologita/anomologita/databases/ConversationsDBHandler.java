@@ -112,7 +112,7 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateConversation(Conversation conversation) {
+    public void updateConversation(Conversation conversation) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_SENDER_REG_ID, conversation.getSenderRegID());
@@ -124,8 +124,8 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
         values.put(KEY_TIME, conversation.getTime());
         values.put(KEY_LAST_SENDER_ID, conversation.getLastSenderID());
         values.put(KEY_SEEN, conversation.getSeen());
-        return db.update(TABLE_CONVERSATIONS, values, KEY_CONVERSATION_ID + "=?", new String[]{String.valueOf(conversation.getConversationID())});
-
+        db.update(TABLE_CONVERSATIONS, values, KEY_CONVERSATION_ID + "=?", new String[]{String.valueOf(conversation.getConversationID())});
+        db.close();
     }
 
     public List<Conversation> getAllConversations() {

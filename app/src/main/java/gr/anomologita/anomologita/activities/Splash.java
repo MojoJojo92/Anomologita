@@ -3,7 +3,6 @@ package gr.anomologita.anomologita.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;

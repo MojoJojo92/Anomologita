@@ -95,7 +95,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 notificationHolder.text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("pos",position+" "+notifications.size());
                         ((NotificationActivity) context).postClick(currentNotification);
                     }
                 });
@@ -104,7 +103,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 notificationHolder.text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("pos",position+" "+notifications.size());
                         ((NotificationActivity) context).postClick(currentNotification);
                     }
                 });
@@ -112,7 +110,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 notificationHolder.text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("pos",position+" "+notifications.size());
                         ((NotificationActivity) context).groupClick(currentNotification);
                     }
                 });
@@ -144,6 +141,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void deleteData(int position) {
+        NotificationDBHandler db = new NotificationDBHandler(context);
+        db.deleteNotification(notifications.get(position));
+        db.close();
         if (notifications.size() != 0) {
             notifications.remove(position);
             notifyItemRemoved(position);
@@ -152,6 +152,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notifications = new ArrayList<>();
             notifyDataSetChanged();
         }
+
     }
 
     @Override

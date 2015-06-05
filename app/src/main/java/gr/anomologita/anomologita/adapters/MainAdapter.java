@@ -2,7 +2,6 @@ package gr.anomologita.anomologita.adapters;
 
 import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
             AdHolder adHolder = (AdHolder) holder;
             AdRequest adRequest = new AdRequest.Builder().build();
@@ -63,8 +62,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 animateAd(adHolder, false);
             previousPosition = position;
         } else if (getItemViewType(position) == 2) {
+            int adCount;
+            if (position % 10 >= 2)
+                adCount = position / 10 + 1;
+            else
+                adCount = position / 10;
+            final int currentPosition = position - 1 - adCount;
             final PostHolder postHolder = (PostHolder) holder;
-            final Post currentPost = posts.get(position - 1);
+            final Post currentPost = posts.get(currentPosition);
             postHolder.post.setText(currentPost.getPost_txt());
             postHolder.location.setText("(" + currentPost.getLocation() + ")");
             postHolder.hashtag.setText(currentPost.getHashtagName());
@@ -79,7 +84,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if (currentPost.isLiked()) {
                         LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
                         db.deleteLike(currentPost.getPost_id());
-                        posts.get(position - 1).setLiked(false);
+                        posts.get(currentPosition).setLiked(false);
                         currentPost.setLiked(false);
                         postHolder.like.setImageResource(R.drawable.ic_fire_grey);
                         mainFragment.setLike("-1", currentPost);
@@ -89,7 +94,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     } else {
                         LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
                         db.createLikes(currentPost.getPost_id());
-                        posts.get(position - 1).setLiked(true);
+                        posts.get(currentPosition).setLiked(true);
                         currentPost.setLiked(true);
                         postHolder.like.setImageResource(R.drawable.ic_fire_red);
                         mainFragment.setLike("1", currentPost);
@@ -97,6 +102,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
                         db.close();
                     }
+                    Anomologita.refresh = true;
                 }
             });
             postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
@@ -134,9 +140,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
                 postHolder.messageText.setVisibility(View.VISIBLE);
             }
-            Log.e("position", (posts.size() - position / 10) + " " + position);
-            if (position == (posts.size() - position / 10))
-                mainFragment.loadMore(position);
+            if (posts.size() - 1 == position - adCount)
+                mainFragment.loadMore(position + 1 - adCount);
             if (position != 1) {
                 if (position > previousPosition)
                     animatePost(postHolder, true);
@@ -156,7 +161,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (position == 0)
             return 0;
-        else if (position % 10 == 0)
+        else if (position % 10 == 2)
             return 1;
         else
             return 2;
@@ -164,7 +169,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return (posts.size() + 1);
+        if ((posts.size() + 1) % 10 >= 2)
+            return (posts.size() + 1 + (posts.size() + 1) / 10 + 1);
+        else
+            return (posts.size() + 1 + (posts.size() + 1) / 10);
     }
 
     private void animatePost(PostHolder postHolder, Boolean down) {

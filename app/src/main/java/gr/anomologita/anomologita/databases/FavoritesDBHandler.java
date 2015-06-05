@@ -94,15 +94,15 @@ public class FavoritesDBHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateFavorite(GroupProfile groupProfile) {
+    public void updateFavorite(GroupProfile groupProfile) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_ID, groupProfile.getGroup_id());
         values.put(KEY_NAME, groupProfile.getGroupName());
         values.put(KEY_USER_ID, groupProfile.getUser_id());
         values.put(KEY_SUBS, groupProfile.getSubscribers());
-        return db.update(TABLE_FAVORITES, values, KEY_ID + "=?", new String[]{String.valueOf(groupProfile.getGroup_id())});
-
+        db.update(TABLE_FAVORITES, values, KEY_ID + "=?", new String[]{String.valueOf(groupProfile.getGroup_id())});
+        db.close();
     }
 
     public List<Favorite> getAllFavorites() {

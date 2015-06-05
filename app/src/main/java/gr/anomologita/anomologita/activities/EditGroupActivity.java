@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -176,24 +177,28 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         if (Anomologita.isConnected()) {
             new AttemptLogin(DELETE_GROUP, groupID).execute();
             Toast.makeText(this, "Το γκρουπ " + currentGroupName + " έχει διαγραφεί", Toast.LENGTH_SHORT).show();
-            onBackPressed();
+            Anomologita.setCurrentGroupName(null);
+            Anomologita.setCurrentGroupID(null);
+            returnResult();
         }
     }
 
     private void checkChanges() {
         if (Anomologita.isConnected()) {
-            if (imageChanged)
+            if (imageChanged) {
+                Bitmap bitmap = ((BitmapDrawable) picture.getDrawable()).getBitmap();
+                image = encodeToBase64(bitmap);
                 new AttemptLogin(SET_IMAGE, image, groupID, this).execute();
-            if (!newHashtag.equals(currentHashtag))
-                new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
-            if (!newGroupName.equals(currentGroupName)) {
+            } else if (!newGroupName.equals(currentGroupName)) {
                 new AttemptLogin(CHECK_GROUP, newGroupName, this).execute();
+            } else if (!newHashtag.equals(currentHashtag)) {
+                new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
             }
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
         }
-        onBackPressed();
+        returnResult();
     }
 
     @Override
@@ -203,7 +208,20 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
 
     @Override
     public void onImageSetComplete() {
-        onBackPressed();
+        if (!newGroupName.equals(currentGroupName)) {
+            new AttemptLogin(CHECK_GROUP, newGroupName, this).execute();
+        } else if (!newHashtag.equals(currentHashtag)) {
+            new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        } else {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        }
     }
 
     @Override
@@ -214,9 +232,22 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         } else {
             if (Anomologita.isConnected()) {
                 new AttemptLogin(SET_GROUP_NAME, newGroupName, groupID).execute();
+                if (!newHashtag.equals(currentHashtag))
+                    new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
                 Anomologita.setCurrentGroupName(newGroupName);
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         }
+    }
+
+    private void returnResult() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     @Override

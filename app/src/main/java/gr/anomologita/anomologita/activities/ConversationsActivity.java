@@ -22,7 +22,6 @@ import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.ConversationsAdapter;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
-import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.objects.Conversation;
 

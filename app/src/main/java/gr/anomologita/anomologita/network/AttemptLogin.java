@@ -45,7 +45,6 @@ import gr.anomologita.anomologita.extras.Keys.SearchComplete;
 import gr.anomologita.anomologita.objects.Comment;
 import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
-import gr.anomologita.anomologita.objects.GroupSearch;
 import gr.anomologita.anomologita.objects.Post;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -200,7 +199,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.imageEditComplete = imageEditComplete;
     }
 
-    public AttemptLogin(int mode, String hashtag, String groupName, CreateGroupComplete createGroupComplete, String s) {
+    public AttemptLogin(int mode, String hashtag, String groupName, CreateGroupComplete createGroupComplete) {
         this.mode = mode;
         this.hashtag = hashtag;
         this.groupName = groupName;
@@ -405,7 +404,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 for (int i = 0; i < json.length() - 2; i++) {
                     Comment comment = new Comment();
                     comment.setComment(json.getJSONObject(String.valueOf(i)).getString("Comment"));
-                    comment.setPostID(json.getJSONObject(String.valueOf(i)).getInt("id_post"));
                     comments.add(comment);
                 }
 
@@ -809,7 +807,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         try {
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("group_name", groupName));
-            params.add(new BasicNameValuePair("subscribers", "0"));
+            params.add(new BasicNameValuePair("subscribers", "1"));
             params.add(new BasicNameValuePair("hashtag_name", hashtag));
             params.add(new BasicNameValuePair("hashtag_counter", "0"));
             params.add(new BasicNameValuePair("user_id", Anomologita.userID));
@@ -847,6 +845,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
             Log.d("success", String.valueOf(success));
+            Log.e("check",json.getInt("exists")+"");
             if (success == 1) {
                 Log.d("Login Successful!", json.toString());
                 exists = json.getInt("exists") != 0;

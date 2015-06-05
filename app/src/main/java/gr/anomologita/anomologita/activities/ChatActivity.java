@@ -31,7 +31,7 @@ import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.ChatMessage;
 import gr.anomologita.anomologita.objects.Conversation;
 
-public class ChatActivity extends ActionBarActivity implements LoginMode {
+public class ChatActivity extends ActionBarActivity {
 
     private final Handler handler = new Handler();
 
@@ -121,6 +121,7 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
     }
 
     public void okClick(View view) {
+        view.clearFocus();
         message = editText.getText().toString();
         if (message.equals("")) {
             YoYo.with(Techniques.Tada).duration(700).playOn(messageLayout);
@@ -134,7 +135,7 @@ public class ChatActivity extends ActionBarActivity implements LoginMode {
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             if (Anomologita.isConnected()) {
-                new AttemptLogin(PERSONAL_MESSAGE, Anomologita.regID, receiverRegID, receiverName, message, hashtag, "chat", String.valueOf(postID)).execute();
+                new AttemptLogin(LoginMode.PERSONAL_MESSAGE, Anomologita.regID, receiverRegID, receiverName, message, hashtag, "chat", String.valueOf(postID)).execute();
                 newChatMessage();
                 updateConversation();
                 connection = true;

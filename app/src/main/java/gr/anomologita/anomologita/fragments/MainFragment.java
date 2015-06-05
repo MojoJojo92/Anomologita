@@ -81,7 +81,6 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("okok","0o");
                 Menu menu = ((MainActivity) getActivity()).getMenu();
                 getActivity().onOptionsItemSelected(menu.findItem(R.id.search));
             }
@@ -130,6 +129,14 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
         getPosts();
         return view;
+    }
+
+    public void refresh(){
+        Log.e("this",sort);
+        if(mSwipeRefreshLayout != null){
+            mSwipeRefreshLayout.setRefreshing(true);
+            getPosts();
+        }
     }
 
     private void getPosts() {

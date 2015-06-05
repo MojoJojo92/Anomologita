@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import gr.anomologita.anomologita.objects.Comment;
 import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
-import gr.anomologita.anomologita.objects.GroupSearch;
 import gr.anomologita.anomologita.objects.Post;
 
 import java.util.List;

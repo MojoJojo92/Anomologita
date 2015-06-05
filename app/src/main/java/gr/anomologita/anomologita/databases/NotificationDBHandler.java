@@ -89,21 +89,20 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateNotification(Notification notification) {
+    public void updateNotification(Notification notification) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_TEXT, notification.getText());
-        values.put(KEY_TYPE, notification.getType());
-        values.put(KEY_ID, notification.getId());
-        values.put(KEY_TIME, notification.getTime());
-        return db.update(TABLE_NOTIFICATIONS, values, KEY_NOTIFICATION_ID + "=?", new String[]{String.valueOf(notification.getNotificationID())});
-
+        db.execSQL("UPDATE " + TABLE_NOTIFICATIONS +
+                " SET " + KEY_TEXT + " = '" + notification.getText() +
+                "', " + KEY_TIME + " = '" + notification.getTime() +
+                "' WHERE " + KEY_TYPE + " = '" + notification.getType() +
+                "' AND " + KEY_ID + " = '" + notification.getId() + "'");
+        db.close();
     }
 
     public List<Notification> getAllNotifications() {
         List<Notification> notifications = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTIFICATIONS, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTIFICATIONS + " ORDER BY " + KEY_TIME + " ASC", null);
         if (cursor.moveToFirst()) {
             do {
                 Notification notification = new Notification();
@@ -119,5 +118,15 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return notifications;
+    }
+
+    public boolean exists(String id, String type){
+        SQLiteDatabase db = getReadableDatabase();
+        String Query = "SELECT * FROM " + TABLE_NOTIFICATIONS + " WHERE " + KEY_ID + " = '" + id +"' AND " + KEY_TYPE + " = '" + type +"'";
+        Cursor cursor = db.rawQuery(Query, null);
+        int count = cursor.getCount();
+        db.close();
+        cursor.close();
+        return count > 0;
     }
 }

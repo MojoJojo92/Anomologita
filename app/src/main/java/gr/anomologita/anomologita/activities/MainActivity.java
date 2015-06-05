@@ -20,6 +20,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private ViewPager viewPager;
     private LinearLayout mGroupProfileContainer, name;
     private Button favoritesButton;
-    private ImageView groupImage;
+    private ImageView groupImage, editGroup;
     private MaterialTabHost tabHost;
     private TextView groupNameTV, groupSubs, title;
     private FloatingActionButton actionButton;
@@ -73,9 +74,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Intent intent =  new Intent(this,Splash.class);
-        //  startActivity(intent);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -85,8 +83,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-        // toolbar.setNavigationIcon(R.drawable.ic_action_a);
-
 
         mGroupProfileContainer = (LinearLayout) findViewById(R.id.groupProfileContainer);
         name = (LinearLayout) findViewById(R.id.titleLayout);
@@ -104,6 +100,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             @Override
             public void onPageSelected(int position) {
                 tabHost.setSelectedNavigationItem(position);
+                if (Anomologita.refresh) {
+                    if (position == 0)
+                        Anomologita.fragmentNew.refresh();
+                    else
+                        Anomologita.fragmentTop.refresh();
+                    Anomologita.refresh = false;
+                }
                 if (Anomologita.getCurrentGroupID() != null) {
                     mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                     HidingGroupProfileListener.mGroupProfileOffset = 0;
@@ -135,6 +138,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         favoritesButton = (Button) findViewById(R.id.favoritesButton);
         db = new FavoritesDBHandler(this);
         groupImage = (ImageView) findViewById(R.id.icon);
+        editGroup = (ImageView) findViewById(R.id.edit);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         AutofitHelper.create(groupNameTV);
         groupSubs = (TextView) findViewById(R.id.subs);
@@ -195,7 +199,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             startActivityForResult(i, 1);
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else if (id == R.id.search) {
-            Anomologita.main = this;
             Intent i = new Intent(getApplicationContext(), SearchActivity.class);
             startActivityForResult(i, 1);
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -203,12 +206,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
-    public Menu getMenu(){
+    public Menu getMenu() {
         return menu;
     }
 
     public void setGroup() {
         if (Anomologita.isConnected()) {
+            editGroup.setVisibility(View.INVISIBLE);
             adapter = new ViewPagerAdapter(getSupportFragmentManager());
             viewPager.setAdapter(adapter);
             tabHost.setSelectedNavigationItem(0);
@@ -229,17 +233,15 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     @Override
     public void onGetGroupComplete(GroupProfile groupProfile) {
         this.groupProfile = groupProfile;
-        ImageView editGroup = (ImageView) findViewById(R.id.edit);
         if (groupProfile != null) {
             if (groupProfile.getGroupName() != null) {
-                if (!groupProfile.getGroupName().equals(Anomologita.getCurrentGroupName())) {
+                if (!groupProfile.getGroupName().equals(Anomologita.getCurrentGroupName()))
                     Anomologita.setCurrentGroupName(groupProfile.getGroupName());
-                    db.updateFavorite(groupProfile);
-                }
-                if (Anomologita.userID.equals(String.valueOf(groupProfile.getUser_id())))
+                db.updateFavorite(groupProfile);
+                fragmentNav.updateDrawer();
+
+                if (Anomologita.userID.equals(String.valueOf(groupProfile.getUser_id()).trim()))
                     editGroup.setVisibility(View.VISIBLE);
-                else
-                    editGroup.setVisibility(View.INVISIBLE);
 
                 groupSubs.setText(String.valueOf(groupProfile.getSubscribers()));
                 groupNameTV.setText(groupProfile.getGroupName());
@@ -255,11 +257,14 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     favoritesButton.setTextColor(getResources().getColor(R.color.primaryColorLight));
                 }
             } else {
-                if (db.exists(String.valueOf(groupProfile.getGroup_id()))) {
-                    db.deleteFavorite(groupProfile.getGroup_id());
-                    Anomologita.setCurrentGroupName(null);
-                    Anomologita.setCurrentGroupID(null);
-                }
+                if (db.exists(Anomologita.getCurrentGroupName()))
+                    db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
+                Anomologita.setCurrentGroupName(null);
+                Anomologita.setCurrentGroupID(null);
+                fragmentNav.updateDrawer();
+                mGroupProfileContainer.animate().translationY(-Anomologita.convert(120 - 30)).setInterpolator(new AccelerateInterpolator(2)).start();
+                name.setAlpha(1);
+                title.setText("Το γκρουπ έχει διαγραφεί");
             }
         }
     }
@@ -272,7 +277,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
     void favoritesClick() {
-        if (Anomologita.isConnected()) {
+        if (Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null) {
             if (!db.exists(Anomologita.getCurrentGroupName())) {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
                 favoritesButton.setText("Αγαπημένο");
@@ -287,7 +292,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 fragmentNav.updateDrawer();
                 if (groupProfile.getUser_id() != Integer.parseInt(Anomologita.userID)) {
                     String text = "Το γκρούπ " + groupProfile.getGroupName() + " έχει " + subs + " ακόλουθους.";
-                    Log.e("stuff", groupProfile.getRegID());
                     new AttemptLogin(SEND_NOTIFICATION, text, "subscribe", String.valueOf(groupProfile.getGroup_id()), groupProfile.getRegID()).execute();
                 }
             } else {
@@ -305,7 +309,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             }
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -334,6 +338,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
     public void editGroup(View view) {
+        view.clearFocus();
         if (Anomologita.isConnected()) {
             Intent i = new Intent(this, EditGroupActivity.class);
             i.putExtra("hashtag", groupProfile.getHashtag_name());
@@ -347,10 +352,32 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
+                    setGroup();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    //Write your code if there's no result
+                    break;
+            }
+        } else if (requestCode == 2) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    fragmentNav.updateDrawer();
                     setGroup();
                     break;
                 case Activity.RESULT_CANCELED:
@@ -391,10 +418,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             switch (position) {
                 case EndpointGroups.NEW:
                     fragment = MainFragment.newInstance("no");
-                    break;
+                    Anomologita.fragmentNew = (MainFragment) fragment;
+                    return fragment;
                 case EndpointGroups.TOP:
                     fragment = MainFragment.newInstance("yes");
-                    break;
+                    Anomologita.fragmentTop = (MainFragment) fragment;
+                    return fragment;
             }
             return fragment;
         }

@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 
 import java.sql.Timestamp;
@@ -17,8 +18,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import gr.anomologita.anomologita.activities.MainActivity;
-import gr.anomologita.anomologita.activities.Splash;
 import gr.anomologita.anomologita.extras.Keys.Preferences;
+import gr.anomologita.anomologita.fragments.MainFragment;
 import gr.anomologita.anomologita.network.GCMRegister;
 import gr.anomologita.anomologita.objects.Conversation;
 import gr.anomologita.anomologita.objects.Post;
@@ -26,12 +27,14 @@ import gr.anomologita.anomologita.objects.Post;
 public class Anomologita extends Application implements Preferences {
 
     private static Anomologita sInstance;
+    private static boolean activityVisible;
     public static Post currentPost;
     private static SharedPreferences SP;
     public static String userID = null;
     public static String regID = null;
     public static Conversation conversation;
-    public static Context main;
+    public static boolean refresh = false;
+    public static MainFragment fragmentNew = null, fragmentTop = null;
 
     public void onCreate() {
         super.onCreate();
@@ -45,6 +48,19 @@ public class Anomologita extends Application implements Preferences {
     public static Anomologita getsInstance() {
         return sInstance;
     }
+
+    public static boolean isActivityVisible() {
+        return activityVisible;
+    }
+
+    public static void activityResumed() {
+        activityVisible = true;
+    }
+
+    public static void activityPaused() {
+        activityVisible = false;
+    }
+
 
     private static void getUserID() {
         if (SP.contains(USER_ID))
@@ -72,7 +88,7 @@ public class Anomologita extends Application implements Preferences {
 
     public static void setChatBadge() {
         SharedPreferences.Editor prefsEditor = SP.edit();
-        prefsEditor.putInt(CHAT_BADGES, getChatBadges()+1);
+        prefsEditor.putInt(CHAT_BADGES, getChatBadges() + 1);
         prefsEditor.apply();
     }
 
@@ -84,7 +100,7 @@ public class Anomologita extends Application implements Preferences {
 
     public static void setNotificationBadge() {
         SharedPreferences.Editor prefsEditor = SP.edit();
-        prefsEditor.putInt(NOTIFICATION_BADGES, getNotificationBadges()+1);
+        prefsEditor.putInt(NOTIFICATION_BADGES, getNotificationBadges() + 1);
         prefsEditor.apply();
     }
 
@@ -94,16 +110,10 @@ public class Anomologita extends Application implements Preferences {
         prefsEditor.apply();
     }
 
-    public static void StartMain(){
-        Intent intent = new Intent(getAppContext(),MainActivity.class);
+    public static void StartMain() {
+        Intent intent = new Intent(getAppContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getAppContext().startActivity(intent);
-    }
-
-    public static void StartSplash(){
-        Intent splash = new Intent(getAppContext(),Splash.class);
-        splash.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getAppContext().startActivity(splash);
     }
 
     public static String getCurrentGroupID() {
@@ -147,20 +157,23 @@ public class Anomologita extends Application implements Preferences {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 
-    public static String getTime(String time){
+    public static String getTime(String time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         try {
             Timestamp t2 = new Timestamp(System.currentTimeMillis());
             Date postDate = dateFormat.parse(time);
-            Date currentDate = dateFormat.parse(String.valueOf(t2));
+            Date currentDate = dateFormat.parse(t2.toString());
+            int months = currentDate.getMonth() - postDate.getMonth();
             int days = currentDate.getDay() - postDate.getDay();
             int hours = currentDate.getHours() - postDate.getHours();
             int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if (days > 0) {
+            if(months != 0){
+                return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
+            }else if (days > 0) {
                 if (days == 1)
                     return ("Χθές");
                 else
-                    return (postDate.getMonth()+"/"+postDate.getDate()+"/"+(postDate.getYear()-100));
+                    return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
             } else if (hours > 0) {
                 if (hours == 1)
                     return ("1 hr");

@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -99,7 +94,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class PostHolder extends RecyclerView.ViewHolder {
         private final TextView post;
         private final TextView hashtag;
-        private final TextView postTime;
+       // private final TextView postTime;
         private final ImageView send_personal_message;
         private final ImageView like;
         private final ImageView editPost;
@@ -110,7 +105,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             post = (TextView) itemView.findViewById(R.id.post);
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
-            postTime = (TextView) itemView.findViewById(R.id.time);
+          //  postTime = (TextView) itemView.findViewById(R.id.time);
             send_personal_message = (ImageView) itemView.findViewById(R.id.message);
             editPost = (ImageView) itemView.findViewById(R.id.edit);
             like = (ImageView) itemView.findViewById(R.id.like);

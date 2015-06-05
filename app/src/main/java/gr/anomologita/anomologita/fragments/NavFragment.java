@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,20 +59,13 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
                 mDrawerToggle.syncState();
             }
         });
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.START);
-            }
-        });
     }
 
     @Override
     public void itemClicked(int position, int viewType) {
         if (viewType == 1) {
             Intent i = new Intent(getActivity(), CreateGroupActivity.class);
-            startActivityForResult(i,1);
+            getActivity().startActivityForResult(i,2);
             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         } else {
             LinearLayout mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);

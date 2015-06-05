@@ -42,7 +42,6 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             hashtag = extras.getString("hashtag");
-            String receiverID = String.valueOf(extras.getInt("userID"));
             regID = extras.getString("regID");
             postID = extras.getString("postID");
         }

@@ -125,7 +125,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             image = encodeToBase64(bitmap);
         }
         if (Anomologita.isConnected())
-            new AttemptLogin(SET_IMAGE, image, groupID, this).execute();
+            new AttemptLogin(SET_IMAGE, image, groupID, (ImageSetComplete) this).execute();
     }
 
     @Override
@@ -185,9 +185,11 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         if (exists) {
             YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
             Toast.makeText(Anomologita.getAppContext(), "Δυστυχως το όνομα υπάρχει", Toast.LENGTH_SHORT).show();
+            wheel.stopSpinning();
+            layout.setAlpha((float) 1);
         } else {
             if (Anomologita.isConnected())
-                new AttemptLogin(CREATE_GROUP, hashtag, groupName, this, null).execute();
+                new AttemptLogin(CREATE_GROUP, hashtag, groupName, (CreateGroupComplete) this).execute();
         }
     }
 

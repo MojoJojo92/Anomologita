@@ -28,7 +28,6 @@ import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Comment;
 import gr.anomologita.anomologita.objects.Post;
 
-@SuppressWarnings("deprecation")
 public class CommentActivity extends ActionBarActivity implements CommentComplete, LoginMode {
 
     private CommentAdapter adapter;
@@ -90,6 +89,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     }
 
     public void okClick(View view) {
+        view.clearFocus();
         EditText commentET = (EditText) findViewById(R.id.editText);
         String comment = commentET.getText().toString();
         if (comment.equals("")) {
@@ -103,7 +103,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                 imm.hideSoftInputFromWindow(commentET.getWindowToken(), 0);
                 commentET.setText("");
                 if (post.getUser_id() != Integer.parseInt(Anomologita.userID)) {
-                    String text = "To post " + post.getHashtagName() + " έχει " + (post.getComments() + 1) + " σχόλια";
+                    String text = "To post " + post.getHashtagName() + " έχει " + (adapter.getItemCount()) + " σχόλια";
                     new AttemptLogin(SEND_NOTIFICATION, text, "comment", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
                 }
             } else {
@@ -116,10 +116,6 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-      /*  Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-        finish();*/
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);
         finish();

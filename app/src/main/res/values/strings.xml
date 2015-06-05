@@ -56,11 +56,9 @@
     <string name="me">Εγώ</string>
     <string name="searchAction">Search</string>
     <string name="toolbarDelete">Delete</string>
-    <string name="chatClickDesc">Empty image view for clicking the conversation</string>
     <string name="messageStringA">Προσωπικό</string>
     <string name="messageStringB">Μήνυμα</string>
     <string name="subsTextA">"Το γκρουπ αρέσει σε "</string>
     <string name="subsTextB">" άτομα"</string>
-    <string name="searchDesc">Image for selecting a group when no group has been selected</string>
 
 </resources>
