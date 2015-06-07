@@ -136,7 +136,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         GroupProfile groupProfile = new GroupProfile();
         groupProfile.setGroup_id(Integer.parseInt(groupID));
         groupProfile.setGroupName(groupName);
-        groupProfile.setUser_id(Integer.parseInt(Anomologita.userID));
+        groupProfile.setUser_id(Anomologita.userID);
         groupProfile.setSubscribers(0);
         FavoritesDBHandler db = new FavoritesDBHandler(this);
         db.createFavorite(groupProfile);

@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -34,11 +35,13 @@ public class Anomologita extends Application implements Preferences {
     public static String regID = null;
     public static Conversation conversation;
     public static boolean refresh = false;
+    public static boolean onChat = false;
     public static MainFragment fragmentNew = null, fragmentTop = null;
 
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        userID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID).trim();
         conversation = null;
         SP = PreferenceManager.getDefaultSharedPreferences(this);
         regID = new GCMRegister().registerGCM();
@@ -77,13 +80,6 @@ public class Anomologita extends Application implements Preferences {
         if (SP.contains(CHAT_BADGES))
             return SP.getInt(CHAT_BADGES, 0);
         return 0;
-    }
-
-    public static void setUserID(String id) {
-        SharedPreferences.Editor prefsEditor = SP.edit();
-        prefsEditor.putString(USER_ID, id);
-        prefsEditor.apply();
-        userID = id;
     }
 
     public static void setChatBadge() {

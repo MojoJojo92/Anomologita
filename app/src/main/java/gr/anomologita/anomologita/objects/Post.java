@@ -5,7 +5,7 @@ public class Post {
     private String post_txt;
     private String location;
     private int post_id;
-    private int user_id;
+    private String user_id;
     private int likes;
     private boolean isLiked;
     private int comments;
@@ -16,20 +16,12 @@ public class Post {
     private int group_id;
     private String reg_id;
 
-    public Post(int dbID, int post_id, String hashtagName, String post_txt, String location, int likes, int comments, String group_name, int group_id) {
-        this.dbID = dbID;
-        this.post_txt = post_txt;
-        this.location = location;
-        this.post_id = post_id;
-        this.likes = likes;
-        this.comments = comments;
-        this.hashtagName = hashtagName;
-        this.group_name = group_name;
-        this.group_id = group_id;
-    }
-
     public Post() {
 
+    }
+
+    public void setDbID(int dbID) {
+        this.dbID = dbID;
     }
 
     public String getReg_id() {
@@ -100,11 +92,11 @@ public class Post {
         this.likes = likes;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

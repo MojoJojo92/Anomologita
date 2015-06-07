@@ -14,6 +14,7 @@ import java.util.List;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.ConversationsActivity;
+import gr.anomologita.anomologita.databases.PostsDBHandler;
 import gr.anomologita.anomologita.objects.Conversation;
 import me.grantland.widget.AutofitHelper;
 
@@ -21,13 +22,11 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private final LayoutInflater inflater;
     private final Context context;
-    private final ConversationsActivity conversationsActivity;
     private List<Conversation> conversations = new ArrayList<>();
 
-    public ConversationsAdapter(Context context, ConversationsActivity conversationsActivity) {
+    public ConversationsAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
-        this.conversationsActivity = conversationsActivity;
     }
 
     public void setMainData(List<Conversation> conversations) {
@@ -45,8 +44,9 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ConversationsHolder conversationsHolder = (ConversationsHolder) holder;
+        final int currentPosition = position;
         if(position == conversations.size()){
             conversationsHolder.time.setVisibility(View.INVISIBLE);
             conversationsHolder.senderName.setVisibility(View.INVISIBLE);
@@ -61,12 +61,19 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             conversationsHolder.lastSenderName.setVisibility(View.VISIBLE);
             final Conversation currentCon = conversations.get(position);
             AutofitHelper.create(conversationsHolder.senderName);
-            if (!conversations.get(position).getName().equals("Εγώ"))
+            PostsDBHandler db = new PostsDBHandler(context);
+            if (db.exists(Integer.parseInt(currentCon.getPostID())))
                 conversationsHolder.senderName.setText("Με " + currentCon.getName() + " στο " + currentCon.getHashtag());
-            if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.userID)))
-                conversationsHolder.lastSenderName.setText("Εγώ: ");
             else
-                conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
+                conversationsHolder.senderName.setText("Με Ανώνυμο στο " + currentCon.getHashtag());
+            if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.userID))) {
+                conversationsHolder.lastSenderName.setText("Εγώ: ");
+            }else {
+                if (db.exists(Integer.parseInt(currentCon.getPostID())))
+                    conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
+                else
+                    conversationsHolder.lastSenderName.setText("Ανώνυπος: ");
+            }
             AutofitHelper.create(conversationsHolder.txtMessage);
             if (currentCon.getLastMessage().length() < 30)
                 conversationsHolder.txtMessage.setText(currentCon.getLastMessage());
@@ -75,13 +82,13 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    conversationsActivity.delete(currentCon.getConversationID(), position);
+                    ((ConversationsActivity)context).delete(currentCon.getConversationID(), currentPosition);
                 }
             });
             conversationsHolder.senderName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    conversationsActivity.selected(currentCon);
+                    ((ConversationsActivity)context).selected(currentCon);
                 }
             });
             if (currentCon.getSeen().equals("no")) {
@@ -98,9 +105,10 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void deleteData(int position) {
-        if (conversations.size() != 1) {
+        if (conversations.size() != 0) {
             conversations.remove(position);
             notifyItemRemoved(position);
+            notifyItemRangeChanged(0, this.conversations.size());
         } else {
             conversations = new ArrayList<>();
             notifyDataSetChanged();

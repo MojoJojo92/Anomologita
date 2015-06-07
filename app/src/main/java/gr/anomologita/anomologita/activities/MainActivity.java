@@ -15,7 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,10 +58,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private final Handler handler = new Handler();
     private ViewPager viewPager;
     private LinearLayout mGroupProfileContainer, name;
-    private Button favoritesButton;
-    private ImageView groupImage, editGroup;
+    private TextView favoritesButton;
+    private ImageView groupImage;
     private MaterialTabHost tabHost;
-    private TextView groupNameTV, groupSubs, title;
+    private TextView groupNameTV, groupSubs, title, editGroup;
     private FloatingActionButton actionButton;
     private ViewPagerAdapter adapter;
     private FavoritesDBHandler db;
@@ -135,10 +134,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         });
         actionButton.setTag(EndpointGroups.ACTION_BUTTON_TAG);
 
-        favoritesButton = (Button) findViewById(R.id.favoritesButton);
+        favoritesButton = (TextView) findViewById(R.id.favoritesButton);
         db = new FavoritesDBHandler(this);
         groupImage = (ImageView) findViewById(R.id.icon);
-        editGroup = (ImageView) findViewById(R.id.edit);
+        editGroup = (TextView) findViewById(R.id.edit);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         AutofitHelper.create(groupNameTV);
         groupSubs = (TextView) findViewById(R.id.subs);
@@ -249,7 +248,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 if (!db.exists(groupProfile.getGroup_name())) {
                     db.updateFavorite(groupProfile);
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                    favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
+                    favoritesButton.setText("+ Πρόσθεσε στα Αγαπημένα");
                     favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 } else {
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
@@ -264,7 +263,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 fragmentNav.updateDrawer();
                 mGroupProfileContainer.animate().translationY(-Anomologita.convert(120 - 30)).setInterpolator(new AccelerateInterpolator(2)).start();
                 name.setAlpha(1);
-                title.setText("Το γκρουπ έχει διαγραφεί");
+                title.setText("Ανομολόγητα");
             }
         }
     }
@@ -290,13 +289,17 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 subs++;
                 groupSubs.setText(String.valueOf(subs));
                 fragmentNav.updateDrawer();
-                if (groupProfile.getUser_id() != Integer.parseInt(Anomologita.userID)) {
-                    String text = "Το γκρούπ " + groupProfile.getGroupName() + " έχει " + subs + " ακόλουθους.";
+                if (!groupProfile.getUser_id().equals(Anomologita.userID)) {
+                    String text;
+                    if (subs == 1)
+                        text = "Το γκρούπ " + groupProfile.getGroupName() + " πλέον αρέσει σε " + subs + " άτομο";
+                    else
+                        text = "Το γκρούπ " + groupProfile.getGroupName() + " πλέον αρέσει σε " + subs + " άτομα";
                     new AttemptLogin(SEND_NOTIFICATION, text, "subscribe", String.valueOf(groupProfile.getGroup_id()), groupProfile.getRegID()).execute();
                 }
             } else {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                favoritesButton.setText("+ Προσθήκή στα Αγαπημένα");
+                favoritesButton.setText("+ Πρόσθεσε στα Αγαπημένα");
                 favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
@@ -371,7 +374,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     setGroup();
                     break;
                 case Activity.RESULT_CANCELED:
-                    //Write your code if there's no result
                     break;
             }
         } else if (requestCode == 2) {
@@ -381,7 +383,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     setGroup();
                     break;
                 case Activity.RESULT_CANCELED:
-                    //Write your code if there's no result
                     break;
             }
         }
@@ -392,15 +393,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         @Override
         protected Integer doInBackground(Void... params) {
             invalidateOptionsMenu();
-            // example count. This is where you'd
-            // query your data store for the actual count.
             return 0;
-        }
-
-        @Override
-        public void onPostExecute(Integer count) {
-
-            //  updateNotificationsBadge(count);
         }
     }
 

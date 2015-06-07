@@ -52,7 +52,7 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         ad.loadAd(adRequest);
 
         db = new ConversationsDBHandler(this);
-        adapter = new ConversationsAdapter(this, this);
+        adapter = new ConversationsAdapter(this);
         adapter.setMainData(db.getAllConversations());
 
         DefaultItemAnimator animator = new DefaultItemAnimator();
@@ -72,20 +72,20 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         db.updateConversation(conversation);
         Anomologita.conversation = conversation;
         Intent i = new Intent(this, ChatActivity.class);
-        startActivity(i);
+        startActivityForResult(i, 1);
         db.close();
         finish();
         this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
     }
 
-    public void delete(final int conversationID, final int position) {
+    public void delete(final int conversationID, int position) {
+        final int currentPosition = position;
         new AlertDialog.Builder(this)
                 .setTitle("Διαγραφή Συνομιλίας")
                 .setMessage("Σίγουρα θες να διαγράψεις αυτή την συνομιλία;")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        adapter.deleteData(position);
+                        adapter.deleteData(currentPosition);
                         db.deleteConversation(conversationID);
                         Toast.makeText(Anomologita.getAppContext(), "Η συνομιλία έχει διαγραφεί", Toast.LENGTH_SHORT).show();
                     }
@@ -97,6 +97,17 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    break;
+                case Activity.RESULT_CANCELED:
+                    break;
+            }
+        }
     }
 
     @Override

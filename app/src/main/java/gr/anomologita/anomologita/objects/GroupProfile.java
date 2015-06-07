@@ -9,7 +9,7 @@ public class GroupProfile implements Parcelable{
     private int subscribers;
     private String hashtag_name;
     private int group_id;
-    private int user_id;
+    private String user_id;
     private String regID;
 
     public GroupProfile() {
@@ -33,11 +33,11 @@ public class GroupProfile implements Parcelable{
         return group_name;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

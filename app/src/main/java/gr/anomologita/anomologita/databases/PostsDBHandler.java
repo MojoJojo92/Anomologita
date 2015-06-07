@@ -24,7 +24,8 @@ public class PostsDBHandler extends SQLiteOpenHelper {
             KEY_RATING = "rating",
             KEY_COMMENTS = "comments",
             KEY_GROUP = "groupName",
-            KEY_GROUP_ID = "groupID";
+            KEY_GROUP_ID = "groupID",
+            KEY_TIME = "time";
 
 
     public PostsDBHandler(Context context) {
@@ -41,8 +42,9 @@ public class PostsDBHandler extends SQLiteOpenHelper {
                 KEY_LOCATION + " TEXT, " +
                 KEY_RATING + " INTEGER, " +
                 KEY_COMMENTS + " INTEGER, " +
-                KEY_GROUP + " TEXT, "+
-                KEY_GROUP_ID + " INTEGER);");
+                KEY_GROUP + " TEXT, " +
+                KEY_GROUP_ID + " INTEGER, " +
+                KEY_TIME + " TEXT)");
     }
 
     @Override
@@ -62,6 +64,7 @@ public class PostsDBHandler extends SQLiteOpenHelper {
         values.put(KEY_COMMENTS, post.getComments());
         values.put(KEY_GROUP, post.getGroup_name());
         values.put(KEY_GROUP_ID, post.getGroup_id());
+        values.put(KEY_TIME, post.getTimestamp());
         db.insert(TABLE_POSTS, null, values);
         db.close();
     }
@@ -73,9 +76,29 @@ public class PostsDBHandler extends SQLiteOpenHelper {
         cursor1.moveToFirst();
         int id = cursor1.getInt(0);
         Log.e("Query", String.valueOf(id));
-        Cursor cursor = db.query(TABLE_POSTS, new String[]{KEY_ID, KEY_POST_ID, KEY_HASHTAG, KEY_POST, KEY_LOCATION, KEY_RATING, KEY_COMMENTS, KEY_GROUP, KEY_GROUP_ID}, KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_POSTS,
+                new String[]{KEY_ID,
+                        KEY_POST_ID,
+                        KEY_HASHTAG,
+                        KEY_POST,
+                        KEY_LOCATION,
+                        KEY_RATING,
+                        KEY_COMMENTS,
+                        KEY_GROUP,
+                        KEY_GROUP_ID,
+                        KEY_TIME}, KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null) cursor.moveToFirst();
-        Post post = new Post(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getString(7), cursor.getInt(8));
+        Post post = new Post();
+        post.setDbID(cursor.getInt(0));
+        post.setPost_id(cursor.getInt(1));
+        post.setHashtagName(cursor.getString(2));
+        post.setPost_txt(cursor.getString(3));
+        post.setLocation(cursor.getString(4));
+        post.setLikes(cursor.getInt(5));
+        post.setComments(cursor.getInt(6));
+        post.setGroup_name(cursor.getString(7));
+        post.setGroup_id(cursor.getInt(8));
+        post.setTimestamp(cursor.getString(9));
         db.close();
         cursor.close();
         cursor1.close();
@@ -114,6 +137,7 @@ public class PostsDBHandler extends SQLiteOpenHelper {
         values.put(KEY_COMMENTS, post.getComments());
         values.put(KEY_GROUP, post.getGroup_name());
         values.put(KEY_GROUP_ID, post.getGroup_id());
+        values.put(KEY_TIME, post.getTimestamp());
         return db.update(TABLE_POSTS, values, KEY_ID + "=?", new String[]{String.valueOf(post.getDbID())});
 
     }
@@ -124,7 +148,17 @@ public class PostsDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_POSTS, null);
         if (cursor.moveToFirst()) {
             do {
-                Post post = new Post(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getString(7), cursor.getInt(8));
+                Post post = new Post();
+                post.setDbID(cursor.getInt(0));
+                post.setPost_id(cursor.getInt(1));
+                post.setHashtagName(cursor.getString(2));
+                post.setPost_txt(cursor.getString(3));
+                post.setLocation(cursor.getString(4));
+                post.setLikes(cursor.getInt(5));
+                post.setComments(cursor.getInt(6));
+                post.setGroup_name(cursor.getString(7));
+                post.setGroup_id(cursor.getInt(8));
+                post.setTimestamp(cursor.getString(9));
                 posts.add(post);
             }
             while (cursor.moveToNext());

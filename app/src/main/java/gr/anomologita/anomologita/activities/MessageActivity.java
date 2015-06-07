@@ -49,9 +49,9 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
         layout = (RelativeLayout) findViewById(R.id.editPostLayout);
 
         personalMessageET = (EditText) findViewById(R.id.currentPost);
-        personalMessageET.setHint("Γράψε ενα μήνυμα...");
+        personalMessageET.setHint("Γράψε το μήνυμά σου...");
         nameET = (EditText) findViewById(R.id.currentLocation);
-        nameET.setHint("Ποιός είσαι?");
+        nameET.setHint("Γράψε όνομα ή ψευδώνυμο!");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.editPostToolbar);
         if (toolbar != null) {

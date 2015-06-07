@@ -43,9 +43,9 @@
     <string name="groupTitle">Γκρουπ:</string>
     <string name="editPostDesc">Icon for editing the current post</string>
     <string name="bigCircleDesc">Background white circle</string>
-    <string name="subscribeButton">+ Προσθήκή στα Αγαπημένα</string>
-    <string name="createGroupNameHint">Όνομα\n (π.χ Πανεπιστήμιο Μακεδονίας)</string>
-    <string name="createHashTagHint">Πρώτο hashtag!\n(π.χ έφαγακεφτέδες)</string>
+    <string name="subscribeButton">+ Πρόσθεσε στα Αγαπημένα</string>
+    <string name="createGroupNameHint">Γράψε το όνομα του γκρουπ\n (π.χ Πανεπιστήμιο Μακεδονίας)</string>
+    <string name="createHashTagHint">Γράψε το πρώτο hashtag του γκρουπ!\n(π.χ έφαγακεφτέδες)</string>
     <string name="deleteConversationDesc">Icon for deleting the current group</string>
     <string name="conTitle">Conversation</string>
     <string name="sender">Ποιός</string>
@@ -60,5 +60,6 @@
     <string name="messageStringB">Μήνυμα</string>
     <string name="subsTextA">"Το γκρουπ αρέσει σε "</string>
     <string name="subsTextB">" άτομα"</string>
+    <string name="edit_group"><u>Επεξεργασία</u></string>
 
 </resources>

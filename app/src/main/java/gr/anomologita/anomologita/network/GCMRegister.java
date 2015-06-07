@@ -25,8 +25,6 @@ import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.extras.Keys;
 import gr.anomologita.anomologita.extras.Utils;
 
-import static gr.anomologita.anomologita.Anomologita.userID;
-
 public class GCMRegister extends Activity {
 
     private final Context context;
@@ -114,6 +112,7 @@ public class GCMRegister extends Activity {
             try {
                 List<BasicNameValuePair> param = new ArrayList<>();
                 param.add(new BasicNameValuePair("reg_id", regId));
+                param.add(new BasicNameValuePair("user_id", Anomologita.userID));
 
                 Log.d("request!", "starting");
                 JSONObject json = jsonParser.makeHttpRequest(Keys.EndpointGroups.URL_SET_USER, "POST", param);
@@ -122,7 +121,6 @@ public class GCMRegister extends Activity {
                 Log.d("success", String.valueOf(success));
 
                 if (success == 1) {
-                    userID = String.valueOf(json.getString("userID"));
                     Log.d("Login Successful!", json.toString());
                     return json.getString(Keys.EndpointGroups.TAG_MESSAGE);
                 } else {
@@ -138,7 +136,6 @@ public class GCMRegister extends Activity {
 
         @Override
         protected void onPostExecute(String msg) {
-            Anomologita.setUserID(userID);
             Anomologita.regID = regId;
         }
     }

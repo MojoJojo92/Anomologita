@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,25 +37,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 1)
-            return new AdHolder(inflater.inflate(R.layout.ad_layout, parent, false));
-        else
             return new SearchHolder(inflater.inflate(R.layout.group_nav_layout, parent, false));
     }
 
     public int getItemViewType(int position) {
-        if (position == groupSearches.size())
-            return 1;
         return 0;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (getItemViewType(position) == 1) {
-            AdHolder adHolder = (AdHolder) holder;
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adHolder.ad.loadAd(adRequest);
-        } else {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             SearchHolder searchHolder = (SearchHolder) holder;
             Favorite current = groupSearches.get(position);
             searchHolder.title.setText(current.get_name());
@@ -67,7 +55,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .load("http://anomologita.gr/img/" + current.getId() + ".png").asBitmap()
                     .transform(new CropCircleTransformation(pool))
                     .into(searchHolder.icon);
-        }
     }
 
     private String createSubs(int subs) {
@@ -92,7 +79,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return groupSearches.size() + 1;
+        return groupSearches.size();
     }
 
     class SearchHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -121,16 +108,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class AdHolder extends RecyclerView.ViewHolder {
-        private final AdView ad;
-      //  private final LinearLayout adLayout;
 
-        public AdHolder(View itemView) {
-            super(itemView);
-            ad = (AdView) itemView.findViewById(R.id.adView);
-       //     adLayout = (LinearLayout) itemView.findViewById((R.id.adLayout));
-        }
-    }
 
     public interface ClickListener {
         public void itemClicked(int position);

@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class ChatActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_comment_layout);
+        Anomologita.onChat = true;
         layout = (RelativeLayout) findViewById(R.id.chatCommentLayout);
         editText = (EditText) findViewById(R.id.editText);
         messageLayout = (RelativeLayout) findViewById(R.id.textField);
@@ -168,11 +170,12 @@ public class ChatActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this, ConversationsActivity.class);
-        startActivity(i);
+        Anomologita.onChat = false;
         db.close();
         handler.removeCallbacks(runnable);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

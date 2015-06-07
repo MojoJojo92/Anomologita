@@ -60,7 +60,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         if (getArguments() != null)
             sort = getArguments().getString("sort");
         groupID = Anomologita.getCurrentGroupID();
-        mGroupProfileHeight = Anomologita.convert(120 - 30);
+        mGroupProfileHeight = Anomologita.convert(140 - 30);
     }
 
     @Override
@@ -164,7 +164,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         if (db.exists(postID)) {
             Intent i = new Intent(getActivity(), ChatActivity.class);
             Anomologita.conversation = db.getConversation(postID);
-            startActivity(i);
+            startActivityForResult(i,5);
+            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {
             Intent i = new Intent(getActivity(), MessageActivity.class);
             i.putExtra("hashtag", post.getHashtagName());
@@ -172,9 +173,9 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             i.putExtra("regID", post.getReg_id());
             i.putExtra("postID", String.valueOf(post.getPost_id()));
             startActivity(i);
+            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            getActivity().finish();
         }
-        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-        getActivity().finish();
     }
 
     public void editPost(Post post) {
@@ -188,10 +189,14 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
     public void setLike(String like, Post post) {
         if (Anomologita.isConnected()) {
+            String text;
             new AttemptLogin(SET_LIKE, String.valueOf(post.getPost_id()), like).execute();
-            if (post.getUser_id() != Integer.parseInt(Anomologita.userID)) {
+            if (!post.getUser_id().equals(Anomologita.userID)) {
                 int likes = post.getLikes() + Integer.parseInt(like);
-                String text = "Το ανομολόγητο " + post.getHashtagName() + " αρέσει σε " + likes + " άτομα";
+                if(likes == 1)
+                     text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομο";
+                else
+                 text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομα";
                 new AttemptLogin(SEND_NOTIFICATION, text, "like", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
             }
         }

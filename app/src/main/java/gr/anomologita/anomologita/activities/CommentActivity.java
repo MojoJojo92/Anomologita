@@ -22,6 +22,7 @@ import java.util.List;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.CommentAdapter;
+import gr.anomologita.anomologita.databases.ConversationsDBHandler;
 import gr.anomologita.anomologita.extras.Keys.CommentComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -67,6 +68,34 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         getComments();
     }
 
+    public void editPost(Post post) {
+        Intent i = new Intent(this, EditPostActivity.class);
+        i.putExtra("post", post.getPost_txt());
+        i.putExtra("location", post.getLocation());
+        startActivityForResult(i, 3);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
+    public void newMessage(Post post) {
+        ConversationsDBHandler db = new ConversationsDBHandler(this);
+        String postID = String.valueOf(post.getPost_id());
+        if (db.exists(postID)) {
+            Intent i = new Intent(this, ChatActivity.class);
+            Anomologita.conversation = db.getConversation(postID);
+            startActivity(i);
+        } else {
+            Intent i = new Intent(this, MessageActivity.class);
+            i.putExtra("hashtag", post.getHashtagName());
+            i.putExtra("userID", post.getUser_id());
+            i.putExtra("regID", post.getReg_id());
+            i.putExtra("postID", String.valueOf(post.getPost_id()));
+            startActivity(i);
+        }
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        finish();
+    }
+
+
     void getComments() {
         if (Anomologita.isConnected()) {
             new AttemptLogin(COMMENT, String.valueOf(post.getPost_id()), null, "getComments", this).execute();
@@ -88,6 +117,21 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         }
     }
 
+    public void setLike(String like, Post post) {
+        if (Anomologita.isConnected()) {
+            String text;
+            new AttemptLogin(SET_LIKE, String.valueOf(post.getPost_id()), like).execute();
+            if (!post.getUser_id().equals(Anomologita.userID)) {
+                int likes = post.getLikes() + Integer.parseInt(like);
+                if (likes == 1)
+                    text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομο";
+                else
+                    text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομα";
+                new AttemptLogin(SEND_NOTIFICATION, text, "like", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
+            }
+        }
+    }
+
     public void okClick(View view) {
         view.clearFocus();
         EditText commentET = (EditText) findViewById(R.id.editText);
@@ -102,13 +146,26 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(commentET.getWindowToken(), 0);
                 commentET.setText("");
-                if (post.getUser_id() != Integer.parseInt(Anomologita.userID)) {
-                    String text = "To post " + post.getHashtagName() + " έχει " + (adapter.getItemCount()) + " σχόλια";
+                if (!post.getUser_id().equals(Anomologita.userID)) {
+                    String text = "To ανομολόγητο σου " + post.getHashtagName() + " έχει νέα σχόλια";
                     new AttemptLogin(SEND_NOTIFICATION, text, "comment", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
                 }
             } else {
                 YoYo.with(Techniques.Tada).duration(700).playOn(layout);
                 Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    String text = data.getExtras().getString("text");
+                    adapter.setPost(text);
+                    break;
+                case Activity.RESULT_CANCELED:
+                    break;
             }
         }
     }

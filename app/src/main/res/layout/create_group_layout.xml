@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom|center"
-            android:paddingBottom="10dp"
+            android:paddingBottom="25dp"
             android:text="@string/add_new_image"
             android:textColor="@color/accentColor"/>
 
@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/fakeView"
             android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
             android:focusable="true"
             android:gravity="center"
             android:hint="@string/createGroupNameHint"
@@ -82,6 +83,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/fakeView"
             android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:hint="@string/createHashTagHint"
             android:padding="10dp"/>

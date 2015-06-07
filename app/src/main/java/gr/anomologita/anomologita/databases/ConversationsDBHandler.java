@@ -131,7 +131,7 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
     public List<Conversation> getAllConversations() {
         List<Conversation> conversations = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONVERSATIONS, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONVERSATIONS + " ORDER BY " + KEY_TIME + " DESC", null);
         if (cursor.moveToFirst()) {
             do {
                 Conversation conversation = new Conversation();
@@ -162,31 +162,5 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
         db.close();
         cursor.close();
         return count > 0;
-    }
-
-    public List<Conversation> sortByTime() {
-        List<Conversation> conversations = new ArrayList<>();
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONVERSATIONS + " ORDER BY " + KEY_TIME, null);
-        if (cursor.moveToFirst()) {
-            do {
-                Conversation conversation = new Conversation();
-                conversation.setConversationID(cursor.getInt(0));
-                conversation.setSenderRegID(cursor.getString(1));
-                conversation.setName(cursor.getString(2));
-                conversation.setReceiverRegID(cursor.getString(3));
-                conversation.setHashtag(cursor.getString(4));
-                conversation.setPostID(cursor.getString(5));
-                conversation.setLastMessage(cursor.getString(6));
-                conversation.setTime(cursor.getString(7));
-                conversation.setLastSenderID(cursor.getString(8));
-                conversation.setSeen(cursor.getString(9));
-                conversations.add(conversation);
-            }
-            while (cursor.moveToNext());
-        }
-        db.close();
-        cursor.close();
-        return conversations;
     }
 }

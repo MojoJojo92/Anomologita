@@ -90,7 +90,7 @@
             android:layout_toEndOf="@id/like"
             android:layout_toRightOf="@id/like"
             android:text="@string/likeCount"
-            android:textColor="@color/primaryColorLight"/>
+            android:textColor="@color/secondaryTextColor"/>
 
         <ImageView
             android:id="@+id/comment"
@@ -112,7 +112,7 @@
             android:layout_toEndOf="@id/comment"
             android:layout_toRightOf="@id/comment"
             android:text="@string/commentCount"
-            android:textColor="@color/primaryColorLight"/>
+            android:textColor="@color/secondaryTextColor"/>
 
         <LinearLayout
             android:id="@+id/messageText"
@@ -121,22 +121,23 @@
             android:layout_margin="5dp"
             android:layout_toLeftOf="@+id/message"
             android:layout_toStartOf="@+id/message"
-            android:visibility="invisible"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/messageTextA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/messageStringA"
-                android:textColor="@color/primaryColorLight"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="9sp"/>
 
             <TextView
+                android:id="@+id/messageTextB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="@string/messageStringB"
-                android:textColor="@color/primaryColorLight"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="9sp"/>
 
         </LinearLayout>

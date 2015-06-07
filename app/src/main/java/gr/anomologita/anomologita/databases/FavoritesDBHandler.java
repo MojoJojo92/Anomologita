@@ -5,11 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import gr.anomologita.anomologita.objects.Favorite;
-import gr.anomologita.anomologita.objects.GroupProfile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gr.anomologita.anomologita.objects.Favorite;
+import gr.anomologita.anomologita.objects.GroupProfile;
 
 public class FavoritesDBHandler extends SQLiteOpenHelper {
 
@@ -53,14 +54,15 @@ public class FavoritesDBHandler extends SQLiteOpenHelper {
     }
 
     public Favorite getFavorite(String group_name) {
+        group_name = group_name.replaceAll("'", "''");
         SQLiteDatabase db = getReadableDatabase();
-        String Query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE " + KEY_NAME + " = '" + group_name +"'";
+        String Query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE " + KEY_NAME + " = '" + group_name + "'";
         Cursor cursor1 = db.rawQuery(Query, null);
         cursor1.moveToFirst();
         int id = Integer.parseInt(cursor1.getString(0));
         Cursor cursor = db.query(TABLE_FAVORITES, new String[]{KEY_ID, KEY_NAME, KEY_USER_ID, KEY_SUBS}, KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         Favorite favorite = new Favorite();
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
             favorite.setId(cursor.getInt(0));
             favorite.set_name(cursor.getString(1));
@@ -125,9 +127,11 @@ public class FavoritesDBHandler extends SQLiteOpenHelper {
         return favorites;
     }
 
-    public boolean exists(String group_name){
+    public boolean exists(String group_name) {
+        if (group_name != null && group_name.contains("'"))
+            group_name = group_name.replaceAll("'", "''");
         SQLiteDatabase db = getReadableDatabase();
-        String Query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE " + KEY_NAME + " = '" + group_name +"'";
+        String Query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE " + KEY_NAME + " = '" + group_name + "'";
         Cursor cursor = db.rawQuery(Query, null);
         int count = cursor.getCount();
         cursor.close();

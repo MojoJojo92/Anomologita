@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
@@ -84,6 +85,7 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         Post post = db.getPost(Integer.parseInt(notification.getId()));
         Intent i = new Intent(this, CommentActivity.class);
         startActivityForResult(i, 1);
+        Log.e("okoko", post.getTimestamp());
         Anomologita.currentPost = post;
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }

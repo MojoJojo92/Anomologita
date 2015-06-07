@@ -69,8 +69,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         NotificationHolder notificationHolder = (NotificationHolder) holder;
+        final int currentPosition = position;
         if (position == notifications.size()) {
             notificationHolder.time.setVisibility(View.INVISIBLE);
             notificationHolder.text.setVisibility(View.INVISIBLE);
@@ -87,7 +88,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notificationHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alert(position);
+                    alert(currentPosition);
                 }
             });
             if (getItemViewType(position) == 0) {
@@ -95,6 +96,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 notificationHolder.text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.e("ok","dsdsdsd");
                         ((NotificationActivity) context).postClick(currentNotification);
                     }
                 });

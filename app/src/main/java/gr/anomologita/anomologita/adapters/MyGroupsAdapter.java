@@ -49,7 +49,7 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final MyGroupsHolder groupsHolder = (MyGroupsHolder) holder;
         if (position == groups.size()) {
             groupsHolder.groupsLayout.setVisibility(View.INVISIBLE);

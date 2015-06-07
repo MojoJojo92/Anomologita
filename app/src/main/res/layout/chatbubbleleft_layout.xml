@@ -5,14 +5,15 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:layout_marginEnd="100dp"
-    android:layout_marginRight="100dp"
+    android:layout_marginStart="100dp"
+    android:layout_marginLeft="100dp"
+    android:gravity="end"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/chat_bubble_left"
+        android:background="@drawable/chatbubbleright"
         android:gravity="bottom"
         android:orientation="vertical"
         android:padding="7dp"

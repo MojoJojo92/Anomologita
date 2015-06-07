@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
+import java.sql.Timestamp;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -49,7 +52,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         postET = (EditText) findViewById(R.id.currentPost);
         postET.setHint("Γράψε το ανομολόγητό σου...");
         locationET = (EditText) findViewById(R.id.currentLocation);
-        locationET.setHint("Απο που το στέλνεις?");
+        locationET.setHint("Γράψε σχολή, περιοχή ή άλλο!\n(π.χ Πανεπιστήμιο Μακεδονίας)");
 
         groupName = Anomologita.getCurrentGroupName();
         groupID = Integer.parseInt(Anomologita.getCurrentGroupID());
@@ -79,6 +82,8 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         post.setLocation(location);
         post.setGroup_name(groupName);
         post.setGroup_id(groupID);
+        post.setTimestamp((new Timestamp(System.currentTimeMillis())).toString());
+        Log.e("thime",post.getTimestamp());
         PostsDBHandler db = new PostsDBHandler(this);
         db.createPost(post);
         db.close();

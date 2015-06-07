@@ -39,7 +39,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder,int position) {
         MyPostsHolder myPostsHolder = (MyPostsHolder) holder;
         if (position == posts.size()) {
             myPostsHolder.postsLayout.setVisibility(View.INVISIBLE);

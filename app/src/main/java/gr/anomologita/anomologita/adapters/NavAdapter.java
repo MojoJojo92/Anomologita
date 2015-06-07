@@ -76,7 +76,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Favorite currentFavorite;
         if (getItemViewType(position) == 0) {
             TitleHolder titleHolder = (TitleHolder) holder;

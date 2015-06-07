@@ -84,7 +84,7 @@
 
         <activity
             android:name=".activities.NotificationActivity"
-            android:label="Ενημερώσεις"
+            android:label="Ειδοποιήσεις"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 

@@ -59,42 +59,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == 0) {
             MeConversationsHolder meMessagesHolder = (MeConversationsHolder) holder;
             meMessagesHolder.meTxtMessage.setText(messages.get(position).getMessage());
-            meMessagesHolder.meTime.setText(getTime(messages.get(position).getTime()));
+            meMessagesHolder.meTime.setText(Anomologita.getTime(messages.get(position).getTime()));
         } else {
             OthersConversationsHolder othersConversationsHolder = (OthersConversationsHolder) holder;
             othersConversationsHolder.othersTxtMessage.setText(messages.get(position).getMessage());
-            othersConversationsHolder.anonymousTime.setText(getTime(messages.get(position).getTime()));
+            othersConversationsHolder.anonymousTime.setText(Anomologita.getTime(messages.get(position).getTime()));
         }
-    }
-
-    private String getTime(String postTimeStamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        try {
-            Timestamp t2 = new Timestamp(System.currentTimeMillis());
-            Date postDate = dateFormat.parse(postTimeStamp);
-            Date currentDate = dateFormat.parse(String.valueOf(t2));
-            int days = currentDate.getDay() - postDate.getDay();
-            int hours = currentDate.getHours() - postDate.getHours();
-            int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if (days > 0) {
-                if (days == 1)
-                    return ("Χθές");
-                else
-                    return ("" + postDate);
-            } else if (hours > 0) {
-                if (hours == 1)
-                    return ("1 hr");
-                else
-                    return (hours + " hrs");
-            } else if (minutes > 0) {
-                return (minutes + " min");
-            } else {
-                return "τώρα";
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "τώρα";
     }
 
     @Override

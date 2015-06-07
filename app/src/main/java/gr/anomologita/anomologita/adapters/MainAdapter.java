@@ -2,6 +2,7 @@ package gr.anomologita.anomologita.adapters;
 
 import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             previousPosition = position;
         } else if (getItemViewType(position) == 2) {
             int adCount;
-            if (position % 10 >= 2)
+            if (position % 10 >= 5)
                 adCount = position / 10 + 1;
             else
                 adCount = position / 10;
@@ -134,11 +135,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
                 postHolder.editPost.setVisibility(View.VISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.messageText.setVisibility(View.INVISIBLE);
+                postHolder.messageTextA.setText("Επεξεργασία");
+                postHolder.messageTextB.setText("Μηνύματος");
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
-                postHolder.messageText.setVisibility(View.VISIBLE);
+                postHolder.messageTextA.setText("Προσωπικό");
+                postHolder.messageTextB.setText("Μήνυμα");
             }
             if (posts.size() - 1 == position - adCount)
                 mainFragment.loadMore(position + 1 - adCount);
@@ -161,7 +164,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (position == 0)
             return 0;
-        else if (position % 10 == 2)
+        else if (position % 10 == 5)
             return 1;
         else
             return 2;
@@ -169,7 +172,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if ((posts.size() + 1) % 10 >= 2)
+        if ((posts.size() + 1) % 10 >= 5)
             return (posts.size() + 1 + (posts.size() + 1) / 10 + 1);
         else
             return (posts.size() + 1 + (posts.size() + 1) / 10);
@@ -199,7 +202,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final TextView numberOfLikes;
         private final TextView numberOfComments;
         private final RelativeLayout postRowLayout;
-        private final LinearLayout messageText;
+        private final TextView messageTextA;
+        private final TextView messageTextB;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -207,6 +211,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
             postTime = (TextView) itemView.findViewById(R.id.time);
             location = (TextView) itemView.findViewById(R.id.location);
+            messageTextA = (TextView) itemView.findViewById(R.id.messageTextA);
+            messageTextB = (TextView) itemView.findViewById(R.id.messageTextB);
             comments_word = (ImageView) itemView.findViewById(R.id.comment);
             send_personal_message = (ImageView) itemView.findViewById(R.id.message);
             editPost = (ImageView) itemView.findViewById(R.id.edit);
@@ -214,7 +220,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
             numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);
             postRowLayout = (RelativeLayout) itemView.findViewById(R.id.postLayout);
-            messageText = (LinearLayout) itemView.findViewById(R.id.messageText);
         }
     }
 

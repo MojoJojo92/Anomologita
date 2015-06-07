@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,9 +113,9 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         } else if (newLocation.equals("")) {
             YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
             Toast.makeText(this, "Δώσε σχολή, κατοικια ή άλλο", Toast.LENGTH_SHORT).show();
-        } else if (newPost.length() > 200) {
+        } else if (newPost.length() > 2000) {
             YoYo.with(Techniques.Tada).duration(700).playOn(postET);
-            Toast.makeText(this, "Το μήνυμα ξεπερνά τους 200 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Το μήνυμα ξεπερνά τους 2000 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
         } else if (newLocation.length() > 20) {
             YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
             Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 20 χαρακτήρες", Toast.LENGTH_SHORT).show();
@@ -123,10 +124,14 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         } else {
             if (Anomologita.isConnected()) {
                 new AttemptLogin(EDIT_POST, postID, newPost, newLocation).execute();
-                onBackPressed();
+                Intent intent = new Intent();
+                intent.putExtra("text",newPost);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             } else {
                 YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
             }
         }
     }

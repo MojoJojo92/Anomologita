@@ -616,7 +616,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 post.setPost_txt(json.getJSONObject(String.valueOf(i)).getString(KEY_POST));
                 post.setLocation(json.getJSONObject(String.valueOf(i)).getString(KEY_LOCATION));
                 post.setPost_id(json.getJSONObject(String.valueOf(i)).getInt(KEY_POST_ID));
-                post.setUser_id(json.getJSONObject(String.valueOf(i)).getInt(KEY_USER_ID));
+                post.setUser_id(json.getJSONObject(String.valueOf(i)).getString(KEY_USER_ID));
                 post.setTimestamp(json.getJSONObject(String.valueOf(i)).getString(KEY_DATE));
                 LikesDBHandler db = new LikesDBHandler(context);
                 if (db.exists(post.getPost_id())) {
@@ -657,14 +657,12 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("group_id", groupID));
 
-            //tempSubs = group.getSubscribers();
-
             Log.d("request!", "starting");
             JSONObject json = jsonParser.makeHttpRequest(EndpointGroups.URL_GET_GROUP, "GET", params);
             groupProfile.setGroupName(json.getJSONObject(String.valueOf(0)).getString(KEY_GROUP_NAME));
             groupProfile.setSubscribers(json.getJSONObject(String.valueOf(0)).getInt(KEY_SUBSCRIBERS));
             groupProfile.setHashtag_name(json.getJSONObject(String.valueOf(0)).getString(KEY_GROUP_HASHTAG));
-            groupProfile.setUser_id(json.getJSONObject(String.valueOf(0)).getInt(KEY_USER_ID));
+            groupProfile.setUser_id(json.getJSONObject(String.valueOf(0)).getString(KEY_USER_ID));
             groupProfile.setGroup_id(json.getJSONObject(String.valueOf(0)).getInt(KEY_GROUP_ID));
             groupProfile.setRegID(json.getJSONObject(String.valueOf(0)).getString(KEY_REG_ID));
 
@@ -943,6 +941,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         int success;
         try {
             List<BasicNameValuePair> params = new ArrayList<>();
+            Log.e("regid", regID.equals(Anomologita.regID)+ " ");
             params.add(new BasicNameValuePair("text", text.trim()));
             params.add(new BasicNameValuePair("type", type));
             params.add(new BasicNameValuePair("id", id));
