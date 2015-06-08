@@ -101,7 +101,7 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
                     onBackPressed();
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                    Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
                 }
             }
             return true;

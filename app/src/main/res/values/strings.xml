@@ -38,7 +38,7 @@
     <string name="editGroupDesc">Icon for editing the current group</string>
     <string name="groupIconDesc">The current group icon</string>
     <string name="groupName">Ανομολόγητα</string>
-    <string name="subsTitle">Subscribers</string>
+    <string name="subsTitle">Αγαπημένα</string>
     <string name="subs">0</string>
     <string name="groupTitle">Γκρουπ:</string>
     <string name="editPostDesc">Icon for editing the current post</string>

@@ -135,7 +135,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 postHolder.editPost.setVisibility(View.VISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
                 postHolder.messageTextA.setText("Επεξεργασία");
-                postHolder.messageTextB.setText("Μηνύματος");
+                postHolder.messageTextB.setText("Ποστ");
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
