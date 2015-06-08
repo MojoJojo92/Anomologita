@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,7 +99,9 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
 
     private void deletePost() {
         if (Anomologita.isConnected()) {
-            new AttemptLogin(DELETE_POST, postID, this).execute();
+            AttemptLogin deletePost = new AttemptLogin();
+            deletePost.deletePost(postID, this);
+            deletePost.execute();
         }
     }
 
@@ -123,7 +124,9 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
             onBackPressed();
         } else {
             if (Anomologita.isConnected()) {
-                new AttemptLogin(EDIT_POST, postID, newPost, newLocation).execute();
+                AttemptLogin editPost = new AttemptLogin();
+                editPost.editPost(postID, newPost, newLocation);
+                editPost.execute();
                 Intent intent = new Intent();
                 intent.putExtra("text",newPost);
                 setResult(Activity.RESULT_OK, intent);

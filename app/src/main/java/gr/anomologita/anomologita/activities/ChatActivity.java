@@ -27,7 +27,6 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.ChatAdapter;
 import gr.anomologita.anomologita.databases.ChatDBHandler;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
-import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.ChatMessage;
 import gr.anomologita.anomologita.objects.Conversation;
@@ -137,7 +136,9 @@ public class ChatActivity extends ActionBarActivity {
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             if (Anomologita.isConnected()) {
-                new AttemptLogin(LoginMode.PERSONAL_MESSAGE, Anomologita.regID, receiverRegID, receiverName, message, hashtag, "chat", String.valueOf(postID)).execute();
+                AttemptLogin sendMessage =  new AttemptLogin();
+                sendMessage.sendMessage(Anomologita.regID, receiverRegID, receiverName, message, hashtag, String.valueOf(postID));
+                sendMessage.execute();
                 newChatMessage();
                 updateConversation();
                 connection = true;

@@ -14,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginRight="100dp"
         android:layout_marginEnd="100dp"
-        android:background="@drawable/chatbubbleleft"
+        android:background="@drawable/chat_bubble_left"
         android:gravity="start"
         android:orientation="vertical"
         android:padding="7dp"

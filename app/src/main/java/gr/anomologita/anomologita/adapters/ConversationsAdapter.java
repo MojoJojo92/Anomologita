@@ -95,7 +95,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
                 conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
             }
-            conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime()));
+            conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime(), 0));
         }
     }
 

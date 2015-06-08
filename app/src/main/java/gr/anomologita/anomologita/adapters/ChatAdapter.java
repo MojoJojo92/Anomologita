@@ -7,13 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -59,11 +54,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == 0) {
             MeConversationsHolder meMessagesHolder = (MeConversationsHolder) holder;
             meMessagesHolder.meTxtMessage.setText(messages.get(position).getMessage());
-            meMessagesHolder.meTime.setText(Anomologita.getTime(messages.get(position).getTime()));
+            meMessagesHolder.meTime.setText(Anomologita.getTime(messages.get(position).getTime(),0));
         } else {
             OthersConversationsHolder othersConversationsHolder = (OthersConversationsHolder) holder;
             othersConversationsHolder.othersTxtMessage.setText(messages.get(position).getMessage());
-            othersConversationsHolder.anonymousTime.setText(Anomologita.getTime(messages.get(position).getTime()));
+            othersConversationsHolder.anonymousTime.setText(Anomologita.getTime(messages.get(position).getTime(),0));
         }
     }
 

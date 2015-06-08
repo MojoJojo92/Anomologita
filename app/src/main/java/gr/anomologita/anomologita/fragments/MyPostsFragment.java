@@ -78,8 +78,11 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
     }
 
     private void getPosts(){
-        if (Anomologita.isConnected())
-            new AttemptLogin(GET_USER_POSTS, this).execute();
+        if (Anomologita.isConnected()){
+            AttemptLogin getUserPosts = new AttemptLogin();
+            getUserPosts.getUserPosts(this);
+            getUserPosts.execute();
+        }
     }
 
     @Override

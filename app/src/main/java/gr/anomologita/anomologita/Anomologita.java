@@ -53,7 +53,7 @@ public class Anomologita extends Application implements Preferences {
     }
 
     public static boolean isActivityVisible() {
-        return activityVisible;
+        return !activityVisible;
     }
 
     public static void activityResumed() {
@@ -95,6 +95,7 @@ public class Anomologita extends Application implements Preferences {
     }
 
     public static void setNotificationBadge() {
+        Log.e("ddd","das");
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.putInt(NOTIFICATION_BADGES, getNotificationBadges() + 1);
         prefsEditor.apply();
@@ -153,10 +154,10 @@ public class Anomologita extends Application implements Preferences {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 
-    public static String getTime(String time) {
+    public static String getTime(String time, int offset) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         try {
-            Timestamp t2 = new Timestamp(System.currentTimeMillis());
+            Timestamp t2 = new Timestamp(System.currentTimeMillis() + offset * 1000 * 60);
             Date postDate = dateFormat.parse(time);
             Date currentDate = dateFormat.parse(t2.toString());
             int months = currentDate.getMonth() - postDate.getMonth();

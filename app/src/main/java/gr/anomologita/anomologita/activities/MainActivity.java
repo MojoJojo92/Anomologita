@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -222,7 +221,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     .fitCenter()
                     .into(groupImage);
             groupNameTV.setText(Anomologita.getCurrentGroupName());
-            new AttemptLogin(GET_GROUP, Anomologita.getCurrentGroupID(), this).execute();
+            AttemptLogin getGroup = new AttemptLogin();
+            getGroup.getGroup(Anomologita.getCurrentGroupID(), this);
+            getGroup.execute();
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
             Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
@@ -283,8 +284,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 db.createFavorite(groupProfile);
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
-                AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "1", Anomologita.getCurrentGroupName());
-                attemptLogin.execute();
+                AttemptLogin setSubs = new AttemptLogin();
+                setSubs.setSubs("1", Anomologita.getCurrentGroupName());
+                setSubs.execute();
                 int subs = Integer.parseInt((String) groupSubs.getText());
                 subs++;
                 groupSubs.setText(String.valueOf(subs));
@@ -295,7 +297,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                         text = "Το γκρούπ " + groupProfile.getGroupName() + " πλέον αρέσει σε " + subs + " άτομο";
                     else
                         text = "Το γκρούπ " + groupProfile.getGroupName() + " πλέον αρέσει σε " + subs + " άτομα";
-                    new AttemptLogin(SEND_NOTIFICATION, text, "subscribe", String.valueOf(groupProfile.getGroup_id()), groupProfile.getRegID()).execute();
+                    AttemptLogin sendNotification = new AttemptLogin();
+                    sendNotification.sendNotification(text, "subscribe", String.valueOf(groupProfile.getGroup_id()), groupProfile.getRegID());
+                    sendNotification.execute();
                 }
             } else {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
@@ -304,8 +308,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
                 fragmentNav.updateDrawer();
-                AttemptLogin attemptLogin = new AttemptLogin(LoginMode.SET_SUBSCRIBERS, "-1", Anomologita.getCurrentGroupName());
-                attemptLogin.execute();
+                AttemptLogin setSubs = new AttemptLogin();
+                setSubs.setSubs("-1", Anomologita.getCurrentGroupName());
+                setSubs.execute();
                 int subs = Integer.parseInt((String) groupSubs.getText());
                 subs -= 1;
                 groupSubs.setText(String.valueOf(subs));

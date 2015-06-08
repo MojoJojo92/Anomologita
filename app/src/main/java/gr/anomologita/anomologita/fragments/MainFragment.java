@@ -60,7 +60,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         if (getArguments() != null)
             sort = getArguments().getString("sort");
         groupID = Anomologita.getCurrentGroupID();
-        mGroupProfileHeight = Anomologita.convert(140 - 30);
+        mGroupProfileHeight = (int) (getResources().getDimension(R.dimen.groupProfileHeight) - (getResources().getDimension(R.dimen.titleSize)));
     }
 
     @Override
@@ -131,9 +131,9 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         return view;
     }
 
-    public void refresh(){
-        Log.e("this",sort);
-        if(mSwipeRefreshLayout != null){
+    public void refresh() {
+        Log.e("this", sort);
+        if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(true);
             getPosts();
         }
@@ -141,7 +141,9 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
     private void getPosts() {
         if (Anomologita.isConnected() && groupID != null) {
-            new AttemptLogin(GET_POSTS, groupID, sort, "0", "20", this).execute();
+            AttemptLogin getPosts = new AttemptLogin();
+            getPosts.getPosts(groupID, sort, "0", "20", this);
+            getPosts.execute();
             mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             name.setAlpha(0);
         } else {
@@ -164,7 +166,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         if (db.exists(postID)) {
             Intent i = new Intent(getActivity(), ChatActivity.class);
             Anomologita.conversation = db.getConversation(postID);
-            startActivityForResult(i,5);
+            startActivityForResult(i, 5);
             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {
             Intent i = new Intent(getActivity(), MessageActivity.class);
@@ -190,21 +192,28 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     public void setLike(String like, Post post) {
         if (Anomologita.isConnected()) {
             String text;
-            new AttemptLogin(SET_LIKE, String.valueOf(post.getPost_id()), like).execute();
+            AttemptLogin setLike = new AttemptLogin();
+            setLike.setLike(String.valueOf(post.getPost_id()), like);
+            setLike.execute();
             if (!post.getUser_id().equals(Anomologita.userID)) {
                 int likes = post.getLikes() + Integer.parseInt(like);
-                if(likes == 1)
-                     text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομο";
+                if (likes == 1)
+                    text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομο";
                 else
-                 text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομα";
-                new AttemptLogin(SEND_NOTIFICATION, text, "like", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
+                    text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομα";
+                AttemptLogin sendNotification = new AttemptLogin();
+                sendNotification.sendNotification(text, "like", String.valueOf(post.getPost_id()), post.getReg_id());
+                sendNotification.execute();
             }
         }
     }
 
     public void loadMore(int position) {
-        if (Anomologita.isConnected() && groupID != null)
-            new AttemptLogin(GET_POSTS, groupID, sort, String.valueOf(position), String.valueOf(position + 20), this).execute();
+        if (Anomologita.isConnected() && groupID != null) {
+            AttemptLogin getPost = new AttemptLogin();
+            getPost.getPosts(groupID, sort, String.valueOf(position), String.valueOf(position + 20), this);
+            getPost.execute();
+        }
     }
 
     @Override

@@ -48,7 +48,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final Post currentPost = posts.get(position);
             myPostsHolder.mePostLikes.setText(String.valueOf(currentPost.getLikes()));
             myPostsHolder.group_name.setText(currentPost.getGroup_name());
-            myPostsHolder.time.setText(Anomologita.getTime(currentPost.getTimestamp()));
+            myPostsHolder.time.setText(Anomologita.getTime(currentPost.getTimestamp(), 16));
             myPostsHolder.mePostComments.setText(String.valueOf(currentPost.getComments()));
             myPostsHolder.mePostTxt.setText(currentPost.getPost_txt());
             myPostsHolder.mePostTxt.setOnClickListener(new View.OnClickListener() {

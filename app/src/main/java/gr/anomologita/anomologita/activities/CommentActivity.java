@@ -98,7 +98,9 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
 
     void getComments() {
         if (Anomologita.isConnected()) {
-            new AttemptLogin(COMMENT, String.valueOf(post.getPost_id()), null, "getComments", this).execute();
+            AttemptLogin setComment = new AttemptLogin();
+            setComment.setComment(String.valueOf(post.getPost_id()), null, "getComments", this);
+            setComment.execute();
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(layout);
             Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
@@ -112,22 +114,29 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             wheel.stopSpinning();
         } else {
-            if (Anomologita.isConnected())
-                new AttemptLogin(COMMENT, String.valueOf(post.getPost_id()), null, "getComments", this).execute();
+            if (Anomologita.isConnected()){
+                AttemptLogin setComment = new AttemptLogin();
+                setComment.setComment(String.valueOf(post.getPost_id()), null, "getComments", this);
+                setComment.execute();
+            }
         }
     }
 
     public void setLike(String like, Post post) {
         if (Anomologita.isConnected()) {
             String text;
-            new AttemptLogin(SET_LIKE, String.valueOf(post.getPost_id()), like).execute();
+            AttemptLogin setLike = new AttemptLogin();
+            setLike.setLike(String.valueOf(post.getPost_id()), like);
+            setLike.execute();
             if (!post.getUser_id().equals(Anomologita.userID)) {
                 int likes = post.getLikes() + Integer.parseInt(like);
                 if (likes == 1)
                     text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομο";
                 else
                     text = "Το ανομολόγητο σου " + post.getHashtagName() + "\nπλέον  αρέσει σε " + likes + " άτομα";
-                new AttemptLogin(SEND_NOTIFICATION, text, "like", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
+                AttemptLogin sendNotification = new AttemptLogin();
+                sendNotification.sendNotification(text, "like", String.valueOf(post.getPost_id()), post.getReg_id());
+                sendNotification.execute();
             }
         }
     }
@@ -142,13 +151,17 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         } else {
             if (Anomologita.isConnected()) {
                 wheel.spin();
-                new AttemptLogin(COMMENT, String.valueOf(post.getPost_id()), comment, "setComment", this).execute();
+                AttemptLogin setComment = new AttemptLogin();
+                setComment.setComment(String.valueOf(post.getPost_id()), comment, "setComment", this);
+                setComment.execute();
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(commentET.getWindowToken(), 0);
                 commentET.setText("");
                 if (!post.getUser_id().equals(Anomologita.userID)) {
                     String text = "To ανομολόγητο σου " + post.getHashtagName() + " έχει νέα σχόλια";
-                    new AttemptLogin(SEND_NOTIFICATION, text, "comment", String.valueOf(post.getPost_id()), post.getReg_id()).execute();
+                    AttemptLogin sendNotification = new AttemptLogin();
+                    sendNotification.sendNotification(text, "comment", String.valueOf(post.getPost_id()), post.getReg_id());
+                    sendNotification.execute();
                 }
             } else {
                 YoYo.with(Techniques.Tada).duration(700).playOn(layout);

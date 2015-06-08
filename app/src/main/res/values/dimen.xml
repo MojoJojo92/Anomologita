@@ -1,3 +1,4 @@
 <resources>
     <dimen name="groupProfileHeight">140dp</dimen>
+    <dimen name="titleSize">30dp</dimen>
 </resources>

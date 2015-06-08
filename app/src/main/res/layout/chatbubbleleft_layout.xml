@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/chatbubbleright"
+        android:background="@drawable/chat_bubble_right"
         android:gravity="bottom"
         android:orientation="vertical"
         android:padding="7dp"

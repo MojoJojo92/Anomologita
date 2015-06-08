@@ -3,7 +3,7 @@
     android:id="@+id/group_profile_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="@dimen/groupProfileHeight"
     android:layout_gravity="bottom"
     android:orientation="horizontal">
 
@@ -62,9 +62,9 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/edit"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="15dp"
-                android:layout_above="@+id/edit"
                 android:contentDescription="@string/bigCircleDesc"
                 android:src="@drawable/ic_background_circle_white"/>
 
@@ -72,9 +72,9 @@
                 android:id="@+id/icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/edit"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="15dp"
-                android:layout_above="@+id/edit"
                 android:contentDescription="@string/groupIconDesc"
                 android:src="@drawable/ic_group"/>
 
@@ -83,11 +83,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:clickable="true"
                 android:gravity="center"
                 android:onClick="editGroup"
-                android:clickable="true"
-                android:textSize="12sp"
-                android:text="@string/edit_group"/>
+                android:text="@string/edit_group"
+                android:textSize="12sp"/>
 
         </RelativeLayout>
 
@@ -193,11 +193,12 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
                     android:background="@drawable/subscribe_background"
                     android:drawableLeft="@drawable/ic_star_white"
+                    android:drawableStart="@drawable/ic_star_white"
                     android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:text="@string/subscribeButton"
                     android:theme="@style/My.SubButton.Style.Off"/>
 
@@ -209,7 +210,7 @@
         android:id="@+id/titleLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/titleSize"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:alpha="0"

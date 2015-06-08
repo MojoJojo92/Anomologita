@@ -76,8 +76,11 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
     }
 
     private void getGroups() {
-        if (Anomologita.isConnected())
-            new AttemptLogin(GET_USER_GROUPS, this).execute();
+        if (Anomologita.isConnected()){
+            AttemptLogin getUserGroups = new AttemptLogin();
+            getUserGroups.getUserGroups(this);
+            getUserGroups.execute();
+        }
     }
 
     @Override

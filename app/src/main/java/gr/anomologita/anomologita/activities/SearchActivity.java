@@ -95,8 +95,11 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
     }
 
     private void search(String search) {
-        if (Anomologita.isConnected())
-            new AttemptLogin(SEARCH, search, this).execute();
+        if (Anomologita.isConnected()){
+            AttemptLogin getSearch = new AttemptLogin();
+            getSearch.getSearch(search, this);
+            getSearch.execute();
+        }
     }
 
     @Override

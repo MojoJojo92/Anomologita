@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -43,6 +43,8 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         setContentView(R.layout.edit_post_layout);
         layout = (RelativeLayout) findViewById(R.id.editPostLayout);
 
+        dialog();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.editPostToolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -65,6 +67,26 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         });
     }
 
+    private void dialog(){
+        new MaterialDialog.Builder(this)
+                .title("TEST")
+                .content("Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                        "Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla")
+                .positiveText("ΣΥΜΦΩΝΩ")
+                .positiveColor(getResources().getColor(R.color.primaryColor))
+                .cancelable(false)
+                .negativeText("ΔΙΑΦΩΝΩ")
+                .negativeColor(getResources().getColor(R.color.primaryColor))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        onBackPressed();
+                    }
+                })
+                .show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post, menu);
@@ -83,7 +105,6 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         post.setGroup_name(groupName);
         post.setGroup_id(groupID);
         post.setTimestamp((new Timestamp(System.currentTimeMillis())).toString());
-        Log.e("thime",post.getTimestamp());
         PostsDBHandler db = new PostsDBHandler(this);
         db.createPost(post);
         db.close();
@@ -111,7 +132,9 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 30 χαρακτήρες", Toast.LENGTH_SHORT).show();
             } else {
                 if (Anomologita.isConnected()) {
-                    new AttemptLogin(POST, postTxt, location, String.valueOf(groupID), this).execute();
+                    AttemptLogin setPost = new AttemptLogin();
+                    setPost.setPost(postTxt, location, String.valueOf(groupID), this);
+                    setPost.execute();
                     onBackPressed();
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);

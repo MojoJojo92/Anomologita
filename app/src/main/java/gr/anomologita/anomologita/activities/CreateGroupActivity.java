@@ -15,12 +15,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.io.ByteArrayOutputStream;
 
@@ -29,7 +29,6 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.extras.Keys.CheckGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
-import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -39,7 +38,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import static android.util.Base64.DEFAULT;
 import static android.util.Base64.encodeToString;
 
-public class CreateGroupActivity extends ActionBarActivity implements LoginMode, ImageEditComplete, CreateGroupComplete, ImageSetComplete, CheckGroupComplete {
+public class CreateGroupActivity extends ActionBarActivity implements LoginMode, CreateGroupComplete, ImageSetComplete, CheckGroupComplete {
 
     private static final int SELECT_PICTURE = 1;
     private ImageView picture;
@@ -47,7 +46,6 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     private String image;
     private String groupName, hashtag, groupID;
     private RelativeLayout layout;
-    private ProgressWheel wheel;
 
     private static String encodeToBase64(Bitmap image) {
         System.gc();
@@ -79,8 +77,6 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         picture = (ImageView) findViewById(R.id.groupImage);
         groupNameET = (EditText) findViewById(R.id.groupName);
         hashtagET = (EditText) findViewById(R.id.hashTag);
-        wheel = (ProgressWheel) findViewById(R.id.wheel);
-        wheel.stopSpinning();
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,15 +102,8 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
                 Uri selectedImageUri = data.getData();
                 BitmapPool pool = Glide.get(this).getBitmapPool();
                 Glide.with(this).load(selectedImageUri).asBitmap().transform(new CropCircleTransformation(pool), new FitCenter(pool)).into(picture);
-                if (Anomologita.isConnected())
-                    new AttemptLogin(EDIT_IMAGE, selectedImageUri, this).execute();
             }
         }
-    }
-
-    @Override
-    public void onImageEditComplete(Bitmap imageBitmap) {
-        image = encodeToBase64(imageBitmap);
     }
 
     @Override
@@ -124,13 +113,15 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             Bitmap bitmap = ((BitmapDrawable) picture.getDrawable()).getBitmap();
             image = encodeToBase64(bitmap);
         }
-        if (Anomologita.isConnected())
-            new AttemptLogin(SET_IMAGE, image, groupID, (ImageSetComplete) this).execute();
+        if (Anomologita.isConnected()) {
+            AttemptLogin setImage = new AttemptLogin();
+            setImage.image(image, groupID, this);
+            setImage.execute();
+        }
     }
 
     @Override
     public void onImageSetComplete() {
-        wheel.stopSpinning();
         Anomologita.setCurrentGroupID(groupID);
         Anomologita.setCurrentGroupName(groupName);
         GroupProfile groupProfile = new GroupProfile();
@@ -167,8 +158,10 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
                 Toast.makeText(this, "Το όνομα δεν πρέπει να ξεπερνά τους 40 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
             } else {
                 if (Anomologita.isConnected()) {
-                    new AttemptLogin(CHECK_GROUP, groupName, this).execute();
-                    wheel.spin();
+                    AttemptLogin checkGroup = new AttemptLogin();
+                    checkGroup.checkGroup(groupName, this);
+                    checkGroup.execute();
+                    progressDialog();
                     layout.setAlpha((float) 0.3);
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
@@ -180,16 +173,28 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         return super.onOptionsItemSelected(item);
     }
 
+    private void progressDialog() {
+        new MaterialDialog.Builder(this)
+                .title("Δημιουργία Γκρουπ")
+                .content("Παρακαλώ Περιμένετε")
+                .cancelable(false)
+                .progress(true, 0)
+                .widgetColorRes(R.color.primaryColor)
+                .show();
+    }
+
     @Override
     public void onCheckGroupComplete(Boolean exists) {
         if (exists) {
             YoYo.with(Techniques.Tada).duration(700).playOn(groupNameET);
             Toast.makeText(Anomologita.getAppContext(), "Δυστυχως το όνομα υπάρχει", Toast.LENGTH_SHORT).show();
-            wheel.stopSpinning();
             layout.setAlpha((float) 1);
         } else {
-            if (Anomologita.isConnected())
-                new AttemptLogin(CREATE_GROUP, hashtag, groupName, (CreateGroupComplete) this).execute();
+            if (Anomologita.isConnected()) {
+                AttemptLogin createGroup = new AttemptLogin();
+                createGroup.createGroup(hashtag, groupName, this);
+                createGroup.execute();
+            }
         }
     }
 

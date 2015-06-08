@@ -93,7 +93,9 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
                 Toast.makeText(this, "Το όνομα ξεπερνά τους 20 χαρακτήρες", Toast.LENGTH_SHORT).show();
             } else {
                 if (Anomologita.isConnected()) {
-                    new AttemptLogin(PERSONAL_MESSAGE, Anomologita.regID, regID, name, message, hashtag, "chat", postID).execute();
+                    AttemptLogin sendMessage = new AttemptLogin();
+                    sendMessage.sendMessage(Anomologita.regID, regID, name, message, hashtag, postID);
+                    sendMessage.execute();
                     createConversation();
                     Toast.makeText(this, "Το μήνυμα εστάλη", Toast.LENGTH_SHORT).show();
                     onBackPressed();

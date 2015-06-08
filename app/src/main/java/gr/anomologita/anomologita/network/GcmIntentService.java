@@ -10,11 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -23,11 +23,13 @@ import gr.anomologita.anomologita.activities.MainActivity;
 import gr.anomologita.anomologita.databases.ChatDBHandler;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
 import gr.anomologita.anomologita.databases.NotificationDBHandler;
+import gr.anomologita.anomologita.extras.Keys;
 import gr.anomologita.anomologita.objects.ChatMessage;
 import gr.anomologita.anomologita.objects.Conversation;
 import gr.anomologita.anomologita.objects.Notification;
+import gr.anomologita.anomologita.objects.Post;
 
-public class GcmIntentService extends IntentService {
+public class GcmIntentService extends IntentService implements Keys.MyPostsComplete, Keys.LoginMode {
     private static final int NOTIFICATION_ID = 1;
     private static final String TAG = "GcmIntentService";
 
@@ -56,6 +58,8 @@ public class GcmIntentService extends IntentService {
                             if (extras.getString("operation").equals("chat"))
                                 chat(extras);
                             else if (extras.getString("operation").equals("notification"))
+                                if (Anomologita.isConnected())
+                                   // new AttemptLogin(GET_USER_POSTS, this).execute();
                                 notification(extras);
                             break;
                         }
@@ -69,7 +73,7 @@ public class GcmIntentService extends IntentService {
         ConversationsDBHandler dbCon = new ConversationsDBHandler(this);
         if (!Anomologita.onChat)
             Anomologita.setChatBadge();
-        if (!Anomologita.isActivityVisible())
+        if (Anomologita.isActivityVisible())
             sendChatNotification(extras.getString("name"),extras.getString("message"));
         if (dbCon.exists(extras.getString("postID"))) {
             Conversation conversation = dbCon.getConversation(extras.getString("postID"));
@@ -115,7 +119,7 @@ public class GcmIntentService extends IntentService {
         notification.setId(extras.getString("id"));
         notification.setType(extras.getString("type"));
         notification.setText(extras.getString("text"));
-        if (!Anomologita.isActivityVisible())
+        if (Anomologita.isActivityVisible())
             sendNotNotification(extras.getString("text"));
         if (!db.exists(extras.getString("id"), extras.getString("type"))) {
             Anomologita.setNotificationBadge();
@@ -128,7 +132,7 @@ public class GcmIntentService extends IntentService {
         }
     }
 
-    public void sendNotNotification(String text) {
+    private void sendNotNotification(String text) {
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -145,7 +149,7 @@ public class GcmIntentService extends IntentService {
     }
 
     private void sendChatNotification(String name,String msg) {
-        if (!Anomologita.isActivityVisible()) {
+        if (Anomologita.isActivityVisible()) {
             NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ChatActivity.class), 0);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -158,4 +162,13 @@ public class GcmIntentService extends IntentService {
         }
     }
 
+    @Override
+    public void onGetUserPostsCompleted(List<Post> userPosts) {
+
+    }
+
+    @Override
+    public void onDeleteUserPostCompleted() {
+
+    }
 }

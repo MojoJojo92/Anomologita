@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notificationHolder.text.setVisibility(View.VISIBLE);
             notificationHolder.delete.setVisibility(View.VISIBLE);
             notificationHolder.image.setVisibility(View.VISIBLE);
-            notificationHolder.time.setText(Anomologita.getTime(currentNotification.getTime()));
+            notificationHolder.time.setText(Anomologita.getTime(currentNotification.getTime(), 0));
             notificationHolder.text.setText(currentNotification.getText());
             notificationHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,12 +95,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 notificationHolder.text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("ok","dsdsdsd");
                         ((NotificationActivity) context).postClick(currentNotification);
                     }
                 });
             }else if (getItemViewType(position) == 1) {
-                notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_comment));
+                notificationHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_comment_big));
                 notificationHolder.text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

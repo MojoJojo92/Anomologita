@@ -2,7 +2,6 @@ package gr.anomologita.anomologita.adapters;
 
 import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +73,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.post.setText(currentPost.getPost_txt());
             postHolder.location.setText("(" + currentPost.getLocation() + ")");
             postHolder.hashtag.setText(currentPost.getHashtagName());
-            postHolder.postTime.setText(Anomologita.getTime(currentPost.getTimestamp()));
+            postHolder.postTime.setText(Anomologita.getTime(currentPost.getTimestamp(), 16));
             if (currentPost.isLiked())
                 postHolder.like.setImageResource(R.drawable.ic_fire_red);
             else

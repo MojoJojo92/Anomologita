@@ -32,7 +32,6 @@ import java.util.UUID;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.extras.Keys;
-import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -40,10 +39,14 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static android.util.Base64.DEFAULT;
 
-public class EditGroupActivity extends ActionBarActivity implements LoginMode, ImageEditComplete, ImageSetComplete, Keys.CheckGroupComplete {
+public class EditGroupActivity extends ActionBarActivity implements LoginMode, ImageSetComplete, Keys.CheckGroupComplete {
 
     private static final int SELECT_PICTURE = 1;
-    private String currentGroupName, currentHashtag, image, newHashtag, newGroupName, groupID = null;
+    private String currentGroupName;
+    private String currentHashtag;
+    private String newHashtag;
+    private String newGroupName;
+    private String groupID = null;
     private ImageView picture;
     private EditText groupNameET, hashtagET;
     private RelativeLayout layout;
@@ -122,8 +125,6 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
                 Uri selectedImageUri = data.getData();
                 BitmapPool pool = Glide.get(this).getBitmapPool();
                 Glide.with(this).load(selectedImageUri).asBitmap().transform(new CropCircleTransformation(pool), new FitCenter(pool)).into(picture);
-                if (Anomologita.isConnected())
-                    new AttemptLogin(EDIT_IMAGE, selectedImageUri, this).execute();
             }
         }
     }
@@ -175,7 +176,9 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
 
     private void deleteGroup() {
         if (Anomologita.isConnected()) {
-            new AttemptLogin(DELETE_GROUP, groupID).execute();
+            AttemptLogin deleteGroup = new AttemptLogin();
+            deleteGroup.deleteGroup(groupID);
+            deleteGroup.execute();
             Toast.makeText(this, "Το γκρουπ " + currentGroupName + " έχει διαγραφεί", Toast.LENGTH_SHORT).show();
             Anomologita.setCurrentGroupName(null);
             Anomologita.setCurrentGroupID(null);
@@ -187,12 +190,18 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         if (Anomologita.isConnected()) {
             if (imageChanged) {
                 Bitmap bitmap = ((BitmapDrawable) picture.getDrawable()).getBitmap();
-                image = encodeToBase64(bitmap);
-                new AttemptLogin(SET_IMAGE, image, groupID, this).execute();
+                String image = encodeToBase64(bitmap);
+                AttemptLogin setImage = new AttemptLogin();
+                setImage.image(image, groupID, this);
+                setImage.execute();
             } else if (!newGroupName.equals(currentGroupName)) {
-                new AttemptLogin(CHECK_GROUP, newGroupName, this).execute();
+                AttemptLogin checkGroup = new AttemptLogin();
+                checkGroup.checkGroup(newGroupName, this);
+                checkGroup.execute();
             } else if (!newHashtag.equals(currentHashtag)) {
-                new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
+                AttemptLogin setHashtag = new AttemptLogin();
+                setHashtag.setHashtag(groupID, newHashtag);
+                setHashtag.execute();
             }
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(layout);
@@ -202,16 +211,15 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
     }
 
     @Override
-    public void onImageEditComplete(Bitmap imageBitmap) {
-        image = encodeToBase64(imageBitmap);
-    }
-
-    @Override
     public void onImageSetComplete() {
         if (!newGroupName.equals(currentGroupName)) {
-            new AttemptLogin(CHECK_GROUP, newGroupName, this).execute();
+            AttemptLogin checkGroup = new AttemptLogin();
+            checkGroup.checkGroup(newGroupName, this);
+            checkGroup.execute();
         } else if (!newHashtag.equals(currentHashtag)) {
-            new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
+            AttemptLogin setHashtag = new AttemptLogin();
+            setHashtag.setHashtag(groupID, newHashtag);
+            setHashtag.execute();
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
@@ -231,9 +239,14 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
             Toast.makeText(Anomologita.getAppContext(), "Δυστυχως το όνομα υπάρχει", Toast.LENGTH_SHORT).show();
         } else {
             if (Anomologita.isConnected()) {
-                new AttemptLogin(SET_GROUP_NAME, newGroupName, groupID).execute();
-                if (!newHashtag.equals(currentHashtag))
-                    new AttemptLogin(SET_HASHTAG, groupID, newHashtag).execute();
+                AttemptLogin setGroupName = new AttemptLogin();
+                setGroupName.setGroupName(newGroupName, groupID);
+                setGroupName.execute();
+                if (!newHashtag.equals(currentHashtag)){
+                    AttemptLogin setHashtag = new AttemptLogin();
+                    setHashtag.setHashtag(groupID, newHashtag);
+                    setHashtag.execute();
+                }
                 Anomologita.setCurrentGroupName(newGroupName);
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);

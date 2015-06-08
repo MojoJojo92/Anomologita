@@ -21,9 +21,9 @@ import gr.anomologita.anomologita.objects.Post;
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final LayoutInflater inflater;
+    private final Context context;
     private List<Comment> comments = new ArrayList<>();
     private Post post;
-    private Context context;
 
     public CommentAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -62,7 +62,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             postHolder.post.setText(post.getPost_txt());
             postHolder.hashtag.setText(post.getHashtagName());
             postHolder.location.setText("(" + post.getLocation() + ")");
-            postHolder.postTime.setText(Anomologita.getTime(post.getTimestamp()));
+            postHolder.postTime.setText(Anomologita.getTime(post.getTimestamp(),16));
             postHolder.numberOfLikes.setText(String.valueOf(post.getLikes()));
             postHolder.numberOfComments.setText(String.valueOf(post.getComments()));
             if (String.valueOf(post.getUser_id()).equals(Anomologita.userID)) {

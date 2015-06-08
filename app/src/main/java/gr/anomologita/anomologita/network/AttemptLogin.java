@@ -6,10 +6,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,10 +21,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.databases.LikesDBHandler;
+import gr.anomologita.anomologita.databases.PostsDBHandler;
 import gr.anomologita.anomologita.extras.Keys.CheckGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.CommentComplete;
 import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
@@ -38,6 +34,7 @@ import gr.anomologita.anomologita.extras.Keys.GetPostsComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
 import gr.anomologita.anomologita.extras.Keys.InputValues;
+import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.MyGroupsComplete;
 import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.extras.Keys.PostComplete;
@@ -46,7 +43,6 @@ import gr.anomologita.anomologita.objects.Comment;
 import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
 import gr.anomologita.anomologita.objects.Post;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class AttemptLogin extends AsyncTask<String, String, String> implements EndpointGroups, InputValues {
 
@@ -63,13 +59,11 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private CheckGroupComplete checkGroupComplete;
 
     private final JSONParser jsonParser = new JSONParser();
-    private String counter, groupName, post, location, conID, message, postID, comment, what, type, text, id,
-            liked, name, search, hashtag, image, groupID, sort, topRange, bottomRange, regID, operation, senderRegID, receiverRegID;
+    private String counter, groupName, post, location, message, postID, comment, what, type, text, id,
+            liked, name, search, hashtag, image, groupID, sort, topRange, bottomRange, regID, senderRegID, receiverRegID;
     private int mode;
     private final Context context = Anomologita.getAppContext();
     private GroupProfile groupProfile;
-    private Bitmap imageBitmap;
-    private Uri uri;
     private Boolean exists;
 
     private List<Comment> comments;
@@ -77,115 +71,100 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private List<Post> posts;
     private List<GroupProfile> userGroups;
 
-    public AttemptLogin(int mode, String s1, String s2) {
-        if (mode == 0) {
-            this.mode = mode;
-            this.counter = s1;
-            this.groupName = s2;
-        } else if (mode == 16) {
-            this.mode = mode;
-            this.postID = s1;
-            this.liked = s2;
-        } else if (mode == 17) {
-            this.mode = mode;
-            this.groupID = s1;
-            this.hashtag = s2;
-        } else if (mode == 21) {
-            this.mode = mode;
-            this.hashtag = s1;
-            this.groupName = s2;
-        } else if (mode == 24) {
-            this.mode = mode;
-            this.groupName = s1;
-            this.groupID = s2;
-        }
+    public AttemptLogin() {
+
     }
 
-    public AttemptLogin(int mode, String image, String groupID, ImageSetComplete imageSetComplete) {
-        this.mode = mode;
+    public void setSubs(String counter, String groupName) {
+        mode = LoginMode.SET_SUBSCRIBERS;
+        this.counter = counter;
+        this.groupName = groupName;
+    }
+
+    public void setGroupName(String groupName, String groupID) {
+        mode = LoginMode.SET_GROUP_NAME;
+        this.groupName = groupName;
+        this.groupID = groupID;
+    }
+
+    public void setHashtag(String hashtag, String groupName) {
+        mode = LoginMode.SET_HASHTAG;
+        this.hashtag = hashtag;
+        this.groupName = groupName;
+    }
+
+    public void setLike(String postID, String liked) {
+        mode = LoginMode.SET_LIKE;
+        this.postID = postID;
+        this.liked = liked;
+    }
+
+    public void image(String image, String groupID, ImageSetComplete imageSetComplete) {
+        mode = LoginMode.SET_IMAGE;
         this.image = image;
         this.groupID = groupID;
         this.imageSetComplete = imageSetComplete;
     }
 
-    public AttemptLogin(int mode, String post, String location, String groupID, PostComplete postComplete) {
-        this.mode = mode;
+    public void setPost(String post, String location, String groupID, PostComplete postComplete) {
+        mode = LoginMode.POST;
         this.post = post;
         this.location = location;
         this.groupID = groupID;
         this.postComplete = postComplete;
     }
 
-    public AttemptLogin(int mode, String postID, String comment, String what, CommentComplete commentComplete) {
-        this.mode = mode;
+    public void setComment(String postID, String comment, String what, CommentComplete commentComplete) {
+        mode = LoginMode.COMMENT;
         this.postID = postID;
         this.comment = comment;
         this.what = what;
         this.commentComplete = commentComplete;
     }
 
-    public AttemptLogin(int mode, String senderRegID, String receiverRegID, String name, String message, String hashtag, String operation, String postID) {
-        this.mode = mode;
-        this.senderRegID = senderRegID;
-        this.receiverRegID = receiverRegID;
-        this.name = name;
-        this.hashtag = hashtag;
-        this.message = message;
-        this.operation = operation;
-        this.postID = postID;
-    }
-
-    public AttemptLogin(int mode, String search, SearchComplete searchComplete) {
-        this.mode = mode;
+    public void getSearch(String search, SearchComplete searchComplete) {
+        mode = LoginMode.SEARCH;
         this.search = search;
         this.searchComplete = searchComplete;
     }
 
-    public AttemptLogin(int mode, MyPostsComplete myPostsComplete) {
-        this.mode = mode;
+    public void getUserPosts(MyPostsComplete myPostsComplete) {
+        mode = LoginMode.GET_USER_POSTS;
         this.myPostsComplete = myPostsComplete;
     }
 
-    public AttemptLogin(int mode, String postID, MyPostsComplete myPostsComplete) {
-        this.mode = mode;
+    public void deletePost(String postID, MyPostsComplete myPostsComplete) {
+        mode = LoginMode.DELETE_POST;
         this.postID = postID;
         this.myPostsComplete = myPostsComplete;
     }
 
-    public AttemptLogin(int mode, String s) {
-        if (mode == 25) {
-            this.mode = mode;
-            this.conID = s;
-        } else if (mode == 27) {
-            this.mode = mode;
-            this.regID = s;
-        } else {
-            this.mode = mode;
-            this.groupID = s;
-        }
+    public void deleteGroup(String groupID) {
+        mode = LoginMode.DELETE_GROUP;
+        this.groupID = groupID;
     }
 
-    public AttemptLogin(int mode, MyGroupsComplete myGroupsComplete) {
-        this.mode = mode;
+    public void getUserGroups(MyGroupsComplete myGroupsComplete) {
+        mode = LoginMode.GET_USER_GROUPS;
         this.myGroupsComplete = myGroupsComplete;
     }
 
-    public AttemptLogin(int mode, String groupID, GetGroupProfileComplete getGroupProfileComplete) {
-        this.mode = mode;
+    public void getGroup(String groupID, GetGroupProfileComplete getGroupProfileComplete) {
+        mode = LoginMode.GET_GROUP;
         this.groupID = groupID;
         this.getGroupProfileComplete = getGroupProfileComplete;
     }
 
-    public AttemptLogin(int mode, String text, String type, String id, String regID) {
-        this.mode = mode;
+    public void sendNotification(String text, String type, String id, String regID) {
+        mode = LoginMode.SEND_NOTIFICATION;
         this.text = text;
         this.type = type;
         this.id = id;
         this.regID = regID;
     }
 
-    public AttemptLogin(int mode, String groupID, String sort, String topRange, String bottomRange, GetPostsComplete getPostsComplete) {
-        this.mode = mode;
+    public void getPosts(String groupID, String sort, String topRange, String bottomRange, GetPostsComplete getPostsComplete) {
+        mode = LoginMode.GET_POSTS;
         this.groupID = groupID;
         this.sort = sort;
         this.topRange = topRange;
@@ -193,36 +172,46 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.getPostsComplete = getPostsComplete;
     }
 
-    public AttemptLogin(int mode, Uri uri, ImageEditComplete imageEditComplete) {
-        this.mode = mode;
+   /* public void editImage(Uri uri, ImageEditComplete imageEditComplete) {
+        mode = LoginMode.EDIT_IMAGE;
         this.uri = uri;
         this.imageEditComplete = imageEditComplete;
-    }
+    }*/
 
-    public AttemptLogin(int mode, String hashtag, String groupName, CreateGroupComplete createGroupComplete) {
-        this.mode = mode;
+    public void createGroup(String hashtag, String groupName, CreateGroupComplete createGroupComplete) {
+        mode = LoginMode.CREATE_GROUP;
         this.hashtag = hashtag;
         this.groupName = groupName;
         this.createGroupComplete = createGroupComplete;
     }
 
-    public AttemptLogin(int mode, String groupName, CheckGroupComplete checkGroupComplete) {
-        this.mode = mode;
+    public void checkGroup(String groupName, CheckGroupComplete checkGroupComplete) {
+        mode = LoginMode.CHECK_GROUP;
         this.groupName = groupName;
         this.checkGroupComplete = checkGroupComplete;
     }
 
-    public AttemptLogin(int mode, String s1, String s2, String s3) {
-        this.mode = mode;
-        this.postID = s1;
-        this.post = s2;
-        this.location = s3;
+    public void editPost(String postID, String post, String location) {
+        mode = LoginMode.EDIT_POST;
+        this.postID = postID;
+        this.post = post;
+        this.location = location;
+    }
+
+    public void sendMessage(String senderRegID, String receiverRegID, String name, String message, String hashtag, String postID) {
+        mode = LoginMode.PERSONAL_MESSAGE;
+        this.senderRegID = senderRegID;
+        this.receiverRegID = receiverRegID;
+        this.name = name;
+        this.hashtag = hashtag;
+        this.message = message;
+        this.postID = postID;
     }
 
     @Override
     protected String doInBackground(String... args) {
         switch (mode) {
-            case 0:
+            case LoginMode.SET_SUBSCRIBERS:
                 return setSubscribers();
             case 2:
                 return post();
@@ -256,8 +245,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 return checkGroup();
             case 24:
                 return setGroupName();
-            case 25:
-                return deleteConversation();
             case 26:
                 return editPost();
             case 28:
@@ -299,7 +286,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 imageSetComplete.onImageSetComplete();
                 break;
             case 20:
-                imageEditComplete.onImageEditComplete(imageBitmap);
+               // imageEditComplete.onImageEditComplete(imageBitmap);
                 break;
             case 21:
                 createGroupComplete.onCreateGroupComplete(groupID);
@@ -433,7 +420,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             params.add(new BasicNameValuePair("receiverRegID", receiverRegID));
             params.add(new BasicNameValuePair("postHashtag", hashtag));
             params.add(new BasicNameValuePair("message", message));
-            params.add(new BasicNameValuePair("operation", operation));
+            params.add(new BasicNameValuePair("operation", "chat"));
             params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("postID", postID));
             params.add(new BasicNameValuePair("lastSenderID", Anomologita.userID));
@@ -503,6 +490,9 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             Log.d("request!", "starting");
             JSONObject json = jsonParser.makeHttpRequest(URL_GET_USER_POSTS, "GET", params);
 
+            PostsDBHandler db = new PostsDBHandler(context);
+            db.clearAll();
+
             for (int i = 0; i < json.length() - 2; i++) {
                 Post myPost = new Post();
                 myPost.setPost_txt(json.getJSONObject(String.valueOf(i)).getString(KEY_POST));
@@ -513,9 +503,11 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 myPost.setPost_id(json.getJSONObject(String.valueOf(i)).getInt(KEY_POST_ID));
                 myPost.setGroup_name(json.getJSONObject(String.valueOf(i)).getString(KEY_GROUP_NAME));
                 myPost.setTimestamp(json.getJSONObject(String.valueOf(i)).getString(KEY_DATE));
+                db.createPost(myPost);
                 posts.add(myPost);
             }
             Collections.reverse(posts);
+            db.close();
 
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
@@ -791,14 +783,14 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         return null;
     }
 
-    private void editImage() {
+ /*   private void editImage() {
         try {
             BitmapPool pool = Glide.get(context).getBitmapPool();
             imageBitmap = Glide.with(context).load(uri).asBitmap().transform(new CropCircleTransformation(pool), new FitCenter(pool)).into(250, 250).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private String createGroup() {
         int success;
@@ -843,7 +835,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
             Log.d("success", String.valueOf(success));
-            Log.e("check",json.getInt("exists")+"");
+            Log.e("check", json.getInt("exists") + "");
             if (success == 1) {
                 Log.d("Login Successful!", json.toString());
                 exists = json.getInt("exists") != 0;
@@ -867,32 +859,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
 
             Log.d("request!", "starting");
             JSONObject json = jsonParser.makeHttpRequest(URL_SET_GROUP_NAME, "POST", params);
-            Log.d("Login attempt", json.toString());
-            success = json.getInt(TAG_SUCCESS);
-            Log.d("success", String.valueOf(success));
-
-            if (success == 1) {
-                Log.d("Login Successful!", json.toString());
-                return json.getString(TAG_MESSAGE);
-            } else {
-                Log.d("Login Failure!", json.getString(TAG_MESSAGE));
-                return json.getString(TAG_MESSAGE);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private String deleteConversation() {
-        int success;
-        try {
-            List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("conversation_id", conID));
-
-            Log.d("request!", "starting");
-            JSONObject json = jsonParser.makeHttpRequest(URL_DELETE_CONVERSATION, "POST", params);
-
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
             Log.d("success", String.valueOf(success));
@@ -941,7 +907,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         int success;
         try {
             List<BasicNameValuePair> params = new ArrayList<>();
-            Log.e("regid", regID.equals(Anomologita.regID)+ " ");
             params.add(new BasicNameValuePair("text", text.trim()));
             params.add(new BasicNameValuePair("type", type));
             params.add(new BasicNameValuePair("id", id));
