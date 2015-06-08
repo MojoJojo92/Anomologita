@@ -51,7 +51,6 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
                 ((MainActivity) getActivity()).onDrawerSlide(slideOffset);
             }
         };
-       // mDrawerToggle.setDrawerIndicatorEnabled(false);
         drawerLayout.setDrawerListener(mDrawerToggle);
         drawerLayout.post(new Runnable() {
             @Override

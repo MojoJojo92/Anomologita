@@ -769,8 +769,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
 
             httpEntity = httpResponse.getEntity();
             String entityResponse = EntityUtils.toString(httpEntity);
-
-            Log.e("Entity Response  : ", entityResponse);
             return "1";
 
         } catch (IOException e) {
@@ -778,15 +776,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         }
         return null;
     }
-
- /*   private void editImage() {
-        try {
-            BitmapPool pool = Glide.get(context).getBitmapPool();
-            imageBitmap = Glide.with(context).load(uri).asBitmap().transform(new CropCircleTransformation(pool), new FitCenter(pool)).into(250, 250).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private String createGroup() {
         int success;
@@ -831,7 +820,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
             Log.d("success", String.valueOf(success));
-            Log.e("check", json.getInt("exists") + "");
             if (success == 1) {
                 Log.d("Login Successful!", json.toString());
                 exists = json.getInt("exists") != 0;

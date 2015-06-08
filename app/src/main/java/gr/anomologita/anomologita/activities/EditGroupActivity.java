@@ -24,7 +24,6 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.signature.StringSignature;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
@@ -42,11 +41,7 @@ import static android.util.Base64.DEFAULT;
 public class EditGroupActivity extends ActionBarActivity implements LoginMode, ImageSetComplete, Keys.CheckGroupComplete {
 
     private static final int SELECT_PICTURE = 1;
-    private String currentGroupName;
-    private String currentHashtag;
-    private String newHashtag;
-    private String newGroupName;
-    private String groupID = null;
+    private String currentGroupName, currentHashtag, newHashtag, newGroupName, groupID = null;
     private ImageView picture;
     private EditText groupNameET, hashtagET;
     private RelativeLayout layout;
@@ -89,9 +84,6 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         picture = (ImageView) findViewById(R.id.groupImage);
         groupNameET = (EditText) findViewById(R.id.groupName);
         hashtagET = (EditText) findViewById(R.id.hashTag);
-        ProgressWheel wheel = (ProgressWheel) findViewById(R.id.wheel);
-        wheel.stopSpinning();
-
         groupNameET.setText(currentGroupName);
         hashtagET.setText(currentHashtag);
 
@@ -137,7 +129,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         } else if (id == R.id.delete) {
             new AlertDialog.Builder(this)
                     .setTitle("Διαγραφή Γκρουπ")
-                    .setMessage("Are you sure you want to delete this group?")
+                    .setMessage("Σίγουρα θέλεις να διαγράψεις αυτή αυτό το γκρουπ;")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deleteGroup();
@@ -242,7 +234,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
                 AttemptLogin setGroupName = new AttemptLogin();
                 setGroupName.setGroupName(newGroupName, groupID);
                 setGroupName.execute();
-                if (!newHashtag.equals(currentHashtag)){
+                if (!newHashtag.equals(currentHashtag)) {
                     AttemptLogin setHashtag = new AttemptLogin();
                     setHashtag.setHashtag(groupID, newHashtag);
                     setHashtag.execute();

@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.util.Log;
 import android.util.TypedValue;
 
 import java.sql.Timestamp;
@@ -95,7 +94,6 @@ public class Anomologita extends Application implements Preferences {
     }
 
     public static void setNotificationBadge() {
-        Log.e("ddd","das");
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.putInt(NOTIFICATION_BADGES, getNotificationBadges() + 1);
         prefsEditor.apply();

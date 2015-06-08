@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import gr.anomologita.anomologita.objects.Post;
 
@@ -72,7 +71,6 @@ public class PostsDBHandler extends SQLiteOpenHelper {
         Cursor cursor1 = db.rawQuery(Query, null);
         cursor1.moveToFirst();
         int id = cursor1.getInt(0);
-        Log.e("Query", String.valueOf(id));
         Cursor cursor = db.query(TABLE_POSTS,
                 new String[]{KEY_ID,
                         KEY_POST_ID,
