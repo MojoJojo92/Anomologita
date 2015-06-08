@@ -81,21 +81,6 @@ public class FavoritesDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void clearAll() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("delete from " + TABLE_FAVORITES);
-        db.close();
-    }
-
-    public int getFavoriteCount() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVORITES, null);
-        int count = cursor.getCount();
-        cursor.close();
-        db.close();
-        return count;
-    }
-
     public void updateFavorite(GroupProfile groupProfile) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();

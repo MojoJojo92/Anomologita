@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -54,6 +55,14 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        ImageView submit = (ImageView) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                okClick();
             }
         });
 
@@ -141,8 +150,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         }
     }
 
-    public void okClick(View view) {
-        view.clearFocus();
+    private void okClick() {
         EditText commentET = (EditText) findViewById(R.id.editText);
         String comment = commentET.getText().toString();
         if (comment.equals("")) {

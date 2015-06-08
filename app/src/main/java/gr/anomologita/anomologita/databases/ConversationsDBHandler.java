@@ -97,21 +97,6 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void clearAll() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("delete from " + TABLE_CONVERSATIONS);
-        db.close();
-    }
-
-    public int getConversationCount() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONVERSATIONS, null);
-        int count = cursor.getCount();
-        cursor.close();
-        db.close();
-        return count;
-    }
-
     public void updateConversation(Conversation conversation) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();

@@ -1,8 +1,6 @@
 package gr.anomologita.anomologita.network;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -31,7 +29,6 @@ import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.EndpointGroups;
 import gr.anomologita.anomologita.extras.Keys.GetGroupProfileComplete;
 import gr.anomologita.anomologita.extras.Keys.GetPostsComplete;
-import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
 import gr.anomologita.anomologita.extras.Keys.InputValues;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
@@ -52,7 +49,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private MyGroupsComplete myGroupsComplete;
     private GetPostsComplete getPostsComplete;
     private GetGroupProfileComplete getGroupProfileComplete;
-    private ImageEditComplete imageEditComplete;
     private CreateGroupComplete createGroupComplete;
     private ImageSetComplete imageSetComplete;
     private PostComplete postComplete;

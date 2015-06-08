@@ -1,7 +1,5 @@
 package gr.anomologita.anomologita.extras;
 
-import android.graphics.Bitmap;
-
 import gr.anomologita.anomologita.objects.Comment;
 import gr.anomologita.anomologita.objects.Favorite;
 import gr.anomologita.anomologita.objects.GroupProfile;
@@ -30,7 +28,6 @@ public interface Keys {
         public static final String URL_DELETE_GROUP = "http://anomologita.gr/deleteGroup.php";
         public static final String URL_CHECK_GROUP = "http://anomologita.gr/checkGroup.php";
         public static final String URL_SET_GROUP_NAME = "http://anomologita.gr/editGroupName.php";
-        public static final String URL_DELETE_CONVERSATION = "http://anomologita.gr/deleteConversation.php";
         public static final String URL_EDIT_POST = "http://anomologita.gr/editPost.php";
         public static final String URL_SEND_MESSAGE = "http://anomologita.gr/GCM.php";
         public static final String URL_SEND_NOTIFICATION = "http://anomologita.gr/gcmLike.php";
@@ -81,7 +78,6 @@ public interface Keys {
         public static final int SET_HASHTAG = 17;
         public static final int DELETE_GROUP = 18;
         public static final int SET_IMAGE = 19;
-        public static final int EDIT_IMAGE = 20;
         public static final int CREATE_GROUP = 21;
         public static final int CHECK_GROUP = 23;
         public static final int SET_GROUP_NAME = 24;
@@ -92,7 +88,6 @@ public interface Keys {
 
     public interface Preferences {
         public static final String USER_ID = "userID";
-        public static final String REG_ID = "regID";
         public static final String CURRENT_GROUP_NAME = "currentGroupName";
         public static final String CURRENT_GROUP_ID = "currentGroupID";
         public static final String CHAT_BADGES = "messages";
@@ -127,10 +122,6 @@ public interface Keys {
 
     public interface GetPostsComplete {
         void onGetPostsComplete(List<Post> posts);
-    }
-
-    public interface ImageEditComplete {
-        void onImageEditComplete(Bitmap imageBitmap);
     }
 
     public interface ImageSetComplete {

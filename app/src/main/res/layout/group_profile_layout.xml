@@ -85,7 +85,6 @@
                 android:layout_alignParentBottom="true"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="editGroup"
                 android:text="@string/edit_group"
                 android:textSize="12sp"/>
 
@@ -132,7 +131,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="bottom"
                     android:contentDescription="@string/editGroupDesc"
-
                     android:src="@drawable/ic_edit"
                     android:visibility="gone"/>
 

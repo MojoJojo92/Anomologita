@@ -2,7 +2,6 @@ package gr.anomologita.anomologita.objects;
 
 public class ChatMessage {
 
-    private int messageID;
     private int conversationID;
     private String senderID;
     private String time;
@@ -18,14 +17,6 @@ public class ChatMessage {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public int getMessageID() {
-        return messageID;
-    }
-
-    public void setMessageID(int messageID) {
-        this.messageID = messageID;
     }
 
     public int getConversationID() {

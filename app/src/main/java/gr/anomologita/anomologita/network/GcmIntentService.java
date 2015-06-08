@@ -31,7 +31,6 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class GcmIntentService extends IntentService implements Keys.MyPostsComplete, Keys.LoginMode {
     private static final int NOTIFICATION_ID = 1;
-    private static final String TAG = "GcmIntentService";
 
     public GcmIntentService() {
         super("GcmIntentService");

@@ -9,7 +9,6 @@ public class Post {
     private int likes;
     private boolean isLiked;
     private int comments;
-    private int dbID;
     private String hashtagName;
     private String group_name;
     private String timestamp;
@@ -18,10 +17,6 @@ public class Post {
 
     public Post() {
 
-    }
-
-    public void setDbID(int dbID) {
-        this.dbID = dbID;
     }
 
     public String getReg_id() {
@@ -46,10 +41,6 @@ public class Post {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public int getDbID() {
-        return dbID;
     }
 
     public String getGroup_name() {

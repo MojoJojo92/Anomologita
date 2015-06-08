@@ -61,7 +61,6 @@ public class ChatDBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 ChatMessage message = new ChatMessage();
-                message.setMessageID(cursor.getInt(0));
                 message.setConversationID(cursor.getInt(1));
                 message.setMessage(cursor.getString(2));
                 message.setSenderID(cursor.getString(3));
@@ -73,70 +72,5 @@ public class ChatDBHandler extends SQLiteOpenHelper {
         db.close();
         cursor.close();
         return messages;
-    }
-
-    public void deleteMessage(ChatMessage message) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_MESSAGES, KEY_MESSAGE_ID + "=?", new String[]{String.valueOf(message.getMessageID())});
-        db.close();
-    }
-
-    public void clearAll() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("delete from " + TABLE_MESSAGES);
-        db.close();
-    }
-
-    public int getMessageCount() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_MESSAGES, null);
-        int count = cursor.getCount();
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    public int updateMessage(ChatMessage message) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_CONVERSATION_ID, message.getConversationID());
-        values.put(KEY_MESSAGE, message.getMessage());
-        values.put(KEY_SENDER_ID, message.getSenderID());
-        values.put(KEY_TIME, message.getTime());
-        return db.update(TABLE_MESSAGES, values, KEY_MESSAGE_ID + "=?", new String[]{String.valueOf(message.getMessageID())});
-
-    }
-
-    public List<ChatMessage> getAllMessages() {
-        List<ChatMessage> messages = new ArrayList<>();
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_MESSAGES, null);
-        if (cursor.moveToFirst()) {
-            do {
-                ChatMessage message = new ChatMessage();
-                message.setMessageID(cursor.getInt(0));
-                message.setConversationID(cursor.getInt(1));
-                message.setMessage(cursor.getString(2));
-                message.setSenderID(cursor.getString(3));
-                message.setTime(cursor.getString(4));
-                messages.add(message);
-            }
-            while (cursor.moveToNext());
-        }
-        db.close();
-        cursor.close();
-        return messages;
-    }
-
-    public boolean exists(int messageID) {
-        SQLiteDatabase db = getReadableDatabase();
-        String Query = "SELECT * FROM " + TABLE_MESSAGES + " WHERE " + KEY_MESSAGE_ID + " = '" + messageID + "'";
-        Cursor cursor = db.rawQuery(Query, null);
-        if (cursor.getCount() <= 0) {
-            return false;
-        }
-        db.close();
-        cursor.close();
-        return true;
     }
 }

@@ -2,7 +2,6 @@ package gr.anomologita.anomologita.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
@@ -40,7 +39,6 @@ import gr.anomologita.anomologita.databases.FavoritesDBHandler;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.EndpointGroups;
 import gr.anomologita.anomologita.extras.Keys.GetGroupProfileComplete;
-import gr.anomologita.anomologita.extras.Keys.ImageEditComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Utils;
 import gr.anomologita.anomologita.fragments.MainFragment;
@@ -52,7 +50,7 @@ import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import me.grantland.widget.AutofitHelper;
 
-public class MainActivity extends ActionBarActivity implements MaterialTabListener, GetGroupProfileComplete, ImageEditComplete, LoginMode {
+public class MainActivity extends ActionBarActivity implements MaterialTabListener, GetGroupProfileComplete, LoginMode {
 
     private final Handler handler = new Handler();
     private ViewPager viewPager;
@@ -146,6 +144,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             @Override
             public void onClick(View v) {
                 favoritesClick();
+            }
+        });
+
+        editGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editGroup();
             }
         });
 
@@ -334,19 +339,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     public void onTabUnselected(MaterialTab materialTab) {
     }
 
-    @Override
-    public void onImageEditComplete(Bitmap imageBitmap) {
-        // int color = averageColor(imageBitmap);
-        // LinearLayout linearLayout = (LinearLayout) findViewById(R.id.prof);
-        //  linearLayout.setBackgroundColor(color);
-    }
-
     public void onDrawerSlide(float drawerOffset) {
         actionButton.setTranslationX((drawerOffset * screenWidth()) + abPosition);
     }
 
-    public void editGroup(View view) {
-        view.clearFocus();
+    private void editGroup() {
         if (Anomologita.isConnected()) {
             Intent i = new Intent(this, EditGroupActivity.class);
             i.putExtra("hashtag", groupProfile.getHashtag_name());
