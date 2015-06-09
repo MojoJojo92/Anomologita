@@ -101,7 +101,6 @@ public class Anomologita extends Application implements Preferences {
         return 1;
     }
 
-
     public static void emptyChatBadges() {
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.putInt(CHAT_BADGES, 0);
@@ -181,7 +180,7 @@ public class Anomologita extends Application implements Preferences {
                 return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
             } else if (days > 0) {
                 if (days == 1)
-                    return ("Χθές");
+                    return ("χθές");
                 else
                     return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
             } else if (hours > 0) {

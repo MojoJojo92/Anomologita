@@ -18,7 +18,7 @@
     </string-array>
 
     <string name="add_new_image">+<u> Αλλαγη εικόνας γκρουπ</u></string>
-    <string name="searchGroup">+<u> Βρες το πρώτο γκρουπ</u></string>
+    <string name="searchGroup">+<u> Βρες το κάποιο γκρουπ</u></string>
     <string name="selectImage">setImage</string>
     <string name="HashTag">HashTag</string>
     <string name="time">10min</string>
@@ -44,6 +44,7 @@
     <string name="editPostDesc">Icon for editing the current post</string>
     <string name="bigCircleDesc">Background white circle</string>
     <string name="subscribeButton">+ Πρόσθεσε στα Αγαπημένα</string>
+    <string name="subscribedButton">Αγαπημένο</string>
     <string name="createGroupNameHint">Γράψε το όνομα του γκρουπ\n (π.χ Πανεπιστήμιο Μακεδονίας)</string>
     <string name="createHashTagHint">Γράψε το πρώτο hashtag του γκρουπ!\n(π.χ έφαγακεφτέδες)</string>
     <string name="deleteConversationDesc">Icon for deleting the current group</string>
@@ -62,7 +63,7 @@
     <string name="subsTextB">" άτομα"</string>
     <string name="edit_group"><u>Επεξεργασία</u></string>
     <string name="notificationTitle">ΕΙΔΟΠΟΙΗΣΕΙΣ</string>
-    <string name="switch1">Απενεργοποιηση Ολων</string>
     <string name="switch2">ΗΧΟΣ ΕΙΔΟΠΟΙΗΣΕΩΝ</string>
+    <string name="noInternet">ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ</string>
 
 </resources>

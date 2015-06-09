@@ -164,7 +164,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
                     layout.setAlpha((float) 0.3);
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                    Toast.makeText(this, "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

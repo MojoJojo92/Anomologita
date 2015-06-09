@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
+import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.extras.Keys;
 import gr.anomologita.anomologita.extras.Utils;
 
@@ -50,7 +51,7 @@ public class GCMRegister extends Activity {
             if (Anomologita.isConnected())
                 new RegisterInBackground().execute(null, null, null);
             else
-                Toast.makeText(context, "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.noInternet, Toast.LENGTH_LONG).show();
         }
         return regId;
     }

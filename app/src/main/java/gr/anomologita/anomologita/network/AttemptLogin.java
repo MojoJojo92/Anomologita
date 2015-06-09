@@ -52,11 +52,13 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private PostComplete postComplete;
     private CheckGroupComplete checkGroupComplete;
 
+    private final Context context = Anomologita.getAppContext();
     private final JSONParser jsonParser = new JSONParser();
+
     private String counter, groupName, post, location, message, postID, comment, what, type, text, id,
             liked, name, search, hashtag, image, groupID, sort, topRange, bottomRange, regID, senderRegID, receiverRegID;
+
     private int mode;
-    private final Context context = Anomologita.getAppContext();
     private GroupProfile groupProfile;
     private Boolean exists;
 
@@ -166,12 +168,6 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.getPostsComplete = getPostsComplete;
     }
 
-   /* public void editImage(Uri uri, ImageEditComplete imageEditComplete) {
-        mode = LoginMode.EDIT_IMAGE;
-        this.uri = uri;
-        this.imageEditComplete = imageEditComplete;
-    }*/
-
     public void createGroup(String hashtag, String groupName, CreateGroupComplete createGroupComplete) {
         mode = LoginMode.CREATE_GROUP;
         this.hashtag = hashtag;
@@ -207,41 +203,41 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         switch (mode) {
             case LoginMode.SET_SUBSCRIBERS:
                 return setSubscribers();
-            case 2:
+            case LoginMode.POST:
                 return post();
-            case 5:
+            case LoginMode.COMMENT:
                 return comment();
-            case 9:
+            case LoginMode.PERSONAL_MESSAGE:
                 return personalMessage();
-            case 10:
+            case LoginMode.SEARCH:
                 return search();
-            case 11:
+            case LoginMode.GET_USER_POSTS:
                 return getUserPosts();
-            case 12:
+            case LoginMode.DELETE_POST:
                 return deletePost();
-            case 13:
+            case LoginMode.GET_USER_GROUPS:
                 return getUserGroups();
-            case 14:
+            case LoginMode.GET_POSTS:
                 return getPosts();
-            case 15:
+            case LoginMode.GET_GROUP:
                 return getGroup();
-            case 16:
+            case LoginMode.SET_LIKE:
                 return setLike();
-            case 17:
+            case LoginMode.SET_HASHTAG:
                 return setHashtag();
-            case 18:
+            case LoginMode.DELETE_GROUP:
                 return deleteGroup();
-            case 19:
+            case LoginMode.SET_IMAGE:
                 return setImage();
-            case 21:
+            case LoginMode.CREATE_GROUP:
                 return createGroup();
-            case 23:
+            case LoginMode.CHECK_GROUP:
                 return checkGroup();
-            case 24:
+            case LoginMode.SET_GROUP_NAME:
                 return setGroupName();
-            case 26:
+            case LoginMode.EDIT_POST:
                 return editPost();
-            case 28:
+            case LoginMode.SEND_NOTIFICATION:
                 return sendNotification();
             default:
                 return null;
@@ -252,40 +248,37 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         switch (mode) {
-            case 2:
+            case LoginMode.POST:
                 postComplete.onPostComplete(postID, hashtag);
                 break;
-            case 5:
+            case LoginMode.COMMENT:
                 commentComplete.onCommentCompleted(comments, what);
                 break;
-            case 10:
+            case LoginMode.SEARCH:
                 searchComplete.onSearchCompleted(groupSearches);
                 break;
-            case 11:
+            case LoginMode.GET_USER_POSTS:
                 myPostsComplete.onGetUserPostsCompleted(posts);
                 break;
-            case 12:
+            case LoginMode.DELETE_POST:
                 myPostsComplete.onDeleteUserPostCompleted();
                 break;
-            case 13:
+            case LoginMode.GET_USER_GROUPS:
                 myGroupsComplete.onGetUserGroupsCompleted(userGroups);
                 break;
-            case 14:
+            case LoginMode.GET_POSTS:
                 getPostsComplete.onGetPostsComplete(posts);
                 break;
-            case 15:
+            case LoginMode.GET_GROUP:
                 getGroupProfileComplete.onGetGroupComplete(groupProfile);
                 break;
-            case 19:
+            case LoginMode.SET_IMAGE:
                 imageSetComplete.onImageSetComplete();
                 break;
-            case 20:
-               // imageEditComplete.onImageEditComplete(imageBitmap);
-                break;
-            case 21:
+            case LoginMode.CREATE_GROUP:
                 createGroupComplete.onCreateGroupComplete(groupID);
                 break;
-            case 23:
+            case LoginMode.CHECK_GROUP:
                 checkGroupComplete.onCheckGroupComplete(exists);
                 break;
             default:

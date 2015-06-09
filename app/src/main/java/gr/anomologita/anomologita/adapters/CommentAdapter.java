@@ -73,10 +73,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
             }
             if (String.valueOf(post.getUser_id()).equals(Anomologita.userID)) {
-                postHolder.editPost.setVisibility(View.VISIBLE);
+                postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.messageTextA.setText("Επεξεργασία");
-                postHolder.messageTextB.setText("Μηνύματος");
+                postHolder.messageTextA.setVisibility(View.INVISIBLE);
+                postHolder.messageTextB.setVisibility(View.INVISIBLE);
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);

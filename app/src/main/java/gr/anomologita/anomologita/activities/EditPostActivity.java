@@ -79,7 +79,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         else if (id == R.id.delete)
             new AlertDialog.Builder(this)
                     .setTitle("Διαγραφή Ανομολόγητου")
-                    .setMessage("Are you sure you want to delete this group?")
+                    .setMessage("Σίγουρα θέλεις να διαγράψεις αυτή αυτό το ανομολόγητο;")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deletePost();
@@ -132,7 +132,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             } else {
                 YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
             }
         }
     }

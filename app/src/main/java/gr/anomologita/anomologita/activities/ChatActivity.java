@@ -152,7 +152,7 @@ public class ChatActivity extends ActionBarActivity {
                 connection = true;
             } else if (connection) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                Toast.makeText(this, "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
                 connection = false;
             }
         }

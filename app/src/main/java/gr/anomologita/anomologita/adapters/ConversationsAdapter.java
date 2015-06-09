@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,17 +50,9 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         final ConversationsHolder conversationsHolder = (ConversationsHolder) holder;
         final int currentPosition = position;
         if(position == conversations.size()){
-            conversationsHolder.time.setVisibility(View.INVISIBLE);
-            conversationsHolder.senderName.setVisibility(View.INVISIBLE);
-            conversationsHolder.delete.setVisibility(View.INVISIBLE);
-            conversationsHolder.txtMessage.setVisibility(View.INVISIBLE);
-            conversationsHolder.lastSenderName.setVisibility(View.INVISIBLE);
+            conversationsHolder.layout.setVisibility(View.INVISIBLE);
         }else {
-            conversationsHolder.time.setVisibility(View.VISIBLE);
-            conversationsHolder.senderName.setVisibility(View.VISIBLE);
-            conversationsHolder.delete.setVisibility(View.VISIBLE);
-            conversationsHolder.txtMessage.setVisibility(View.VISIBLE);
-            conversationsHolder.lastSenderName.setVisibility(View.VISIBLE);
+            conversationsHolder.layout.setVisibility(View.VISIBLE);
             final Conversation currentCon = conversations.get(position);
             AutofitHelper.create(conversationsHolder.senderName);
             PostsDBHandler db = new PostsDBHandler(context);
@@ -72,7 +66,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (db.exists(Integer.parseInt(currentCon.getPostID())))
                     conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
                 else
-                    conversationsHolder.lastSenderName.setText("Ανώνυπος: ");
+                    conversationsHolder.lastSenderName.setText("Ανώνυμος: ");
             }
             AutofitHelper.create(conversationsHolder.txtMessage);
             if (currentCon.getLastMessage().length() < 30)
@@ -91,9 +85,16 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((ConversationsActivity)context).selected(currentCon);
                 }
             });
+            conversationsHolder.conLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ConversationsActivity)context).selected(currentCon);
+                }
+            });
             if (currentCon.getSeen().equals("no")) {
                 conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
                 conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
+                conversationsHolder.senderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
             }
             conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime(), 0));
         }
@@ -121,6 +122,8 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         final TextView txtMessage;
         final TextView time;
         final ImageView delete;
+        final RelativeLayout layout;
+        final LinearLayout conLayout;
 
         public ConversationsHolder(View itemView) {
             super(itemView);
@@ -129,6 +132,8 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             txtMessage = (TextView) itemView.findViewById(R.id.txtMessageName);
             time = (TextView) itemView.findViewById(R.id.time);
             delete = (ImageView) itemView.findViewById(R.id.delete);
+            layout = (RelativeLayout) itemView.findViewById(R.id.conRowLayout);
+            conLayout = (LinearLayout) itemView.findViewById(R.id.conLayout);
         }
     }
 }

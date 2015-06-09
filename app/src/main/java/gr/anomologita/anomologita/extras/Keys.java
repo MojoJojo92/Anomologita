@@ -65,24 +65,24 @@ public interface Keys {
     public interface LoginMode {
 
         public static final int SET_SUBSCRIBERS = 0;
-        public static final int POST = 2;
-        public static final int COMMENT = 5;
-        public static final int PERSONAL_MESSAGE = 9;
-        public static final int SEARCH = 10;
-        public static final int GET_USER_POSTS = 11;
-        public static final int DELETE_POST = 12;
-        public static final int GET_USER_GROUPS = 13;
-        public static final int GET_POSTS = 14;
-        public static final int GET_GROUP = 15;
-        public static final int SET_LIKE = 16;
-        public static final int SET_HASHTAG = 17;
-        public static final int DELETE_GROUP = 18;
-        public static final int SET_IMAGE = 19;
-        public static final int CREATE_GROUP = 21;
-        public static final int CHECK_GROUP = 23;
-        public static final int SET_GROUP_NAME = 24;
-        public static final int EDIT_POST = 26;
-        public static final int SEND_NOTIFICATION = 28;
+        public static final int POST = 1;
+        public static final int COMMENT = 2;
+        public static final int PERSONAL_MESSAGE = 3;
+        public static final int SEARCH = 4;
+        public static final int GET_USER_POSTS = 5;
+        public static final int DELETE_POST = 6;
+        public static final int GET_USER_GROUPS = 7;
+        public static final int GET_POSTS = 8;
+        public static final int GET_GROUP = 9;
+        public static final int SET_LIKE = 10;
+        public static final int SET_HASHTAG = 11;
+        public static final int DELETE_GROUP = 12;
+        public static final int SET_IMAGE = 13;
+        public static final int CREATE_GROUP = 14;
+        public static final int CHECK_GROUP = 15;
+        public static final int SET_GROUP_NAME = 16;
+        public static final int EDIT_POST = 17;
+        public static final int SEND_NOTIFICATION = 18;
 
     }
 
@@ -92,7 +92,7 @@ public interface Keys {
         public static final String CURRENT_GROUP_ID = "currentGroupID";
         public static final String CHAT_BADGES = "messages";
         public static final String NOTIFICATION_BADGES = "notifications";
-        public static final String NOTIFICATIONS = "not";
+        public static final String NOTIFICATIONS = "notifications";
 
     }
 

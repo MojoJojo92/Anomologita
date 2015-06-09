@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private DrawerLayout drawerLayout;
     private NavFragment fragmentNav;
     private GroupProfile groupProfile = null;
-    private int abPosition;
+    private int abPosition, mGroupProfileHeight;
     private Menu menu;
 
     @Override
@@ -83,6 +83,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mGroupProfileContainer = (LinearLayout) findViewById(R.id.groupProfileContainer);
+        mGroupProfileHeight = (int) (getResources().getDimension(R.dimen.groupProfileHeight) - (getResources().getDimension(R.dimen.titleSize)));
+        mGroupProfileContainer.setTranslationY(-mGroupProfileHeight);
         name = (LinearLayout) findViewById(R.id.titleLayout);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -256,7 +258,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             getGroup.execute();
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -279,12 +281,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 if (!db.exists(groupProfile.getGroup_name())) {
                     db.updateFavorite(groupProfile);
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                    favoritesButton.setText("+ Πρόσθεσε στα Αγαπημένα");
+                    favoritesButton.setText(R.string.subscribeButton);
                     favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 } else {
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
-                    favoritesButton.setText("Αγαπημένο");
-                    favoritesButton.setTextColor(getResources().getColor(R.color.primaryColorLight));
+                    favoritesButton.setText(R.string.subscribedButton);
+                    favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 }
             } else {
                 if (db.exists(Anomologita.getCurrentGroupName()))
@@ -292,7 +294,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 Anomologita.setCurrentGroupName(null);
                 Anomologita.setCurrentGroupID(null);
                 fragmentNav.updateDrawer();
-                mGroupProfileContainer.animate().translationY(-Anomologita.convert(120 - 30)).setInterpolator(new AccelerateInterpolator(2)).start();
+                mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
                 name.setAlpha(1);
                 title.setText("Ανομολόγητα");
             }
@@ -310,7 +312,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         if (Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null) {
             if (!db.exists(Anomologita.getCurrentGroupName())) {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
-                favoritesButton.setText("Αγαπημένο");
+                favoritesButton.setText(R.string.subscribedButton);
                 favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 db.createFavorite(groupProfile);
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
@@ -333,7 +335,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 }
             } else {
                 favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                favoritesButton.setText("+ Πρόσθεσε στα Αγαπημένα");
+                favoritesButton.setText(R.string.subscribeButton);
                 favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
@@ -378,7 +380,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΥΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
         }
     }
 
