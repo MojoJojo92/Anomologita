@@ -194,7 +194,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         return super.onOptionsItemSelected(item);
     }
 
-    public void resultOK() {
+    private void resultOK() {
         HidingGroupProfileListener.mGroupProfileOffset = 0;
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);

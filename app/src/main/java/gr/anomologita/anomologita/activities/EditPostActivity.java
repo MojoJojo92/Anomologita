@@ -133,7 +133,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         else if (id == R.id.delete)
             new AlertDialog.Builder(this)
                     .setTitle("Διαγραφή Ανομολόγητου")
-                    .setMessage("Σίγουρα θέλεις να διαγράψεις αυτή αυτό το ανομολόγητο;")
+                    .setMessage("Σίγουρα θέλεις να διαγράψεις αυτό το ανομολόγητο;")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deletePost();
@@ -198,7 +198,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         resultOK();
     }
 
-    public void resultOK() {
+    private void resultOK() {
         Intent intent = new Intent();
         setResult(Activity.RESULT_OK, intent);
         finish();
