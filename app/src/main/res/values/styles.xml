@@ -49,7 +49,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
-        <item name="android:background">@drawable/settings_title_background</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:maxLines">1</item>
     </style>
 

@@ -84,6 +84,24 @@ public class Anomologita extends Application implements Preferences {
         prefsEditor.apply();
     }
 
+    public static void notificationsOn() {
+        SharedPreferences.Editor prefsEditor = SP.edit();
+        prefsEditor.putInt(NOTIFICATIONS, 1);
+        prefsEditor.apply();
+    }
+    public static void notificationsOff() {
+        SharedPreferences.Editor prefsEditor = SP.edit();
+        prefsEditor.putInt(NOTIFICATIONS, 2);
+        prefsEditor.apply();
+    }
+
+    public static int areNotificationsOn() {
+        if (SP.contains(NOTIFICATIONS))
+            return SP.getInt(NOTIFICATIONS, 0);
+        return 1;
+    }
+
+
     public static void emptyChatBadges() {
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.putInt(CHAT_BADGES, 0);

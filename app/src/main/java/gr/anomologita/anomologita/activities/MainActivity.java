@@ -222,10 +222,14 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 .positiveColorRes(R.color.primaryColor)
                 .show();
         Switch switchAll = (Switch) dialog.getView().findViewById(R.id.switch1);
+        switchAll.setChecked(Anomologita.areNotificationsOn() == 1);
         switchAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                if(isChecked)
+                   Anomologita.notificationsOn();
+                else
+                    Anomologita.notificationsOff();
             }
         });
     }

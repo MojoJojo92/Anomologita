@@ -63,6 +63,6 @@
     <string name="edit_group"><u>Επεξεργασία</u></string>
     <string name="notificationTitle">ΕΙΔΟΠΟΙΗΣΕΙΣ</string>
     <string name="switch1">Απενεργοποιηση Ολων</string>
-    <string name="switch2">Ήχος</string>
+    <string name="switch2">ΗΧΟΣ ΕΙΔΟΠΟΙΗΣΕΩΝ</string>
 
 </resources>

@@ -92,6 +92,7 @@ public interface Keys {
         public static final String CURRENT_GROUP_ID = "currentGroupID";
         public static final String CHAT_BADGES = "messages";
         public static final String NOTIFICATION_BADGES = "notifications";
+        public static final String NOTIFICATIONS = "not";
 
     }
 
