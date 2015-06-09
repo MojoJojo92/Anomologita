@@ -28,11 +28,7 @@ import gr.anomologita.anomologita.objects.Conversation;
 
 public class MessageActivity extends ActionBarActivity implements LoginMode {
 
-    private String hashtag;
-    private String message;
-    private String regID;
-    private String postID;
-    private String name;
+    private String hashtag, message, regID, postID, name;
     private EditText personalMessageET, nameET;
     private RelativeLayout layout;
 

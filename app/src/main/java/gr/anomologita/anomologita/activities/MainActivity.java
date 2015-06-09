@@ -20,11 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.daimajia.androidanimations.library.Techniques;
@@ -55,10 +58,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private final Handler handler = new Handler();
     private ViewPager viewPager;
     private LinearLayout mGroupProfileContainer, name;
-    private TextView favoritesButton;
+    private TextView favoritesButton, groupNameTV, groupSubs, title, editGroup;
     private ImageView groupImage;
     private MaterialTabHost tabHost;
-    private TextView groupNameTV, groupSubs, title, editGroup;
     private FloatingActionButton actionButton;
     private ViewPagerAdapter adapter;
     private FavoritesDBHandler db;
@@ -186,7 +188,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            settingsDialog();
         } else if (id == R.id.messages_settings) {
             Intent i = new Intent(getApplicationContext(), ConversationsActivity.class);
             startActivityForResult(i, 1);
@@ -207,6 +209,25 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void settingsDialog(){
+        boolean wrapInScrollView = true;
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Settings")
+                .iconRes(R.drawable.ic_setting_light)
+                .customView(R.layout.settings_layout, wrapInScrollView)
+                .positiveText("OK")
+                .widgetColorRes(R.color.accentColor)
+                .positiveColorRes(R.color.primaryColor)
+                .show();
+        Switch switchAll = (Switch) dialog.getView().findViewById(R.id.switch1);
+        switchAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
     }
 
     public Menu getMenu() {

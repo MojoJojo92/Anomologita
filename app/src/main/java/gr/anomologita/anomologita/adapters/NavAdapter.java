@@ -24,8 +24,7 @@ import gr.anomologita.anomologita.objects.Favorite;
 public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final LayoutInflater inflater;
-    private final List<Favorite> favorites = new ArrayList<>();
-    private final List<Favorite> myGroups = new ArrayList<>();
+    private final List<Favorite> favorites = new ArrayList<>(), myGroups = new ArrayList<>();
     private final Context context;
     private List<Favorite> data = new ArrayList<>();
     private ClickListener clickListener;

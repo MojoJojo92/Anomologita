@@ -36,14 +36,11 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class MainFragment extends Fragment implements LoginMode, GetPostsComplete {
 
-    private String groupID = null;
-    private String sort;
+    private String sort, groupID = null;
     private int mGroupProfileHeight;
-    private LinearLayout mGroupProfileContainer;
+    private LinearLayout mGroupProfileContainer, name;
     private MainAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private LinearLayout name;
-
 
     public static MainFragment newInstance(String sort) {
         MainFragment fragment = new MainFragment();

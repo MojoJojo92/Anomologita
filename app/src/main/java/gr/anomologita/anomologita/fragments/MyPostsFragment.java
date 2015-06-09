@@ -60,7 +60,7 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         ad.loadAd(adRequest);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        fragmentMePostsAdapter = new MyPostsAdapter(getActivity(), this);
+        fragmentMePostsAdapter = new MyPostsAdapter(this);
         recyclerView.setAdapter(fragmentMePostsAdapter);
         fragmentMePostsAdapter.setPosts(myPosts);
 

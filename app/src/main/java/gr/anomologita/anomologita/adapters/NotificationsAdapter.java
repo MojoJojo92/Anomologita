@@ -152,7 +152,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notifications = new ArrayList<>();
             notifyDataSetChanged();
         }
-
     }
 
     @Override

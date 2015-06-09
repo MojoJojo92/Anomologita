@@ -1,6 +1,5 @@
 package gr.anomologita.anomologita.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +27,10 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final LayoutInflater layoutInflater;
     private final MyGroupsFragment fragmentMeGroups;
     private final View view;
-    private final Context context;
     private List<GroupProfile> groups = Collections.emptyList();
 
-    public MyGroupsAdapter(Context context, MyGroupsFragment fragmentMeGroups, View view) {
-        layoutInflater = LayoutInflater.from(context);
-        this.context = context;
+    public MyGroupsAdapter(MyGroupsFragment fragmentMeGroups, View view) {
+        layoutInflater = LayoutInflater.from(fragmentMeGroups.getActivity());
         this.fragmentMeGroups = fragmentMeGroups;
         this.view = view;
     }
@@ -65,9 +62,9 @@ public class MyGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     fragmentMeGroups.edit(currentGroup);
                 }
             });
-            BitmapPool pool = Glide.get(context).getBitmapPool();
+            BitmapPool pool = Glide.get(fragmentMeGroups.getActivity()).getBitmapPool();
             Glide.clear(view);
-            Glide.with(context)
+            Glide.with(fragmentMeGroups.getActivity())
                     .load("http://anomologita.gr/img/" + String.valueOf(groups.get(position).getGroup_id()) + ".png").asBitmap()
                     .signature(new StringSignature(UUID.randomUUID().toString()))
                     .transform(new CropCircleTransformation(pool))

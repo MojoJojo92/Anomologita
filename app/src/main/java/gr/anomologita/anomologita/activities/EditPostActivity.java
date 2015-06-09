@@ -29,9 +29,7 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class EditPostActivity extends ActionBarActivity implements LoginMode, MyPostsComplete {
 
-    private String postID;
-    private String currentPost;
-    private String currentLocation;
+    private String postID, currentPost, currentLocation;
     private EditText postET, locationET;
     private RelativeLayout layout;
 

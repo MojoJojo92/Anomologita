@@ -43,8 +43,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     private static final int SELECT_PICTURE = 1;
     private ImageView picture;
     private EditText groupNameET, hashtagET;
-    private String image;
-    private String groupName, hashtag, groupID;
+    private String image, groupName, hashtag, groupID;
     private RelativeLayout layout;
 
     private static String encodeToBase64(Bitmap image) {

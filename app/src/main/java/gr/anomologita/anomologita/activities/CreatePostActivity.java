@@ -30,10 +30,8 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class CreatePostActivity extends ActionBarActivity implements LoginMode, PostComplete {
 
-    private String groupName;
+    private String groupName, postTxt, location;
     private int groupID;
-    private String postTxt;
-    private String location;
     private EditText postET, locationET;
     private RelativeLayout layout;
 
@@ -44,7 +42,6 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         layout = (RelativeLayout) findViewById(R.id.editPostLayout);
 
         dialog();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.editPostToolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -67,7 +64,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         });
     }
 
-    private void dialog(){
+    private void dialog() {
         new MaterialDialog.Builder(this)
                 .title("TEST")
                 .content("Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
@@ -123,7 +120,6 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
             } else if (location.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-           //     Toast.makeText(this, "Δώσε σχολή, κατοικια ή άλλο", Toast.LENGTH_SHORT).show();
             } else if (postTxt.length() > 1000) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(postET);
                 Toast.makeText(this, "Το μήνυμα ξεπερνά τους 1000 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
@@ -138,7 +134,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                     onBackPressed();
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
-                    Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΘΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

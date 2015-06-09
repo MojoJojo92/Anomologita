@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/notificationTitle"
+        style="@style/Settings.Title.Style"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/textView"/>
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:text="@string/switch1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="11sp"
+        android:id="@+id/switch1"
+        android:layout_gravity="center_horizontal"/>
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/switch1"
+        android:text="@string/switch2"
+        android:textSize="11sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/switch2"
+        android:layout_gravity="center_horizontal"/>
+</RelativeLayout>

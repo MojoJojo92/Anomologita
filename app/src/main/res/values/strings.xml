@@ -61,5 +61,8 @@
     <string name="subsTextA">"Το γκρουπ αρέσει σε "</string>
     <string name="subsTextB">" άτομα"</string>
     <string name="edit_group"><u>Επεξεργασία</u></string>
+    <string name="notificationTitle">ΕΙΔΟΠΟΙΗΣΕΙΣ</string>
+    <string name="switch1">Απενεργοποιηση Ολων</string>
+    <string name="switch2">Ήχος</string>
 
 </resources>

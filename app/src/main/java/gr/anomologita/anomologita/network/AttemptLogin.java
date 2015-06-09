@@ -4,14 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -758,19 +756,13 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         params.add(new BasicNameValuePair("image", image));
         params.add(new BasicNameValuePair("group_id", groupID));
 
-        HttpEntity httpEntity;
         try {
-            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
-
+            DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(EndpointGroups.URL_SET_GROUP_IMG);
             httpPost.setEntity(new UrlEncodedFormEntity(params));
-
             HttpResponse httpResponse = httpClient.execute(httpPost);
-
-            httpEntity = httpResponse.getEntity();
-            String entityResponse = EntityUtils.toString(httpEntity);
+            httpResponse.getEntity();
             return "1";
-
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -44,6 +44,14 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="Settings.Title.Style" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:background">@drawable/settings_title_background</item>
+        <item name="android:maxLines">1</item>
+    </style>
 
     <style name="My.SubButton.Style.Off" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>

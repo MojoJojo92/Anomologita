@@ -26,16 +26,14 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class Anomologita extends Application implements Preferences {
 
+    public static Post currentPost;
+    public static String userID = null, regID = null;
+    public static Conversation conversation;
+    public static boolean refresh = false, onChat = false;
+    public static MainFragment fragmentNew = null, fragmentTop = null;
+    private static SharedPreferences SP;
     private static Anomologita sInstance;
     private static boolean activityVisible;
-    public static Post currentPost;
-    private static SharedPreferences SP;
-    public static String userID = null;
-    public static String regID = null;
-    public static Conversation conversation;
-    public static boolean refresh = false;
-    public static boolean onChat = false;
-    public static MainFragment fragmentNew = null, fragmentTop = null;
 
     public void onCreate() {
         super.onCreate();
@@ -62,7 +60,6 @@ public class Anomologita extends Application implements Preferences {
     public static void activityPaused() {
         activityVisible = false;
     }
-
 
     private static void getUserID() {
         if (SP.contains(USER_ID))
@@ -162,9 +159,9 @@ public class Anomologita extends Application implements Preferences {
             int days = currentDate.getDay() - postDate.getDay();
             int hours = currentDate.getHours() - postDate.getHours();
             int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if(months != 0){
+            if (months != 0) {
                 return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
-            }else if (days > 0) {
+            } else if (days > 0) {
                 if (days == 1)
                     return ("Χθές");
                 else

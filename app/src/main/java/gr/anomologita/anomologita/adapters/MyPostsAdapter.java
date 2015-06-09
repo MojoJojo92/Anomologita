@@ -1,6 +1,5 @@
 package gr.anomologita.anomologita.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +22,8 @@ public class MyPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final MyPostsFragment fragmentMePosts;
     private List<Post> posts = Collections.emptyList();
 
-    public MyPostsAdapter(Context context, MyPostsFragment fragmentMePosts) {
-        layoutInflater = LayoutInflater.from(context);
+    public MyPostsAdapter(MyPostsFragment fragmentMePosts) {
+        layoutInflater = LayoutInflater.from(fragmentMePosts.getActivity());
         this.fragmentMePosts = fragmentMePosts;
     }
 

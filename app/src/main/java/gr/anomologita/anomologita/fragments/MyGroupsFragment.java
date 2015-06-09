@@ -54,7 +54,7 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
 
         recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new MyGroupsAdapter(getActivity(), this, view);
+        adapter = new MyGroupsAdapter(this, view);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getActivity())
