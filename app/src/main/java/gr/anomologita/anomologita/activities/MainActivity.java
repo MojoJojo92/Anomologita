@@ -213,7 +213,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
-    private void settingsDialog(){
+    private void settingsDialog() {
         boolean wrapInScrollView = true;
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Settings")
@@ -228,8 +228,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         switchAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                   Anomologita.notificationsOn();
+                if (isChecked)
+                    Anomologita.notificationsOn();
                 else
                     Anomologita.notificationsOff();
             }
@@ -290,7 +290,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 }
             } else {
                 title.setText("Ανομολόγητα");
-                if (db.exists(Anomologita.getCurrentGroupName())){
+                if (db.exists(Anomologita.getCurrentGroupName())) {
                     db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                     title.setText("Το γκρούπ έχει διαγραφεί");
                 }

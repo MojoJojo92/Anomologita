@@ -19,7 +19,6 @@ public abstract class HidingGroupProfileListener extends RecyclerView.OnScrollLi
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
             if(mTotalScrolledDistance < mGroupProfileHeight)
                 setVisible();
@@ -45,21 +44,12 @@ public abstract class HidingGroupProfileListener extends RecyclerView.OnScrollLi
 
         clipGroupProfileOffset();
         onMoved(mGroupProfileOffset);
-
-        if(mTotalScrolledDistance > mGroupProfileHeight){
-            mGroupProfileOffset = mGroupProfileHeight;
-        }else if(mTotalScrolledDistance <= mGroupProfileHeight){
-            mGroupProfileOffset = mTotalScrolledDistance;
-        }else {
-            mGroupProfileOffset = 0;
-        }
         if(mTotalScrolledDistance <= mGroupProfileHeight){
             if ((mGroupProfileOffset < mGroupProfileHeight && dy > 0) || (mGroupProfileOffset > 0 && dy < 0)) {
                 mGroupProfileOffset += dy;
             }
         }
         mTotalScrolledDistance += dy;
-
     }
 
     private void clipGroupProfileOffset() {

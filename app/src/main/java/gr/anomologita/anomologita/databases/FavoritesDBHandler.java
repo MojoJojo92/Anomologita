@@ -54,7 +54,8 @@ public class FavoritesDBHandler extends SQLiteOpenHelper {
     }
 
     public Favorite getFavorite(String group_name) {
-        group_name = group_name.replaceAll("'", "''");
+        if (group_name != null && group_name.contains("'"))
+            group_name = group_name.replaceAll("'", "''");
         SQLiteDatabase db = getReadableDatabase();
         String Query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE " + KEY_NAME + " = '" + group_name + "'";
         Cursor cursor1 = db.rawQuery(Query, null);
@@ -100,7 +101,10 @@ public class FavoritesDBHandler extends SQLiteOpenHelper {
             do {
                 Favorite favorite = new Favorite();
                 favorite.setId(cursor.getInt(0));
-                favorite.set_name(cursor.getString(1));
+                if (cursor.getString(1).contains("''"))
+                    favorite.set_name(cursor.getString(1).replaceAll("''", "'"));
+                else
+                    favorite.set_name(cursor.getString(1));
                 favorite.setUserID(cursor.getString(2));
                 favorite.setSubs(cursor.getInt(3));
                 favorites.add(favorite);
