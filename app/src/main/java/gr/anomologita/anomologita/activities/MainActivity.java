@@ -222,12 +222,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 .positiveText("OK")
                 .widgetColorRes(R.color.accentColor)
                 .positiveColorRes(R.color.primaryColor)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                    }
-                })
                 .show();
         Switch switchAll = (Switch) dialog.getView().findViewById(R.id.switch1);
         switchAll.setChecked(Anomologita.areNotificationsOn() == 1);
