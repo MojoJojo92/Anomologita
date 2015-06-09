@@ -222,6 +222,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 .positiveText("OK")
                 .widgetColorRes(R.color.accentColor)
                 .positiveColorRes(R.color.primaryColor)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                    }
+                })
                 .show();
         Switch switchAll = (Switch) dialog.getView().findViewById(R.id.switch1);
         switchAll.setChecked(Anomologita.areNotificationsOn() == 1);
@@ -289,14 +295,16 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 }
             } else {
-                if (db.exists(Anomologita.getCurrentGroupName()))
+                title.setText("Ανομολόγητα");
+                if (db.exists(Anomologita.getCurrentGroupName())){
                     db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
+                    title.setText("Το γκρούπ έχει διαγραφεί");
+                }
                 Anomologita.setCurrentGroupName(null);
                 Anomologita.setCurrentGroupID(null);
                 fragmentNav.updateDrawer();
                 mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
                 name.setAlpha(1);
-                title.setText("Ανομολόγητα");
             }
         }
     }

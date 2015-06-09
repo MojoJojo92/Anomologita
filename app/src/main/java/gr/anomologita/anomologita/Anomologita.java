@@ -91,7 +91,7 @@ public class Anomologita extends Application implements Preferences {
     }
     public static void notificationsOff() {
         SharedPreferences.Editor prefsEditor = SP.edit();
-        prefsEditor.putInt(NOTIFICATIONS, 2);
+        prefsEditor.putInt(NOTIFICATIONS, 0);
         prefsEditor.apply();
     }
 

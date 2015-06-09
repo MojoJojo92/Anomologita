@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, -Anomologita.convert(50), getResources().getDimensionPixelSize(typed_value.resourceId) + Anomologita.convert(50));
+        mSwipeRefreshLayout.setProgressViewOffset(false, -Anomologita.convert(80), getResources().getDimensionPixelSize(typed_value.resourceId) + Anomologita.convert(80));
         mSwipeRefreshLayout.setDistanceToTriggerSync(20);
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
