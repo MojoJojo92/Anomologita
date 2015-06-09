@@ -5,12 +5,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -33,6 +36,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     private String groupName, postTxt, location;
     private int groupID;
     private EditText postET, locationET;
+    private TextView postSize, locationSize;
     private RelativeLayout layout;
 
     @Override
@@ -52,6 +56,11 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         postET.setHint("Γράψε το ανομολόγητό σου...");
         locationET = (EditText) findViewById(R.id.currentLocation);
         locationET.setHint("Γράψε σχολή, περιοχή ή άλλο!\n(π.χ Πανεπιστήμιο Μακεδονίας)");
+        postSize = (TextView) findViewById(R.id.postSize);
+        setPostSize();
+        locationSize = (TextView) findViewById(R.id.locationSize);
+        setLocationSize();
+
 
         groupName = Anomologita.getCurrentGroupName();
         groupID = Integer.parseInt(Anomologita.getCurrentGroupID());
@@ -62,13 +71,56 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 onBackPressed();
             }
         });
+        postET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setPostSize();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        locationET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setLocationSize();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private void setPostSize() {
+        postSize.setText((postET.getText()).length() + "/2000");
+        if ((postET.getText()).length() >= 2000)
+            postSize.setTextColor(getResources().getColor(R.color.primaryColor));
+        else
+            postSize.setTextColor(getResources().getColor(R.color.secondaryTextColor));
+    }
+
+    private void setLocationSize() {
+        locationSize.setText((locationET.getText()).length() + "/50");
+        if ((locationET.getText()).length() >= 50)
+            locationSize.setTextColor(getResources().getColor(R.color.primaryColor));
+        else
+            locationSize.setTextColor(getResources().getColor(R.color.secondaryTextColor));
     }
 
     private void dialog() {
         new MaterialDialog.Builder(this)
                 .title("TEST")
-                .content("Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
-                        "Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla")
+                .content(getString(R.string.postTerms))
                 .positiveText("ΣΥΜΦΩΝΩ")
                 .positiveColor(getResources().getColor(R.color.primaryColor))
                 .cancelable(false)
@@ -120,18 +172,18 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
             } else if (location.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-            } else if (postTxt.length() > 1000) {
+            } else if (postTxt.length() > 2000) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(postET);
-                Toast.makeText(this, "Το μήνυμα ξεπερνά τους 1000 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
-            } else if (location.length() > 20) {
+                Toast.makeText(this, "Το μήνυμα ξεπερνά τους 2000 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
+            } else if (location.length() > 50) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-                Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 30 χαρακτήρες", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 50 χαρακτήρες", Toast.LENGTH_SHORT).show();
             } else {
                 if (Anomologita.isConnected()) {
                     AttemptLogin setPost = new AttemptLogin();
                     setPost.setPost(postTxt, location, String.valueOf(groupID), this);
                     setPost.execute();
-                    onBackPressed();
+                    resultOK();
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
                     Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
@@ -142,12 +194,20 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         return super.onOptionsItemSelected(item);
     }
 
+    public void resultOK() {
+        HidingGroupProfileListener.mGroupProfileOffset = 0;
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
         HidingGroupProfileListener.mGroupProfileOffset = 0;
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

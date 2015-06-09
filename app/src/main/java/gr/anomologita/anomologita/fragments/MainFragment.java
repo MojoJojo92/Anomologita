@@ -169,9 +169,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             i.putExtra("userID", post.getUser_id());
             i.putExtra("regID", post.getReg_id());
             i.putExtra("postID", String.valueOf(post.getPost_id()));
-            startActivity(i);
+            startActivityForResult(i,1);
             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-            getActivity().finish();
         }
     }
 
@@ -180,7 +179,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         i.putExtra("post", post.getPost_txt());
         i.putExtra("location", post.getLocation());
         i.putExtra("postID", String.valueOf(post.getPost_id()));
-        startActivity(i);
+        startActivityForResult(i, 1);
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 

@@ -44,7 +44,7 @@ public abstract class HidingGroupProfileListener extends RecyclerView.OnScrollLi
 
         clipGroupProfileOffset();
         onMoved(mGroupProfileOffset);
-        if(mTotalScrolledDistance <= mGroupProfileHeight){
+        if(mTotalScrolledDistance <= mGroupProfileHeight || dy > 0){
             if ((mGroupProfileOffset < mGroupProfileHeight && dy > 0) || (mGroupProfileOffset > 0 && dy < 0)) {
                 mGroupProfileOffset += dy;
             }

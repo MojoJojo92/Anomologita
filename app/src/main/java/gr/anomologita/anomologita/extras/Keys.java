@@ -93,6 +93,7 @@ public interface Keys {
         public static final String CHAT_BADGES = "messages";
         public static final String NOTIFICATION_BADGES = "notificationBadges";
         public static final String NOTIFICATIONS = "notifications";
+        public static final String NOTIFICATIONS_SOUND = "notificationsSound";
 
     }
 

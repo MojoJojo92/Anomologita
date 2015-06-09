@@ -20,6 +20,7 @@ import java.util.List;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.NotificationsAdapter;
+import gr.anomologita.anomologita.databases.LikesDBHandler;
 import gr.anomologita.anomologita.databases.PostsDBHandler;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
@@ -29,6 +30,7 @@ import gr.anomologita.anomologita.objects.Post;
 public class NotificationActivity extends ActionBarActivity implements LoginMode {
 
     private final List<Notification> notifications = new ArrayList<>();
+    private boolean ok = false;
     private PostsDBHandler db;
 
     @Override
@@ -81,8 +83,11 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     }
 
     public void postClick(Notification notification) {
+        ok = true;
         Post post = db.getPost(Integer.parseInt(notification.getId()));
         Intent i = new Intent(this, CommentActivity.class);
+        post.setLiked(new LikesDBHandler(this).exists(post.getPost_id()));
+        post.setUser_id(Anomologita.USER_ID);
         startActivityForResult(i, 1);
         Anomologita.currentPost = post;
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -92,10 +97,8 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         if (requestCode == 1) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    // setGroup();
                     break;
                 case Activity.RESULT_CANCELED:
-                    //Write your code if there's no result
                     break;
             }
         }
@@ -104,7 +107,10 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        setResult(Activity.RESULT_CANCELED, intent);
+        if (ok)
+            setResult(Activity.RESULT_OK, intent);
+        else
+            setResult(Activity.RESULT_CANCELED, intent);
         db.close();
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

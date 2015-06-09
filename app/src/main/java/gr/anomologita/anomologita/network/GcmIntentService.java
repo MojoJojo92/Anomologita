@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
-import gr.anomologita.anomologita.activities.ChatActivity;
 import gr.anomologita.anomologita.activities.MainActivity;
 import gr.anomologita.anomologita.databases.ChatDBHandler;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
@@ -29,8 +27,7 @@ import gr.anomologita.anomologita.objects.Conversation;
 import gr.anomologita.anomologita.objects.Notification;
 import gr.anomologita.anomologita.objects.Post;
 
-public class GcmIntentService extends IntentService implements Keys.MyPostsComplete, Keys.LoginMode {
-    private static final int NOTIFICATION_ID = 1;
+public class GcmIntentService extends IntentService implements Keys.MyPostsComplete, Keys.LoginMode{
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -57,8 +54,11 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
                             if (extras.getString("operation").equals("chat"))
                                 chat(extras);
                             else if (extras.getString("operation").equals("notification"))
-                                if (Anomologita.isConnected())
-                                   // new AttemptLogin(GET_USER_POSTS, this).execute();
+                                if (Anomologita.isConnected()){
+                                    AttemptLogin attemptLogin = new AttemptLogin();
+                                    attemptLogin.getUserPosts(this);
+                                    attemptLogin.execute();
+                                }
                                 notification(extras);
                             break;
                         }
@@ -132,32 +132,40 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
     }
 
     private void sendNotNotification(String text) {
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        android.app.Notification mNotify = new android.app.Notification.Builder(this)
-                .setContentTitle("Ανομολόγητα")
-                .setContentText(text)
-                .setSmallIcon(R.drawable.ic_stat_a)
-                .setContentIntent(pIntent)
-                .setSound(sound)
-                .build();
-        NotificationManager mNM = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotify.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
-        mNM.notify(0, mNotify);
+        if(Anomologita.isConnected() && Anomologita.areNotificationsOn()){
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Intent intent = new Intent(this, MainActivity.class);
+            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            android.app.Notification mNotify = new android.app.Notification.Builder(this)
+                    .setContentTitle("Ανομολόγητα")
+                    .setContentText(text)
+                    .setSmallIcon(R.drawable.ic_stat_a)
+                    .setContentIntent(pIntent)
+                    .build();
+            if(Anomologita.isNotificationSoundOn())
+                mNotify.sound = sound;
+            NotificationManager mNM = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotify.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
+            mNM.notify(0, mNotify);
+        }
     }
 
-    private void sendChatNotification(String name,String msg) {
-        if (Anomologita.isActivityVisible()) {
-            NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ChatActivity.class), 0);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                    this).setSmallIcon(R.drawable.ic_action_a)
+    private void sendChatNotification(String name, String msg) {
+        if(Anomologita.isConnected() && Anomologita.areNotificationsOn()){
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Intent intent = new Intent(this, MainActivity.class);
+            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            android.app.Notification mNotify = new android.app.Notification.Builder(this)
                     .setContentTitle("Ανομολόγητα")
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(name + ": "+ msg))
-                    .setContentText(name + ": "+ msg);
-            mBuilder.setContentIntent(contentIntent);
-            mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+                    .setContentText(name + ": "+ msg)
+                    .setSmallIcon(R.drawable.ic_stat_a)
+                    .setContentIntent(pIntent)
+                    .build();
+            if(Anomologita.isNotificationSoundOn())
+                mNotify.sound = sound;
+            NotificationManager mNM = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotify.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
+            mNM.notify(0, mNotify);
         }
     }
 

@@ -128,8 +128,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), CreatePostActivity.class);
-                startActivity(i);
-                finish();
+                startActivityForResult(i, 1);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
         });
@@ -224,7 +223,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 .positiveColorRes(R.color.primaryColor)
                 .show();
         Switch switchAll = (Switch) dialog.getView().findViewById(R.id.switch1);
-        switchAll.setChecked(Anomologita.areNotificationsOn() == 1);
+        switchAll.setChecked(Anomologita.areNotificationsOn());
         switchAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -232,6 +231,17 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     Anomologita.notificationsOn();
                 else
                     Anomologita.notificationsOff();
+            }
+        });
+        Switch switchSound = (Switch) dialog.getView().findViewById(R.id.switch2);
+        switchSound.setChecked(Anomologita.isNotificationSoundOn());
+        switchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    Anomologita.notificationSoundOn();
+                else
+                    Anomologita.notificationSoundOff();
             }
         });
     }

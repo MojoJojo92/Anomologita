@@ -8,11 +8,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -31,6 +34,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
 
     private String postID, currentPost, currentLocation;
     private EditText postET, locationET;
+    private TextView postSize, locationSize;
     private RelativeLayout layout;
 
     @Override
@@ -56,6 +60,10 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         postET.setText(currentPost);
         locationET = (EditText) findViewById(R.id.currentLocation);
         locationET.setText(currentLocation);
+        postSize = (TextView) findViewById(R.id.postSize);
+        setPostSize();
+        locationSize = (TextView) findViewById(R.id.locationSize);
+        setLocationSize();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +71,52 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
                 onBackPressed();
             }
         });
+
+        postET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setPostSize();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        locationET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setLocationSize();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private void setPostSize() {
+        postSize.setText((postET.getText()).length() + "/2000");
+        if ((postET.getText()).length() >= 2000)
+            postSize.setTextColor(getResources().getColor(R.color.primaryColor));
+        else
+            postSize.setTextColor(getResources().getColor(R.color.secondaryTextColor));
+    }
+
+    private void setLocationSize() {
+        locationSize.setText((locationET.getText()).length() + "/50");
+        if ((locationET.getText()).length() >= 50)
+            locationSize.setTextColor(getResources().getColor(R.color.primaryColor));
+        else
+            locationSize.setTextColor(getResources().getColor(R.color.secondaryTextColor));
     }
 
     @Override
@@ -115,9 +169,9 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         } else if (newPost.length() > 2000) {
             YoYo.with(Techniques.Tada).duration(700).playOn(postET);
             Toast.makeText(this, "Το μήνυμα ξεπερνά τους 2000 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
-        } else if (newLocation.length() > 20) {
+        } else if (newLocation.length() > 50) {
             YoYo.with(Techniques.Tada).duration(700).playOn(locationET);
-            Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 20 χαρακτήρες", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Το προσδιοριστικό ξεπερνά τους 50 χαρακτήρες", Toast.LENGTH_SHORT).show();
         } else if (newPost.equals(currentPost) && newLocation.equals(currentLocation)) {
             onBackPressed();
         } else {
@@ -125,11 +179,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
                 AttemptLogin editPost = new AttemptLogin();
                 editPost.editPost(postID, newPost, newLocation);
                 editPost.execute();
-                Intent intent = new Intent();
-                intent.putExtra("text",newPost);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                resultOK();
             } else {
                 YoYo.with(Techniques.Tada).duration(700).playOn(layout);
                 Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
@@ -145,7 +195,14 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
     @Override
     public void onDeleteUserPostCompleted() {
         Toast.makeText(this, "Το ανομολόγητο έχει διαγραφεί", Toast.LENGTH_SHORT).show();
-        onBackPressed();
+        resultOK();
+    }
+
+    public void resultOK() {
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     @Override

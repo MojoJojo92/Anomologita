@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.CommentActivity;
 import gr.anomologita.anomologita.activities.EditPostActivity;
 import gr.anomologita.anomologita.adapters.MyPostsAdapter;
+import gr.anomologita.anomologita.databases.LikesDBHandler;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -107,6 +109,8 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
 
     public void comment(Post post) {
         Intent i = new Intent(getActivity(), CommentActivity.class);
+        post.setLiked(new LikesDBHandler(getActivity()).exists(post.getPost_id()));
+        post.setUser_id(Anomologita.USER_ID);
         startActivityForResult(i, 1);
         Anomologita.currentPost = post;
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);

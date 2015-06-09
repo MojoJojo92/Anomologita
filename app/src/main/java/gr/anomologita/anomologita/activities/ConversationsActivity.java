@@ -74,7 +74,6 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         Intent i = new Intent(this, ChatActivity.class);
         startActivityForResult(i, 1);
         db.close();
-        finish();
         this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
