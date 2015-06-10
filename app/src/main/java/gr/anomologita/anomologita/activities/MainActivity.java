@@ -108,9 +108,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     Anomologita.refresh = false;
                 }
                 if (Anomologita.getCurrentGroupID() != null) {
-                    mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-                    HidingGroupProfileListener.mGroupProfileOffset = 0;
-                    name.setAlpha(0);
+                    String theTitle = title.getText().toString();
+                    if(!theTitle.equals(getResources().getString(R.string.noInternet)) && !theTitle.equals(getResources().getString(R.string.deleted)) && !theTitle.equals(getResources().getString(R.string.groupName))){
+                        mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                        HidingGroupProfileListener.mGroupProfileOffset = 0;
+                        name.setAlpha(0);
+                    }
                 }
             }
         });
@@ -271,6 +274,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             getGroup.getGroup(Anomologita.getCurrentGroupID(), this);
             getGroup.execute();
         } else {
+            title.setText(R.string.noInternet);
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
             Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
@@ -306,7 +310,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 title.setText("Ανομολόγητα");
                 if (db.exists(Anomologita.getCurrentGroupName())) {
                     db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
-                    title.setText("Το γκρούπ έχει διαγραφεί");
+                    title.setText(R.string.deleted);
                 }
                 Anomologita.setCurrentGroupName(null);
                 Anomologita.setCurrentGroupID(null);

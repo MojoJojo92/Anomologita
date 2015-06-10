@@ -40,6 +40,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     private int mGroupProfileHeight;
     private LinearLayout mGroupProfileContainer, name;
     private MainAdapter adapter;
+    private TextView search, title;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static MainFragment newInstance(String sort) {
@@ -66,6 +67,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listPostsNew);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         name = (LinearLayout) getActivity().findViewById(R.id.titleLayout);
+        title = (TextView) getActivity().findViewById(R.id.title);
 
         mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
 
@@ -73,7 +75,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
-        TextView search = (TextView) view.findViewById(R.id.search);
+        search = (TextView) view.findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +88,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
             search.setVisibility(View.VISIBLE);
+        }else {
+            search.setVisibility(View.INVISIBLE);
         }
 
         adapter = new MainAdapter(this);
@@ -135,16 +139,19 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     }
 
     private void getPosts() {
-        if (Anomologita.isConnected() && groupID != null) {
+        if (Anomologita.isConnected() && groupID != null && !title.getText().equals(getResources().getString(R.string.deleted)) && !title.getText().equals(getResources().getString(R.string.groupName))) {
             AttemptLogin getPosts = new AttemptLogin();
             getPosts.getPosts(groupID, sort, "0", "20", this);
             getPosts.execute();
             mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             name.setAlpha(0);
+            search.setVisibility(View.INVISIBLE);
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
+            if(Anomologita.isConnected())
+                search.setVisibility(View.VISIBLE);
         }
     }
 
@@ -169,7 +176,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             i.putExtra("userID", post.getUser_id());
             i.putExtra("regID", post.getReg_id());
             i.putExtra("postID", String.valueOf(post.getPost_id()));
-            startActivityForResult(i,1);
+            startActivityForResult(i, 1);
             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         }
     }
