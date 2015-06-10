@@ -190,6 +190,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             settingsDialog();
+        }else if (id == R.id.action_terms) {
+            Intent i = new Intent(getApplicationContext(), TermsActivity.class);
+            startActivityForResult(i, 1);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else if (id == R.id.messages_settings) {
             Intent i = new Intent(getApplicationContext(), ConversationsActivity.class);
             startActivityForResult(i, 1);

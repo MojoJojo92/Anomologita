@@ -106,6 +106,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".activities.TermsActivity"
+            android:label="@string/termsTitle"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
         <activity android:name=".network.GCMRegister"/>
 
         <service android:name=".extras.NotifyService"/>

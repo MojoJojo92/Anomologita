@@ -119,8 +119,8 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
 
     private void dialog() {
         new MaterialDialog.Builder(this)
-                .title("TEST")
-                .content(getString(R.string.postTerms))
+                .title("Κανόνες")
+                .content(getString(R.string.postRules))
                 .positiveText("ΣΥΜΦΩΝΩ")
                 .positiveColor(getResources().getColor(R.color.primaryColor))
                 .cancelable(false)

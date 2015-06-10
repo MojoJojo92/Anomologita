@@ -188,16 +188,16 @@ public class Anomologita extends Application implements Preferences {
             Date postDate = dateFormat.parse(time);
             Date currentDate = dateFormat.parse(t2.toString());
             int months = currentDate.getMonth() - postDate.getMonth();
-            int days = currentDate.getDay() - postDate.getDay();
+            int days = currentDate.getDate() - postDate.getDate();
             int hours = currentDate.getHours() - postDate.getHours();
             int minutes = currentDate.getMinutes() - postDate.getMinutes();
-            if (months != 0) {
-                return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
+            if (months > 0) {
+                return (postDate.getDate() + "/" + (postDate.getMonth() + 1) + "/" + (postDate.getYear() - 100));
             } else if (days > 0) {
                 if (days == 1)
                     return ("χθές");
                 else
-                    return (postDate.getDate() + "/" + postDate.getMonth() + "/" + (postDate.getYear() - 100));
+                    return (postDate.getDate() + "/" + (postDate.getMonth() + 1) + "/" + (postDate.getYear() - 100));
             } else if (hours > 0) {
                 if (hours == 1)
                     return ("1 hr");
