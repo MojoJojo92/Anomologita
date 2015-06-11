@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -21,6 +22,7 @@ import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.NotificationsAdapter;
 import gr.anomologita.anomologita.databases.LikesDBHandler;
+import gr.anomologita.anomologita.databases.NotificationDBHandler;
 import gr.anomologita.anomologita.databases.PostsDBHandler;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
@@ -31,7 +33,6 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
 
     private final List<Notification> notifications = new ArrayList<>();
     private boolean ok = false;
-    private PostsDBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,14 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
 
-        db = new PostsDBHandler(this);
+        TextView title = (TextView) findViewById(R.id.title);
+        NotificationDBHandler db = new NotificationDBHandler(this);
+        if (db.getAllNotifications().size() == 0)
+            title.setText(getResources().getString(R.string.noNotifications));
+        else
+            title.setText("");
+        db.close();
+
         NotificationsAdapter notificationsAdapter = new NotificationsAdapter(this);
         notificationsAdapter.setMainData(notifications);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -77,14 +85,15 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         Anomologita.setCurrentGroupID(String.valueOf(notification.getId()));
         Intent intent = new Intent();
         setResult(Activity.RESULT_OK, intent);
-        db.close();
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     public void postClick(Notification notification) {
         ok = true;
+        PostsDBHandler db = new PostsDBHandler(this);
         Post post = db.getPost(Integer.parseInt(notification.getId()));
+        db.close();
         Intent i = new Intent(this, CommentActivity.class);
         post.setLiked(new LikesDBHandler(this).exists(post.getPost_id()));
         post.setUser_id(Anomologita.USER_ID);
@@ -123,7 +132,6 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
             setResult(Activity.RESULT_OK, intent);
         else
             setResult(Activity.RESULT_CANCELED, intent);
-        db.close();
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }

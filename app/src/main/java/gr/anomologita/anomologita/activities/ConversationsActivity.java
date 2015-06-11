@@ -11,8 +11,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -39,6 +39,14 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) findViewById(R.id.title);
+        ConversationsDBHandler db = new ConversationsDBHandler(this);
+        if (db.getAllConversations().size() == 0)
+            title.setText(getResources().getString(R.string.noConversations));
+        else
+            title.setText("");
+        db.close();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

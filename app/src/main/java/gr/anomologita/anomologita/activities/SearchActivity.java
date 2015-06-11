@@ -47,6 +47,9 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        TextView title = (TextView) findViewById(R.id.title);
+        title.setText("");
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
