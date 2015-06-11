@@ -138,7 +138,6 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
                 Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
             } else if (name.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(nameET);
-                Toast.makeText(this, "Δώσε ένα όνομα ή ψευδώνμο", Toast.LENGTH_SHORT).show();
             } else if (message.length() > 100) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(personalMessageET);
                 Toast.makeText(this, "Το μήνυμα ξεπερνά τους 100 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
