@@ -23,6 +23,7 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.NotificationActivity;
 import gr.anomologita.anomologita.databases.NotificationDBHandler;
 import gr.anomologita.anomologita.objects.Notification;
+import me.grantland.widget.AutofitHelper;
 
 public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -83,6 +84,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notificationHolder.delete.setVisibility(View.VISIBLE);
             notificationHolder.image.setVisibility(View.VISIBLE);
             notificationHolder.time.setText(Anomologita.getTime(currentNotification.getTime(), 0));
+            AutofitHelper.create(notificationHolder.text);
             notificationHolder.text.setText(currentNotification.getText());
             notificationHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override

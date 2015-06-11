@@ -36,9 +36,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0)
-            return new MeConversationsHolder(inflater.inflate(R.layout.chatbubbleleft_layout, parent, false));
+            return new MeConversationsHolder(inflater.inflate(R.layout.chatbubbleright_layout, parent, false));
         else
-            return new OthersConversationsHolder(inflater.inflate(R.layout.chatbubbleright_layout, parent, false));
+            return new OthersConversationsHolder(inflater.inflate(R.layout.chatbubbleleft_layout, parent, false));
     }
 
     @Override

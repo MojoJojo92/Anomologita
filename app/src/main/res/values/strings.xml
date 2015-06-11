@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Ανομολόγητα</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ρυθμίσεις</string>
     <string name="notifications">next</string>
     <string name="chat">chat</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-5007584823334636/2263888508</string>
 
     <string-array name="tabs">
         <item>ΝΕΑ</item>
@@ -18,7 +18,7 @@
     </string-array>
 
     <string name="add_new_image">+<u> Αλλαγη εικόνας γκρουπ</u></string>
-    <string name="searchGroup">+<u> Βρες κάποιο γκρουπ</u></string>
+    <string name="searchGroup"><u>Αναζήτησε γκρουπ</u></string>
     <string name="selectImage">setImage</string>
     <string name="HashTag">HashTag</string>
     <string name="time">10min</string>
@@ -43,10 +43,10 @@
     <string name="groupTitle">Γκρουπ:</string>
     <string name="editPostDesc">Icon for editing the current post</string>
     <string name="bigCircleDesc">Background white circle</string>
-    <string name="subscribeButton">+ Πρόσθεσε στα Αγαπημένα</string>
+    <string name="subscribeButton">+ Πρόσθεσέ το στα Αγαπημένα</string>
     <string name="subscribedButton">Αγαπημένο</string>
-    <string name="createGroupNameHint">Γράψε το όνομα του γκρουπ\n (π.χ Πανεπιστήμιο Μακεδονίας)</string>
-    <string name="createHashTagHint">Γράψε το πρώτο hashtag του γκρουπ!\n(π.χ έφαγακεφτέδες)</string>
+    <string name="createGroupNameHint">Γράψε το όνομα του γκρουπ\n (π.χ. Πανεπιστήμιο Μακεδονίας)</string>
+    <string name="createHashTagHint">Γράψε το πρώτο hashtag του γκρουπ!\n(π.χ. έφαγακεφτέδες)</string>
     <string name="deleteConversationDesc">Icon for deleting the current group</string>
     <string name="conTitle">Conversation</string>
     <string name="sender">Ποιός</string>
@@ -69,6 +69,8 @@
     <string name="postSize">0/2000</string>
     <string name="locationSize">0/50</string>
     <string name="deleted">Το γκρούπ έχει διαγραφεί</string>
+
+    <string name="complaints">Όταν μας στείλετε την αναφορά, δώστε μας όσα περισσότερα στοιχεία για να μπορέσουμε να σας εξυπηρετήσουμε</string>
 
     <string name="postRules">
         1. ΔΕΝ βρίζουμε και ΔΕΝ στοχοποιούμε κανέναν ονομαστικά.\n\n

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,7 +76,19 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         layout = (RelativeLayout) findViewById(R.id.createGroupLayout);
         picture = (ImageView) findViewById(R.id.groupImage);
         groupNameET = (EditText) findViewById(R.id.groupName);
+        groupNameET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_ENTER;
+            }
+        });
         hashtagET = (EditText) findViewById(R.id.hashTag);
+        hashtagET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_ENTER;
+            }
+        });
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +173,6 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
                     AttemptLogin checkGroup = new AttemptLogin();
                     checkGroup.checkGroup(groupName, this);
                     checkGroup.execute();
-                    progressDialog();
                     layout.setAlpha((float) 0.3);
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
@@ -193,6 +205,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
                 AttemptLogin createGroup = new AttemptLogin();
                 createGroup.createGroup(hashtag, groupName, this);
                 createGroup.execute();
+                progressDialog();
             }
         }
     }

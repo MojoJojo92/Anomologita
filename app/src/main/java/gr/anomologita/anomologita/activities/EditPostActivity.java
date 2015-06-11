@@ -206,6 +206,18 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);

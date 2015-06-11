@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,7 +28,6 @@ import gr.anomologita.anomologita.objects.Conversation;
 
 public class ConversationsActivity extends ActionBarActivity implements LoginMode {
 
-    private ConversationsDBHandler db;
     private ConversationsAdapter adapter;
 
     @Override
@@ -51,9 +51,8 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
 
-        db = new ConversationsDBHandler(this);
         adapter = new ConversationsAdapter(this);
-        adapter.setMainData(db.getAllConversations());
+        setData();
 
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(100);
@@ -65,15 +64,29 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
                 .margin(Anomologita.convert(10)).color(getResources().getColor(R.color.primaryColor)).build());
+
+    }
+
+    private void setData() {
+        ConversationsDBHandler db = new ConversationsDBHandler(this);
+        adapter.setMainData(db.getAllConversations());
+        db.close();
+    }
+
+    private void deleteConversation(int conID){
+        ConversationsDBHandler db =  new ConversationsDBHandler(this);
+        db.deleteConversation(conID);
+        db.close();
     }
 
     public void selected(Conversation conversation) {
         conversation.setSeen("yes");
+        ConversationsDBHandler db = new ConversationsDBHandler(this);
         db.updateConversation(conversation);
+        db.close();
         Anomologita.conversation = conversation;
         Intent i = new Intent(this, ChatActivity.class);
-        startActivityForResult(i, 1);
-        db.close();
+        startActivityForResult(i, 3);
         this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
@@ -85,7 +98,7 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.deleteData(currentPosition);
-                        db.deleteConversation(conversationID);
+                        deleteConversation(conversationID);
                         Toast.makeText(Anomologita.getAppContext(), "Η συνομιλία έχει διαγραφεί", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -104,16 +117,28 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
                 case Activity.RESULT_OK:
                     break;
                 case Activity.RESULT_CANCELED:
+                    setData();
                     break;
             }
         }
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);
-        db.close();
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }

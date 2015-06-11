@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.extras.Keys;
 import gr.anomologita.anomologita.fragments.MyGroupsFragment;
@@ -78,6 +79,18 @@ public class MeActivity extends ActionBarActivity implements MaterialTabListener
         setResult(Activity.RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
     }
 
     @Override

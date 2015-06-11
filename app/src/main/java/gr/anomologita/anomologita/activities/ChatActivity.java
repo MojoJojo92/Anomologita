@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.ChatAdapter;
 import gr.anomologita.anomologita.databases.ChatDBHandler;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
+import gr.anomologita.anomologita.databases.PostsDBHandler;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.ChatMessage;
 import gr.anomologita.anomologita.objects.Conversation;
@@ -40,7 +42,6 @@ public class ChatActivity extends ActionBarActivity {
     private ChatAdapter adapter;
     private Conversation conversation;
     private EditText editText;
-    private ChatDBHandler db;
     private int conversationID;
     private String receiverName, receiverRegID, message, hashtag, postID;
     private RelativeLayout layout, messageLayout;
@@ -70,10 +71,14 @@ public class ChatActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
-        if (receiverName.equals("Εγώ"))
-            toolbar.setTitle("Συνομιλία με Ανώνυμο");
-        else
+
+        PostsDBHandler dbPosts = new PostsDBHandler(this);
+        if (dbPosts.exists(Integer.parseInt(postID)))
             toolbar.setTitle("Συνομιλία με " + receiverName);
+        else
+            toolbar.setTitle("Συνομιλία με Ανώνυμο");
+        dbPosts.close();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -96,9 +101,11 @@ public class ChatActivity extends ActionBarActivity {
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
-        db = new ChatDBHandler(this);
+
+        ChatDBHandler dbChat = new ChatDBHandler(this);
         adapter = new ChatAdapter(this);
-        adapter.setMainData(db.getConversationMessages(conversationID));
+        adapter.setMainData(dbChat.getConversationMessages(conversationID));
+        dbChat.close();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setItemAnimator(animator);
@@ -118,6 +125,7 @@ public class ChatActivity extends ActionBarActivity {
     };
 
     void refresh() {
+        ChatDBHandler db = new ChatDBHandler(this);
         int currentCount = adapter.getItemCount();
         int newCount = db.getConversationMessages(conversationID).size();
         if (newCount > currentCount) {
@@ -128,6 +136,7 @@ public class ChatActivity extends ActionBarActivity {
         } else {
             adapter.notifyDataSetChanged();
         }
+        db.close();
     }
 
     private void okClick() {
@@ -156,15 +165,18 @@ public class ChatActivity extends ActionBarActivity {
                 connection = false;
             }
         }
+
     }
 
     private void newChatMessage() {
+        ChatDBHandler db = new ChatDBHandler(this);
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setTime((new Timestamp(System.currentTimeMillis())).toString());
         chatMessage.setMessage(message);
         chatMessage.setSenderID(Anomologita.userID);
         chatMessage.setConversationID(conversationID);
         db.createMessage(chatMessage);
+        db.close();
     }
 
     private void updateConversation() {
@@ -177,10 +189,21 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         Anomologita.onChat = false;
-        db.close();
         handler.removeCallbacks(runnable);
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);

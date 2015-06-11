@@ -69,9 +69,10 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Conversation getConversation(String postID) {
+    public Conversation getConversation(String postID, String senderRegID, String receiverRegID) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONVERSATIONS + " WHERE " + KEY_POST_ID + " = '" + postID + "'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONVERSATIONS + " WHERE " + KEY_POST_ID + " = '" + postID +
+                "' AND " + KEY_SENDER_REG_ID + " = '" + senderRegID +"' AND " + KEY_RECEIVER_REG_ID + " = '" + receiverRegID +"'", null);
         Conversation conversation = new Conversation();
         if (cursor != null){
             cursor.moveToFirst();
@@ -139,9 +140,10 @@ public class ConversationsDBHandler extends SQLiteOpenHelper {
         return conversations;
     }
 
-    public boolean exists(String postID) {
+    public boolean exists(String postID, String senderRegID, String receiverRegID) {
         SQLiteDatabase db = getReadableDatabase();
-        String Query = "SELECT * FROM " + TABLE_CONVERSATIONS + " WHERE " + KEY_POST_ID + " = '" + postID + "'";
+        String Query = "SELECT * FROM " + TABLE_CONVERSATIONS + " WHERE " + KEY_POST_ID + " = '" + postID +
+                "' AND " + KEY_SENDER_REG_ID + " = '" + senderRegID +"' AND " + KEY_RECEIVER_REG_ID + " = '" + receiverRegID +"'";
         Cursor cursor = db.rawQuery(Query, null);
         int count = cursor.getCount();
         db.close();

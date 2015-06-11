@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -128,6 +129,8 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
     public boolean onOptionsItemSelected(MenuItem item) {
         message = personalMessageET.getText().toString();
         name = nameET.getText().toString();
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(personalMessageET.getWindowToken(), 0);
         int id = item.getItemId();
         if (id == R.id.createPost) {
             if (message.equals("")) {
@@ -163,8 +166,8 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
     private void newChatMessage() {
         ConversationsDBHandler dbCon = new ConversationsDBHandler(this);
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setConversationID(dbCon.getConversation(postID).getConversationID());
-        chatMessage.setTime(dbCon.getConversation(postID).getTime());
+        chatMessage.setConversationID(dbCon.getConversation(postID, Anomologita.regID, regID).getConversationID());
+        chatMessage.setTime(dbCon.getConversation(postID, Anomologita.regID, regID).getTime());
         chatMessage.setMessage(message);
         chatMessage.setSenderID(Anomologita.userID);
         ChatDBHandler dbChat = new ChatDBHandler(this);
@@ -180,6 +183,7 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
         conversation.setSeen("yes");
         conversation.setPostID(postID);
         conversation.setLastMessage(message);
+        conversation.setLastSenderID(Anomologita.userID);
         conversation.setHashtag(hashtag);
         conversation.setReceiverRegID(regID);
         conversation.setSenderRegID(Anomologita.regID);
@@ -187,6 +191,18 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
         dbCon.createConversation(conversation);
         dbCon.close();
         newChatMessage();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
     }
 
     @Override

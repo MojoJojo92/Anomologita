@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
 
 
     private final List<Post> myPosts = new ArrayList<>();
-    private MyPostsAdapter fragmentMePostsAdapter;
+    private MyPostsAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -61,9 +62,9 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         ad.loadAd(adRequest);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        fragmentMePostsAdapter = new MyPostsAdapter(this);
-        recyclerView.setAdapter(fragmentMePostsAdapter);
-        fragmentMePostsAdapter.setPosts(myPosts);
+        adapter = new MyPostsAdapter(this);
+        recyclerView.setAdapter(adapter);
+        adapter.setPosts(myPosts);
 
         getPosts();
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
@@ -88,7 +89,7 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
 
     @Override
     public void onGetUserPostsCompleted(List<Post> userPosts) {
-        fragmentMePostsAdapter.setPosts(userPosts);
+        adapter.setPosts(userPosts);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -109,9 +110,10 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
     public void comment(Post post) {
         Intent i = new Intent(getActivity(), CommentActivity.class);
         post.setLiked(new LikesDBHandler(getActivity()).exists(post.getPost_id()));
-        post.setUser_id(Anomologita.USER_ID);
+        post.setUser_id(Anomologita.userID);
         startActivityForResult(i, 1);
         Anomologita.currentPost = post;
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
+
 }

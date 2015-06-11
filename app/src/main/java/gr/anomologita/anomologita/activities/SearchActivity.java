@@ -2,14 +2,18 @@ package gr.anomologita.anomologita.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -25,6 +29,7 @@ import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.SearchComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Favorite;
+import me.grantland.widget.AutofitHelper;
 
 public class SearchActivity extends ActionBarActivity implements LoginMode, SearchComplete, SearchAdapter.ClickListener {
 
@@ -59,14 +64,18 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).margin(Anomologita.convert(10))
                 .color(getResources().getColor(R.color.primaryColor)).build());
 
+        search(" ");
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
+        theTextArea.setTextSize(15);
         searchView.setActivated(true);
-        searchView.setQueryHint("Αναζήτηση γκρουπ...");
+        searchView.setQueryHint("Ψάξε για σχολές, περιοχές, άλλα");
         searchView.setIconified(false);
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
@@ -118,6 +127,18 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         db.close();
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
     }
 
     @Override

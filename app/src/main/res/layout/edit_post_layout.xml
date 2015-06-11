@@ -57,7 +57,9 @@
             android:background="@android:color/transparent"
             android:gravity="center"
             android:inputType="textCapSentences|textMultiLine"
-            android:maxLines="3"
+            android:singleLine="false"
+            android:ellipsize="end"
+            android:lines="1"
             android:selectAllOnFocus="true"
             android:textColor="@color/black"/>
 

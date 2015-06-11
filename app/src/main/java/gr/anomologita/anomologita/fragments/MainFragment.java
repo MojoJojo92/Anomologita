@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,7 +41,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     private int mGroupProfileHeight;
     private LinearLayout mGroupProfileContainer, name;
     private MainAdapter adapter;
-    private TextView search, title;
+    private TextView search, title, favorite, edit;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static MainFragment newInstance(String sort) {
@@ -68,7 +69,9 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         name = (LinearLayout) getActivity().findViewById(R.id.titleLayout);
         title = (TextView) getActivity().findViewById(R.id.title);
-
+        title.setText(Anomologita.getCurrentGroupName());
+        favorite = (TextView) getActivity().findViewById(R.id.favoritesButton);
+        edit = (TextView) getActivity().findViewById(R.id.edit);
         mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
 
         DefaultItemAnimator animator = new DefaultItemAnimator();
@@ -100,18 +103,25 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             public void onMoved(int distance) {
                 mGroupProfileContainer.setTranslationY(-distance);
                 name.setAlpha((float) (-mGroupProfileHeight / 2 + mGroupProfileOffset) * (float) 1 / mGroupProfileHeight * 2);
+                if(mGroupProfileOffset == mGroupProfileHeight){
+                    favorite.setVisibility(View.INVISIBLE);
+                }else {
+                    favorite.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onShow() {
                 mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                 name.setAlpha(0);
+                favorite.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onHide() {
                 mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
                 name.setAlpha(1);
+                favorite.setVisibility(View.INVISIBLE);
             }
         });
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
@@ -146,6 +156,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             name.setAlpha(0);
             search.setVisibility(View.INVISIBLE);
+
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
@@ -165,9 +176,9 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     public void newMessage(Post post) {
         ConversationsDBHandler db = new ConversationsDBHandler(getActivity());
         String postID = String.valueOf(post.getPost_id());
-        if (db.exists(postID)) {
+        if (db.exists(postID, Anomologita.regID, post.getReg_id())) {
             Intent i = new Intent(getActivity(), ChatActivity.class);
-            Anomologita.conversation = db.getConversation(postID);
+            Anomologita.conversation = db.getConversation(postID, Anomologita.regID, post.getReg_id());
             startActivityForResult(i, 5);
             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {

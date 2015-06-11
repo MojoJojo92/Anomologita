@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -88,9 +89,9 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     public void newMessage(Post post) {
         ConversationsDBHandler db = new ConversationsDBHandler(this);
         String postID = String.valueOf(post.getPost_id());
-        if (db.exists(postID)) {
+        if (db.exists(postID, Anomologita.regID, post.getReg_id())) {
             Intent i = new Intent(this, ChatActivity.class);
-            Anomologita.conversation = db.getConversation(postID);
+            Anomologita.conversation = db.getConversation(postID, Anomologita.regID, post.getReg_id());
             startActivity(i);
         } else {
             Intent i = new Intent(this, MessageActivity.class);
@@ -189,6 +190,18 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
     }
 
     @Override

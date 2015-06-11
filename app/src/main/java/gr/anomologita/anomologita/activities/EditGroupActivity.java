@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,7 +84,19 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         layout = (RelativeLayout) findViewById(R.id.createGroupLayout);
         picture = (ImageView) findViewById(R.id.groupImage);
         groupNameET = (EditText) findViewById(R.id.groupName);
+        groupNameET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_ENTER;
+            }
+        });
         hashtagET = (EditText) findViewById(R.id.hashTag);
+        hashtagET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_ENTER;
+            }
+        });
         groupNameET.setText(currentGroupName);
         hashtagET.setText(currentHashtag);
 
@@ -253,6 +266,18 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
     }
 
     @Override

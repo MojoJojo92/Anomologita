@@ -1,5 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +57,12 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         postET = (EditText) findViewById(R.id.currentPost);
         postET.setHint("Γράψε το ανομολόγητό σου...");
         locationET = (EditText) findViewById(R.id.currentLocation);
+        locationET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_ENTER;
+            }
+        });
         locationET.setHint("Γράψε σχολή, περιοχή ή άλλο!\n(π.χ Πανεπιστήμιο Μακεδονίας)");
         postSize = (TextView) findViewById(R.id.postSize);
         setPostSize();
@@ -122,7 +130,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 .title("Κανόνες")
                 .content(getString(R.string.postRules))
                 .positiveText("ΣΥΜΦΩΝΩ")
-                .positiveColor(getResources().getColor(R.color.primaryColor))
+                .positiveColor(getResources().getColor(R.color.accentColor))
                 .cancelable(false)
                 .negativeText("ΔΙΑΦΩΝΩ")
                 .negativeColor(getResources().getColor(R.color.primaryColor))
@@ -200,6 +208,18 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
     }
 
     @Override

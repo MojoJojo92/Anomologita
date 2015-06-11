@@ -115,9 +115,12 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String createSubs(int subs) {
         if (subs < 1000) {
             return "" + subs;
-        } else if (subs < 10000) {
+        } else if (subs < 100000) {
             String s = "" + (float) subs / 1000;
-            s = s.substring(0, 1);
+            if (subs > 10000)
+                s = s.substring(0, 2);
+            else
+                s = s.substring(0, 1);
             return s + "k";
         }
         return "0";

@@ -2,6 +2,7 @@ package gr.anomologita.anomologita.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 conversationsHolder.senderName.setText("Με " + currentCon.getName() + " στο " + currentCon.getHashtag());
             else
                 conversationsHolder.senderName.setText("Με Ανώνυμο στο " + currentCon.getHashtag());
+            Log.e("test", currentCon.getLastSenderID()+ " "+ Anomologita.userID);
             if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.userID))) {
                 conversationsHolder.lastSenderName.setText("Εγώ: ");
             }else {
@@ -95,6 +97,10 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
                 conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
                 conversationsHolder.senderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
+            }else {
+                conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
+                conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
+                conversationsHolder.senderName.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
             }
             conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime(), 0));
         }

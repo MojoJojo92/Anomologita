@@ -105,6 +105,18 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Anomologita.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Anomologita.activityPaused();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent();
         if (ok)

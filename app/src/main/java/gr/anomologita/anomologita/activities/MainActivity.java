@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,6 +114,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                         mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                         HidingGroupProfileListener.mGroupProfileOffset = 0;
                         name.setAlpha(0);
+                        favoritesButton.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -130,9 +132,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), CreatePostActivity.class);
-                startActivityForResult(i, 1);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                if(Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null){
+                    Intent i = new Intent(getApplicationContext(), CreatePostActivity.class);
+                    startActivityForResult(i, 1);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                }
             }
         });
         actionButton.setTag(EndpointGroups.ACTION_BUTTON_TAG);
@@ -145,6 +149,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         AutofitHelper.create(groupNameTV);
         groupSubs = (TextView) findViewById(R.id.subs);
         title = (TextView) findViewById(R.id.title);
+        AutofitHelper.create(title);
 
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +198,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             settingsDialog();
+        }else if (id == R.id.action_support) {
+            supportDialog();
         }else if (id == R.id.action_terms) {
             Intent i = new Intent(getApplicationContext(), TermsActivity.class);
             startActivityForResult(i, 1);
@@ -219,15 +226,53 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
+    private void supportDialog(){
+        new MaterialDialog.Builder(this)
+                .title("Αναφορά")
+                .content(R.string.complaints)
+                .positiveText("OK")
+                .positiveColorRes(R.color.accentColor)
+                .negativeText("ΑΚΥΡΟ")
+                .negativeColorRes(R.color.primaryColor)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        support();
+                    }
+                })
+                .show();
+    }
+
+    private void support(){
+        String[] TO = {"anomologita.m2@gmail.com"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+        emailIntent.setType("text/plain");
+
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Θέμα");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this,
+                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void settingsDialog() {
         boolean wrapInScrollView = true;
         MaterialDialog dialog = new MaterialDialog.Builder(this)
-                .title("Settings")
+                .title("Ρυθμίσεις")
                 .iconRes(R.drawable.ic_setting_light)
                 .customView(R.layout.settings_layout, wrapInScrollView)
                 .positiveText("OK")
-                .widgetColorRes(R.color.accentColor)
-                .positiveColorRes(R.color.primaryColor)
+                .positiveColorRes(R.color.accentColor)
                 .show();
         Switch switchAll = (Switch) dialog.getView().findViewById(R.id.switch1);
         switchAll.setChecked(Anomologita.areNotificationsOn());
@@ -306,6 +351,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     favoritesButton.setText(R.string.subscribedButton);
                     favoritesButton.setTextColor(getResources().getColor(R.color.white));
                 }
+                mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                HidingGroupProfileListener.mGroupProfileOffset = 0;
+                name.setAlpha(0);
             } else {
                 title.setText("Ανομολόγητα");
                 if (db.exists(Anomologita.getCurrentGroupName())) {
