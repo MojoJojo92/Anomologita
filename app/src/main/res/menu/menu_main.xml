@@ -25,7 +25,7 @@
     <item
         android:id="@+id/action_support"
         android:orderInCategory="102"
-        android:title="Αναφορά"
+        android:title="@string/report"
         app:showAsAction="never"/>
 
     <item

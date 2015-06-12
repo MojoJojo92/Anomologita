@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +40,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     private int mGroupProfileHeight;
     private LinearLayout mGroupProfileContainer, name;
     private MainAdapter adapter;
-    private TextView search, title, favorite, edit;
+    private TextView search, title, favorite;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static MainFragment newInstance(String sort) {
@@ -71,7 +70,6 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         title = (TextView) getActivity().findViewById(R.id.title);
         title.setText(Anomologita.getCurrentGroupName());
         favorite = (TextView) getActivity().findViewById(R.id.favoritesButton);
-        edit = (TextView) getActivity().findViewById(R.id.edit);
         mGroupProfileContainer = (LinearLayout) getActivity().findViewById(R.id.groupProfileContainer);
 
         DefaultItemAnimator animator = new DefaultItemAnimator();

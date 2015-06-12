@@ -1,6 +1,5 @@
 package gr.anomologita.anomologita.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +20,9 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.sql.Timestamp;
 
@@ -40,6 +42,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     private EditText postET, locationET;
     private TextView postSize, locationSize;
     private RelativeLayout layout;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,6 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         locationSize = (TextView) findViewById(R.id.locationSize);
         setLocationSize();
 
-
         groupName = Anomologita.getCurrentGroupName();
         groupID = Integer.parseInt(Anomologita.getCurrentGroupID());
 
@@ -79,6 +81,17 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 onBackPressed();
             }
         });
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id2));
+        requestNewInterstitial();
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                resultOK();
+            }
+        });
+
         postET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -191,7 +204,11 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                     AttemptLogin setPost = new AttemptLogin();
                     setPost.setPost(postTxt, location, String.valueOf(groupID), this);
                     setPost.execute();
-                    resultOK();
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    } else {
+                        resultOK();
+                    }
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
                     Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
@@ -220,6 +237,11 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     protected void onPause() {
         super.onPause();
         Anomologita.activityPaused();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override

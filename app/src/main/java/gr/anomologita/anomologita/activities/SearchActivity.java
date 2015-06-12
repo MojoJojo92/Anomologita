@@ -2,17 +2,14 @@ package gr.anomologita.anomologita.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -29,7 +26,6 @@ import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.SearchComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Favorite;
-import me.grantland.widget.AutofitHelper;
 
 public class SearchActivity extends ActionBarActivity implements LoginMode, SearchComplete, SearchAdapter.ClickListener {
 

@@ -6,6 +6,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="banner_ad_unit_id">ca-app-pub-5007584823334636/2263888508</string>
+    <string name="banner_ad_unit_id2">ca-app-pub-5007584823334636/9866050505</string>
 
     <string-array name="tabs">
         <item>ΝΕΑ</item>
@@ -40,7 +41,6 @@
     <string name="groupName">Ανομολόγητα</string>
     <string name="subsTitle">Αγαπημένα</string>
     <string name="subs">0</string>
-    <string name="groupTitle">Γκρουπ:</string>
     <string name="editPostDesc">Icon for editing the current post</string>
     <string name="bigCircleDesc">Background white circle</string>
     <string name="subscribeButton">+ Πρόσθεσέ το στα Αγαπημένα</string>
@@ -158,5 +158,6 @@
         Είμαστε ανοιχτοί σε οποιαδήποτε ερώτηση,σχόλιο ή ανησυχία σας. Αν αποφασίσετε να μας στείλετε πίσω πληροφορίες, συμφωνείτε ότι είμαστε ελεύθεροι να χρησιμοποιήσουμε τις πληροφορίες αυτές
         με κάθε τρόπο που κρίνουμε ότι απαιτείται, χωρις κανέναν περιορισμό ή αποζημίωση προς εσάς. Παρακαλώ στείλτε εδώ: anomologita.m2@gmail.com\n\n
      </string>
+    <string name="report">Αναφορά</string>
 
 </resources>
