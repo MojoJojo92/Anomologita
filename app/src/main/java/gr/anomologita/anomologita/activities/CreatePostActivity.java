@@ -25,6 +25,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.sql.Timestamp;
+import java.util.Random;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -204,7 +205,11 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                     AttemptLogin setPost = new AttemptLogin();
                     setPost.setPost(postTxt, location, String.valueOf(groupID), this);
                     setPost.execute();
-                    if (mInterstitialAd.isLoaded()) {
+                    Random r = new Random();
+                    int Low = 1;
+                    int High = 3;
+                    int R = r.nextInt(High-Low) + Low;
+                    if (mInterstitialAd.isLoaded() && R == 1) {
                         mInterstitialAd.show();
                     } else {
                         resultOK();
