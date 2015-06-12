@@ -55,12 +55,16 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
 
-        TextView title = (TextView) findViewById(R.id.title);
+        TextView titleTop = (TextView) findViewById(R.id.titleTop);
+        TextView titleBottom = (TextView) findViewById(R.id.titleBottom);
         NotificationDBHandler db = new NotificationDBHandler(this);
-        if (db.getAllNotifications().size() == 0)
-            title.setText(getResources().getString(R.string.noNotifications));
-        else
-            title.setText("");
+        if (db.getAllNotifications().size() == 0) {
+            titleTop.setText(getResources().getString(R.string.noNotificationsTop));
+            titleBottom.setText(getResources().getString(R.string.noNotificationsBottom));
+        }else {
+            titleTop.setText("");
+            titleBottom.setText("");
+        }
         db.close();
 
         NotificationsAdapter notificationsAdapter = new NotificationsAdapter(this);

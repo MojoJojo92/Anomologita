@@ -40,12 +40,16 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) findViewById(R.id.title);
+        TextView titleTop = (TextView) findViewById(R.id.titleTop);
+        TextView titleBottom = (TextView) findViewById(R.id.titleBottom);
         ConversationsDBHandler db = new ConversationsDBHandler(this);
-        if (db.getAllConversations().size() == 0)
-            title.setText(getResources().getString(R.string.noConversations));
-        else
-            title.setText("");
+        if (db.getAllConversations().size() == 0) {
+            titleTop.setText(getResources().getString(R.string.noConversationsTop));
+            titleBottom.setText(getResources().getString(R.string.noConversationsBottom));
+        }else {
+            titleTop.setText("");
+            titleBottom.setText("");
+        }
         db.close();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

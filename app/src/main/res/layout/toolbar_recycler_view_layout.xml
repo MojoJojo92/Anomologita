@@ -9,18 +9,48 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/noNotifications"
-        android:textColor="@color/white"
-        android:layout_marginLeft="10dp"
-        android:padding="2dp"
-        android:layout_marginRight="10dp"
-        android:textSize="23sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleTop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
+            android:gravity="center|bottom"
+            android:padding="2dp"
+            android:shadowColor="@color/white"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="0.006"
+            android:text="@string/noNotificationsTop"
+            android:textColor="@color/dividerColorDark"
+            android:textSize="23sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/titleBottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
+            android:gravity="top|center"
+            android:padding="2dp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="0.006"
+            android:text="@string/noNotificationsBottom"
+            android:textColor="@color/dividerColor"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
