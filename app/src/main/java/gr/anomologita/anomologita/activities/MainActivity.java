@@ -304,20 +304,32 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     public void setGroup() {
         if (Anomologita.isConnected()) {
-            editGroup.setVisibility(View.INVISIBLE);
-            adapter = new ViewPagerAdapter(getSupportFragmentManager());
-            viewPager.setAdapter(adapter);
-            tabHost.setSelectedNavigationItem(0);
-            drawerLayout.closeDrawers();
-            Glide.clear(getWindow().getDecorView().findViewById(android.R.id.content));
-            Glide.with(this).load("http://anomologita.gr/img/" + Anomologita.getCurrentGroupID() + ".png")
-                    .signature(new StringSignature(UUID.randomUUID().toString()))
-                    .fitCenter()
-                    .into(groupImage);
-            groupNameTV.setText(Anomologita.getCurrentGroupName());
-            AttemptLogin getGroup = new AttemptLogin();
-            getGroup.getGroup(Anomologita.getCurrentGroupID(), this);
-            getGroup.execute();
+            if(Anomologita.getCurrentGroupID() != null){
+                editGroup.setVisibility(View.INVISIBLE);
+                adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                viewPager.setAdapter(adapter);
+                tabHost.setSelectedNavigationItem(0);
+                drawerLayout.closeDrawers();
+                Glide.clear(getWindow().getDecorView().findViewById(android.R.id.content));
+                Glide.with(this).load("http://anomologita.gr/img/" + Anomologita.getCurrentGroupID() + ".png")
+                        .signature(new StringSignature(UUID.randomUUID().toString()))
+                        .fitCenter()
+                        .into(groupImage);
+                groupNameTV.setText(Anomologita.getCurrentGroupName());
+                AttemptLogin getGroup = new AttemptLogin();
+                getGroup.getGroup(Anomologita.getCurrentGroupID(), this);
+                getGroup.execute();
+            }else {
+                if (db.exists(Anomologita.getCurrentGroupName()))
+                    db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
+                title.setText(R.string.deleted);
+                Anomologita.setCurrentGroupName(null);
+                Anomologita.setCurrentGroupID(null);
+                Anomologita.setCurrentGroupUserID(null);
+                fragmentNav.updateDrawer();
+                mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
+                name.setAlpha(1);
+            }
         } else {
             title.setText(R.string.noInternet);
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
@@ -362,6 +374,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 }
                 Anomologita.setCurrentGroupName(null);
                 Anomologita.setCurrentGroupID(null);
+                Anomologita.setCurrentGroupUserID(null);
                 fragmentNav.updateDrawer();
                 mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
                 name.setAlpha(1);

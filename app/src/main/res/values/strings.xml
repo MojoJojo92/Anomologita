@@ -64,7 +64,7 @@
     <string name="edit_group"><u>Επεξεργασία</u></string>
     <string name="notificationTitle">ΕΙΔΟΠΟΙΗΣΕΙΣ</string>
     <string name="switch2">ΗΧΟΣ ΕΙΔΟΠΟΙΗΣΕΩΝ</string>
-    <string name="noInternet">ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ</string>
+    <string name="noInternet">ΔΕΝ ΥΠΑΡΧΕΙ ΣYΝΔΕΣΗ</string>
     <string name="termsTitle">Όροι Χρήσης</string>
     <string name="postSize">0/2000</string>
     <string name="locationSize">0/50</string>
@@ -161,5 +161,6 @@
         με κάθε τρόπο που κρίνουμε ότι απαιτείται, χωρις κανέναν περιορισμό ή αποζημίωση προς εσάς. Παρακαλώ στείλτε εδώ: anomologita.m2@gmail.com\n\n
      </string>
     <string name="report">Αναφορά</string>
+    <string name="admin">(Admin)</string>
 
 </resources>

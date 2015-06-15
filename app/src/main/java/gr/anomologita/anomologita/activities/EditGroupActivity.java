@@ -9,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,7 +65,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_group_layout);
 
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             currentHashtag = extras.getString("hashtag");
             currentGroupName = extras.getString("name");
@@ -97,6 +100,20 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
                 return keyCode == KeyEvent.KEYCODE_ENTER;
             }
         });
+
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if (Character.isSpaceChar(source.charAt(i))) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        hashtagET.setFilters(new InputFilter[] { filter });
         groupNameET.setText(currentGroupName);
         hashtagET.setText(currentHashtag);
 
@@ -160,7 +177,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
     }
 
     private void editGroup() {
-        newHashtag = hashtagET.getText().toString();
+        newHashtag = hashtagET.getText().toString().replace("#","");
         newGroupName = groupNameET.getText().toString();
         if (newHashtag.equals("")) {
             YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);

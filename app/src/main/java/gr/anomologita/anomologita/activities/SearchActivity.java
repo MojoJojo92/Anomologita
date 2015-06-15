@@ -43,8 +43,10 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) findViewById(R.id.title);
-        title.setText("");
+        TextView titleTop = (TextView) findViewById(R.id.titleTop);
+        titleTop.setText("");
+        TextView titleBottom = (TextView) findViewById(R.id.titleBottom);
+        titleBottom.setText("");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +123,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         HidingGroupProfileListener.mGroupProfileOffset = 0;
         Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getId()));
         Anomologita.setCurrentGroupName(adapter.getData(position).get_name());
+        Anomologita.setCurrentGroupUserID(adapter.getData(position).getUserID());
         Intent intent = new Intent();
         setResult(Activity.RESULT_OK, intent);
         db.close();

@@ -17,6 +17,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -89,7 +91,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
             search.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             search.setVisibility(View.INVISIBLE);
         }
 
@@ -101,9 +103,9 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             public void onMoved(int distance) {
                 mGroupProfileContainer.setTranslationY(-distance);
                 name.setAlpha((float) (-mGroupProfileHeight / 2 + mGroupProfileOffset) * (float) 1 / mGroupProfileHeight * 2);
-                if(mGroupProfileOffset == mGroupProfileHeight){
+                if (mGroupProfileOffset == mGroupProfileHeight) {
                     favorite.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     favorite.setVisibility(View.VISIBLE);
                 }
             }
@@ -147,19 +149,19 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     }
 
     private void getPosts() {
-        if (Anomologita.isConnected() && groupID != null && !title.getText().equals(getResources().getString(R.string.deleted)) && !title.getText().equals(getResources().getString(R.string.groupName))) {
+        if (Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null && !title.getText().equals(getResources().getString(R.string.deleted)) && !title.getText().equals(getResources().getString(R.string.groupName))) {
             AttemptLogin getPosts = new AttemptLogin();
             getPosts.getPosts(groupID, sort, "0", "20", this);
             getPosts.execute();
             mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             name.setAlpha(0);
             search.setVisibility(View.INVISIBLE);
-
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
-            if(Anomologita.isConnected())
+            adapter.removeAll();
+            if (Anomologita.isConnected())
                 search.setVisibility(View.VISIBLE);
         }
     }
@@ -197,6 +199,30 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         i.putExtra("postID", String.valueOf(post.getPost_id()));
         startActivityForResult(i, 1);
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
+    public void adminDialog(final Post post) {
+        boolean wrapInScrollView = true;
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(post.getHashtagName())
+                .customView(R.layout.admin_dialog_layout, wrapInScrollView)
+                .negativeText("ΑΚΥΡΟ")
+                .negativeColorRes(R.color.primaryColor)
+                .show();
+        TextView message = (TextView) dialog.getView().findViewById(R.id.message);
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newMessage(post);
+            }
+        });
+        TextView edit = (TextView) dialog.getView().findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editPost(post);
+            }
+        });
     }
 
     public void setLike(String like, Post post) {

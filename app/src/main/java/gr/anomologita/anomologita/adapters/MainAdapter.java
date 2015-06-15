@@ -71,8 +71,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             final PostHolder postHolder = (PostHolder) holder;
             final Post currentPost = posts.get(currentPosition);
             postHolder.post.setText(currentPost.getPost_txt());
-            postHolder.location.setText("(" + currentPost.getLocation() + ")");
+            if (currentPost.getUser_id().equals(Anomologita.getCurrentGroupUserID()))
+                postHolder.admin.setVisibility(View.VISIBLE);
+            else
+                postHolder.admin.setVisibility(View.INVISIBLE);
             postHolder.hashtag.setText(currentPost.getHashtagName());
+            postHolder.location.setText("(" + currentPost.getLocation() + ")");
             postHolder.postTime.setText(Anomologita.getTime(currentPost.getTimestamp(), 16));
             if (currentPost.isLiked())
                 postHolder.like.setImageResource(R.drawable.ic_fire_red);
@@ -131,14 +135,28 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     mainFragment.editPost(currentPost);
                 }
             });
-            if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
+            postHolder.adminIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mainFragment.adminDialog(currentPost);
+                }
+            });
+            if(Anomologita.userID.equals(Anomologita.getCurrentGroupUserID()) && !String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)){
+                postHolder.editPost.setVisibility(View.INVISIBLE);
+                postHolder.send_personal_message.setVisibility(View.INVISIBLE);
+                postHolder.adminIcon.setVisibility(View.VISIBLE);
+                postHolder.messageTextA.setText("");
+                postHolder.messageTextB.setText("");
+            }else if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
                 postHolder.editPost.setVisibility(View.VISIBLE);
                 postHolder.send_personal_message.setVisibility(View.INVISIBLE);
+                postHolder.adminIcon.setVisibility(View.INVISIBLE);
                 postHolder.messageTextA.setText("Επεξεργασία");
                 postHolder.messageTextB.setText("Ποστ");
             } else {
                 postHolder.editPost.setVisibility(View.INVISIBLE);
                 postHolder.send_personal_message.setVisibility(View.VISIBLE);
+                postHolder.adminIcon.setVisibility(View.INVISIBLE);
                 postHolder.messageTextA.setText("Προσωπικό");
                 postHolder.messageTextB.setText("Μήνυμα");
             }
@@ -197,12 +215,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final ImageView comments_word;
         private final ImageView send_personal_message;
         private final ImageView like;
+        private final ImageView adminIcon;
         private final ImageView editPost;
         private final TextView numberOfLikes;
         private final TextView numberOfComments;
         private final RelativeLayout postRowLayout;
         private final TextView messageTextA;
         private final TextView messageTextB;
+        private final TextView admin;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -216,9 +236,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             send_personal_message = (ImageView) itemView.findViewById(R.id.message);
             editPost = (ImageView) itemView.findViewById(R.id.edit);
             like = (ImageView) itemView.findViewById(R.id.like);
+            adminIcon = (ImageView) itemView.findViewById(R.id.adminIcon);
             numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
             numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);
             postRowLayout = (RelativeLayout) itemView.findViewById(R.id.postLayout);
+            admin = (TextView) itemView.findViewById(R.id.admin);
         }
     }
 

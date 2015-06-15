@@ -16,10 +16,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@id/time"
-            android:layout_toStartOf="@id/time"
             android:text="@string/HashTag"
             android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/hashTag"
+            android:layout_toEndOf="@id/hashTag"
+            android:text="@string/admin"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textColor="@color/primaryColor"/>
 
         <TextView
             android:id="@+id/time"
@@ -165,6 +174,18 @@
             android:contentDescription="@string/editPostDescription"
             android:src="@drawable/ic_edit"
             android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/adminIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:contentDescription="@string/editPostDescription"
+            android:src="@drawable/ic_admin"
+            android:visibility="visible"/>
 
     </RelativeLayout>
 

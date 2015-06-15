@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,6 +92,20 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             }
         });
 
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if (Character.isSpaceChar(source.charAt(i))) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        hashtagET.setFilters(new InputFilter[] { filter });
+
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +170,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.createGroupComplete) {
-            hashtag = hashtagET.getText().toString();
+            hashtag = hashtagET.getText().toString().replace("#","");
             groupName = groupNameET.getText().toString();
             if (hashtag.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);

@@ -72,6 +72,7 @@ public class NavFragment extends Fragment implements NavAdapter.ClickListener, L
             HidingGroupProfileListener.mGroupProfileOffset = 0;
             Anomologita.setCurrentGroupID(String.valueOf(navAdapter.getData(position, viewType).getId()));
             Anomologita.setCurrentGroupName(navAdapter.getData(position, viewType).get_name());
+            Anomologita.setCurrentGroupUserID(navAdapter.getData(position, viewType).getUserID());
             ((MainActivity) getActivity()).setGroup();
         }
     }

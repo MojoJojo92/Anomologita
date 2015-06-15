@@ -42,7 +42,6 @@ public class Anomologita extends Application implements Preferences {
         conversation = null;
         SP = PreferenceManager.getDefaultSharedPreferences(this);
         regID = new GCMRegister().registerGCM();
-        getUserID();
     }
 
     public static Anomologita getsInstance() {
@@ -59,11 +58,6 @@ public class Anomologita extends Application implements Preferences {
 
     public static void activityPaused() {
         activityVisible = false;
-    }
-
-    private static void getUserID() {
-        if (SP.contains(USER_ID))
-            userID = SP.getString(USER_ID, null);
     }
 
     public static int getNotificationBadges() {
@@ -150,6 +144,19 @@ public class Anomologita extends Application implements Preferences {
     public static void setCurrentGroupID(String currentGroupID) {
         SharedPreferences.Editor prefsEditor = SP.edit();
         prefsEditor.putString(CURRENT_GROUP_ID, currentGroupID);
+        prefsEditor.apply();
+    }
+
+    public static String getCurrentGroupUserID() {
+        if (SP.contains(CURRENT_GROUP_USER_ID))
+            return SP.getString(CURRENT_GROUP_USER_ID, null);
+        else
+            return null;
+    }
+
+    public static void setCurrentGroupUserID(String currentGroupID) {
+        SharedPreferences.Editor prefsEditor = SP.edit();
+        prefsEditor.putString(CURRENT_GROUP_USER_ID, currentGroupID);
         prefsEditor.apply();
     }
 
