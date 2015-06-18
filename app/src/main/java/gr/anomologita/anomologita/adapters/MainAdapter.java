@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
+import com.millennialmedia.android.MMSDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +58,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
             AdHolder adHolder = (AdHolder) holder;
+            MMRequest request = new MMRequest();
+            adHolder.adRelativeLayout.setMMRequest(request);
+            adHolder.adRelativeLayout.getAd();
+
+          /*  AdHolder adHolder = (AdHolder) holder;
             AdRequest adRequest = new AdRequest.Builder().build();
             adHolder.ad.loadAd(adRequest);
             if (position > previousPosition)
                 animateAd(adHolder, true);
             else
                 animateAd(adHolder, false);
-            previousPosition = position;
+            previousPosition = position; */
         } else if (getItemViewType(position) == 2) {
             int adCount;
             if (position % 10 >= 5)
@@ -188,11 +196,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         objectAnimator.start();
     }
 
-    private void animateAd(AdHolder adHolder, Boolean down) {
+/*    private void animateAd(AdHolder adHolder, Boolean down) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(adHolder.adLayout, "translationY", down ? offset : -offset, 0);
         objectAnimator.setDuration(1000);
         objectAnimator.start();
-    }
+    } */
 
     class PostHolder extends RecyclerView.ViewHolder {
         private final TextView post;
@@ -225,13 +233,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class AdHolder extends RecyclerView.ViewHolder {
-        private final AdView ad;
-        private final LinearLayout adLayout;
+      //  private final AdView ad;
+      //  private final LinearLayout adLayout;
+        private final MMAdView adRelativeLayout;
 
         public AdHolder(View itemView) {
             super(itemView);
-            ad = (AdView) itemView.findViewById(R.id.adView);
-            adLayout = (LinearLayout) itemView.findViewById((R.id.adLayout));
+            adRelativeLayout = (MMAdView) itemView.findViewById(R.id.adView);
+            //ad = (AdView) itemView.findViewById(R.id.adView);
+            //adLayout = (LinearLayout) itemView.findViewById((R.id.adLayout));
         }
     }
 

@@ -23,6 +23,10 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.millennialmedia.android.MMAd;
+import com.millennialmedia.android.MMInterstitial;
+import com.millennialmedia.android.MMRequest;
+import com.millennialmedia.android.RequestListener;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -121,6 +125,19 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             public void afterTextChanged(Editable s) {
             }
         });
+
+        final MMInterstitial  interstitial = new MMInterstitial(this);
+        MMRequest request = new MMRequest();
+        request.setAge("25");
+        interstitial.setMMRequest(request);
+        interstitial.setApid("204172");
+        interstitial.setListener(new RequestListener.RequestListenerImpl() {
+            @Override
+            public void requestCompleted(MMAd mmAd) {
+                interstitial.display(); // display the ad that was cached by fetch
+            }
+        });
+        interstitial.fetch();
     }
 
     private void setPostSize() {

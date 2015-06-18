@@ -39,6 +39,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.millennialmedia.android.MMSDK;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
@@ -81,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MMSDK.initialize(this);
         setContentView(R.layout.activity_main);
 
         new FetchCountTask().execute();

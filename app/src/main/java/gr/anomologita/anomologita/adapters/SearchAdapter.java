@@ -39,17 +39,28 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new SearchHolder(inflater.inflate(R.layout.group_nav_layout, parent, false));
+        return new SearchHolder(inflater.inflate(R.layout.group_nav_layout, parent, false));
     }
 
     public int getItemViewType(int position) {
-        return 0;
+        if (position == 0)
+            return 0;
+        else
+            return 1;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            SearchHolder searchHolder = (SearchHolder) holder;
-            Favorite current = groupSearches.get(position);
+        SearchHolder searchHolder = (SearchHolder) holder;
+        if(getItemViewType(position) == 0){
+            searchHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_create_grey));
+            searchHolder.subsCount.setVisibility(View.INVISIBLE);
+           // searchHolder.background.setVisibility(View.INVISIBLE);
+            searchHolder.title.setText("Δημιούργησε Γκρούπ");
+        }else {
+            Favorite current = groupSearches.get(position -1);
+            searchHolder.subsCount.setVisibility(View.VISIBLE);
+            searchHolder.background.setVisibility(View.VISIBLE);
             searchHolder.title.setText(current.get_name());
             searchHolder.subsCount.setText(createSubs(current.getSubs()));
             BitmapPool pool = Glide.get(context).getBitmapPool();
@@ -58,6 +69,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .transform(new CropCircleTransformation(pool))
                     .signature(new StringSignature(UUID.randomUUID().toString()))
                     .into(searchHolder.icon);
+        }
     }
 
     private String createSubs(int subs) {
@@ -82,13 +94,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return groupSearches.size();
+        return groupSearches.size() + 1;
     }
 
     class SearchHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView title;
         private final TextView subsCount;
         private final ImageView icon;
+        private final ImageView background;
 
         public SearchHolder(View itemView) {
             super(itemView);
@@ -96,6 +109,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title = (TextView) itemView.findViewById(R.id.groupNameNav);
             subsCount = (TextView) itemView.findViewById(R.id.subCount);
             icon = (ImageView) itemView.findViewById(R.id.icon);
+            background = (ImageView) itemView.findViewById(R.id.circle);
             title.setTextColor(context.getResources().getColor(R.color.primaryColorDark));
             subsCount.setTextColor(context.getResources().getColor(R.color.accentColor));
             subsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0);
@@ -104,7 +118,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         @Override
         public void onClick(View v) {
             if (clickListener != null)
-                clickListener.itemClicked(getPosition());
+                clickListener.itemClicked(getPosition() - 1);
         }
     }
 
