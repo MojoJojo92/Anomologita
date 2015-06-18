@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.objects.Favorite;
@@ -54,6 +56,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Glide.with(context)
                     .load("http://anomologita.gr/img/" + current.getId() + ".png").asBitmap()
                     .transform(new CropCircleTransformation(pool))
+                    .signature(new StringSignature(UUID.randomUUID().toString()))
                     .into(searchHolder.icon);
     }
 
@@ -86,7 +89,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private final TextView title;
         private final TextView subsCount;
         private final ImageView icon;
-        //  private final LinearLayout subsLayout;
 
         public SearchHolder(View itemView) {
             super(itemView);
@@ -94,8 +96,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title = (TextView) itemView.findViewById(R.id.groupNameNav);
             subsCount = (TextView) itemView.findViewById(R.id.subCount);
             icon = (ImageView) itemView.findViewById(R.id.icon);
-            //   subsLayout = (LinearLayout) itemView.findViewById(R.id.subs);
-
             title.setTextColor(context.getResources().getColor(R.color.primaryColorDark));
             subsCount.setTextColor(context.getResources().getColor(R.color.accentColor));
             subsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0);
@@ -107,8 +107,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 clickListener.itemClicked(getPosition());
         }
     }
-
-
 
     public interface ClickListener {
         public void itemClicked(int position);

@@ -55,7 +55,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
     private final Context context = Anomologita.getAppContext();
     private final JSONParser jsonParser = new JSONParser();
 
-    private String counter, groupName, post, location, message, postID, comment, what, type, text, id,
+    private String counter, groupName, post, location, message, postID, comment, what, type, text, id, commentID,
             liked, name, search, hashtag, image, groupID, sort, topRange, bottomRange, regID, senderRegID, receiverRegID;
 
     private int mode;
@@ -135,6 +135,12 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.myPostsComplete = myPostsComplete;
     }
 
+    public void deleteComment(String commentID, String postID) {
+        mode = LoginMode.DELETE_COMMENT;
+        this.commentID = commentID;
+        this.postID = postID;
+    }
+
     public void deleteGroup(String groupID) {
         mode = LoginMode.DELETE_GROUP;
         this.groupID = groupID;
@@ -187,6 +193,11 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.post = post;
         this.location = location;
     }
+    public void editComment(String commentID, String comment) {
+        mode = LoginMode.EDIT_COMMENT;
+        this.commentID = commentID;
+        this.comment = comment;
+    }
 
     public void sendMessage(String senderRegID, String receiverRegID, String name, String message, String hashtag, String postID) {
         mode = LoginMode.PERSONAL_MESSAGE;
@@ -227,6 +238,8 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 return setHashtag();
             case LoginMode.DELETE_GROUP:
                 return deleteGroup();
+            case LoginMode.DELETE_COMMENT:
+                return deleteComment();
             case LoginMode.SET_IMAGE:
                 return setImage();
             case LoginMode.CREATE_GROUP:
@@ -239,6 +252,8 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 return editPost();
             case LoginMode.SEND_NOTIFICATION:
                 return sendNotification();
+            case LoginMode.EDIT_COMMENT:
+                return editComment();
             default:
                 return null;
         }
@@ -351,8 +366,9 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 List<BasicNameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("comment", comment));
                 params.add(new BasicNameValuePair("post_id", postID));
+                params.add(new BasicNameValuePair("user_id", Anomologita.userID));
                 Log.d("request!", "starting");
-                JSONObject json = jsonParser.makeHttpRequest(EndpointGroups.URL_COMMENT, "POST", params);
+                JSONObject json = jsonParser.makeHttpRequest(EndpointGroups.URL_COMMENT_1_8, "POST", params);
                 Log.d("Login PreCount attempt", json.toString());
 
                 success = json.getInt(EndpointGroups.TAG_SUCCESS);
@@ -378,6 +394,8 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 for (int i = 0; i < json.length() - 2; i++) {
                     Comment comment = new Comment();
                     comment.setComment(json.getJSONObject(String.valueOf(i)).getString("Comment"));
+                    comment.setUserID(json.getJSONObject(String.valueOf(i)).getString("user_id"));
+                    comment.setCommentID(json.getJSONObject(String.valueOf(i)).getString("comment_id"));
                     comments.add(comment);
                 }
 
@@ -447,6 +465,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
                 favorite.set_name(json.getJSONObject(String.valueOf(i)).getString(KEY_GROUP_NAME));
                 favorite.setId(json.getJSONObject(String.valueOf(i)).getInt(KEY_GROUP_ID));
                 favorite.setSubs(json.getJSONObject(String.valueOf(i)).getInt(KEY_SUBSCRIBERS));
+                favorite.setUserID(json.getJSONObject(String.valueOf(i)).getString(KEY_USER_ID));
                 groupSearches.add(favorite);
             }
 
@@ -521,6 +540,33 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
 
             Log.d("request!", "starting");
             JSONObject json = jsonParser.makeHttpRequest(URL_DELETE_POST, "POST", params);
+
+            Log.d("Login attempt", json.toString());
+            success = json.getInt(TAG_SUCCESS);
+            Log.d("success", String.valueOf(success));
+
+            if (success == 1) {
+                Log.d("Login Successful!", json.toString());
+                return json.getString(TAG_MESSAGE);
+            } else {
+                Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+                return json.getString(TAG_MESSAGE);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String deleteComment() {
+        int success;
+        try {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("comment_id", commentID));
+            params.add(new BasicNameValuePair("post_id", postID));
+
+            Log.d("request!", "starting");
+            JSONObject json = jsonParser.makeHttpRequest(URL_DELETE_COMMENT, "POST", params);
 
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
@@ -855,6 +901,32 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
 
             Log.d("request!", "starting");
             JSONObject json = jsonParser.makeHttpRequest(URL_EDIT_POST, "POST", params);
+            Log.d("Login attempt", json.toString());
+            success = json.getInt(TAG_SUCCESS);
+            Log.d("success", String.valueOf(success));
+
+            if (success == 1) {
+                Log.d("Login Successful!", json.toString());
+                return json.getString(TAG_MESSAGE);
+            } else {
+                Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+                return json.getString(TAG_MESSAGE);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String editComment() {
+        int success;
+        try {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("comment_id", commentID));
+            params.add(new BasicNameValuePair("new_comment", comment));
+
+            Log.d("request!", "starting");
+            JSONObject json = jsonParser.makeHttpRequest(URL_EDIT_COMMENT, "POST", params);
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);
             Log.d("success", String.valueOf(success));

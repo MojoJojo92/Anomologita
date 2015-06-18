@@ -1,7 +1,15 @@
 package gr.anomologita.anomologita.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +27,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -173,7 +182,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
-    public void newMessage(Post post) {
+    private void newMessage(Post post) {
         ConversationsDBHandler db = new ConversationsDBHandler(getActivity());
         String postID = String.valueOf(post.getPost_id());
         if (db.exists(postID, Anomologita.regID, post.getReg_id())) {
@@ -192,7 +201,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         }
     }
 
-    public void editPost(Post post) {
+    private void editPost(Post post) {
         Intent i = new Intent(getActivity(), EditPostActivity.class);
         i.putExtra("post", post.getPost_txt());
         i.putExtra("location", post.getLocation());
@@ -201,7 +210,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
-    public void adminDialog(final Post post) {
+    public void adminDialog(final Post post, final View view, int type) {
         boolean wrapInScrollView = true;
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(post.getHashtagName())
@@ -210,19 +219,68 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 .negativeColorRes(R.color.primaryColor)
                 .show();
         TextView message = (TextView) dialog.getView().findViewById(R.id.message);
-        message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newMessage(post);
-            }
-        });
+        if (type == 1 || type == 3) {
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    newMessage(post);
+                }
+            });
+        } else {
+            message.setVisibility(View.GONE);
+        }
         TextView edit = (TextView) dialog.getView().findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
+        if (type == 1 || type == 2) {
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editPost(post);
+                }
+            });
+        } else {
+            edit.setVisibility(View.GONE);
+        }
+        final TextView share = (TextView) dialog.getView().findViewById(R.id.share);
+        share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editPost(post);
+                share(view);
             }
         });
+    }
+
+    private void share(View v) {
+        v.setDrawingCacheEnabled(true);
+        Bitmap bitmap = v.getDrawingCache();
+        Bitmap bitmap12 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.ic_launcher);
+        Bitmap bitmap1 = overlay(bitmap, bitmap12);
+        Uri imageUri = getImageUri(getActivity(), bitmap1);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("image/*");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "send"));
+    }
+
+    private static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth() + 10, bmp1.getHeight() + bmp2.getHeight() + 10, bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawColor(Color.RED);
+        canvas.drawBitmap(bmp1, 5, bmp2.getHeight() + 5, null);
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(50);
+        canvas.drawText("Ανομολόγητα Εφαρμογή Android",bmp2.getWidth()+5,bmp2.getHeight()/2 +10,paint);
+        canvas.drawBitmap(bmp2, 0, 0, null);
+        return bmOverlay;
+    }
+
+    private static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(),inImage, "", "");
+        return Uri.parse(path);
     }
 
     public void setLike(String like, Post post) {

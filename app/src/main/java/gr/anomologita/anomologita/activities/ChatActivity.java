@@ -143,9 +143,9 @@ public class ChatActivity extends ActionBarActivity {
         if (message.equals("")) {
             YoYo.with(Techniques.Tada).duration(700).playOn(messageLayout);
             Toast.makeText(this, "Είναι κενό!!!", Toast.LENGTH_SHORT).show();
-        } else if (message.length() > 100) {
+        } else if (message.length() > 500) {
             YoYo.with(Techniques.Tada).duration(700).playOn(messageLayout);
-            Toast.makeText(this, "Ξεπέρασες τους 100 χαρακτήρες", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ξεπέρασες τους 500 χαρακτήρες", Toast.LENGTH_SHORT).show();
         } else {
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             editText.setText("");

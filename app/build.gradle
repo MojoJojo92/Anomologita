@@ -8,8 +8,8 @@ android {
         applicationId "gr.anomologita.anomologita"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10
-        versionName "1.6"
+        versionCode 14
+        versionName "1.9"
     }
     buildTypes {
         release {

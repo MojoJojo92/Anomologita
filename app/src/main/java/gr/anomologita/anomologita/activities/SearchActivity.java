@@ -65,7 +65,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).margin(Anomologita.convert(10))
                 .color(getResources().getColor(R.color.primaryColor)).build());
 
-        search(" ");
+        search("");
 
     }
 

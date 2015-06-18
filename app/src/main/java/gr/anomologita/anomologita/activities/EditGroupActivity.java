@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Base64;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -102,8 +101,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         });
 
         InputFilter filter = new InputFilter() {
-            public CharSequence filter(CharSequence source, int start, int end,
-                                       Spanned dest, int dstart, int dend) {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
                 for (int i = start; i < end; i++) {
                     if (Character.isSpaceChar(source.charAt(i))) {
                         return "";
@@ -204,6 +202,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
             Toast.makeText(this, "Το γκρουπ " + currentGroupName + " έχει διαγραφεί", Toast.LENGTH_SHORT).show();
             Anomologita.setCurrentGroupName(null);
             Anomologita.setCurrentGroupID(null);
+            Anomologita.setCurrentGroupUserID(null);
             returnResult();
         }
     }

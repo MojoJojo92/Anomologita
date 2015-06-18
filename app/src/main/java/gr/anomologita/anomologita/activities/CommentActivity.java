@@ -3,10 +3,13 @@ package gr.anomologita.anomologita.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -23,7 +27,6 @@ import java.util.List;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.CommentAdapter;
-import gr.anomologita.anomologita.databases.ConversationsDBHandler;
 import gr.anomologita.anomologita.extras.Keys.CommentComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -32,11 +35,14 @@ import gr.anomologita.anomologita.objects.Post;
 
 public class CommentActivity extends ActionBarActivity implements CommentComplete, LoginMode {
 
+    private final Handler handler = new Handler();
+
     private CommentAdapter adapter;
     private RelativeLayout layout;
     private RecyclerView recyclerView;
     private Post post;
     private ProgressWheel wheel;
+    private EditText commentET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,10 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
             }
         });
 
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(100);
+        animator.setRemoveDuration(100);
+
         adapter = new CommentAdapter(this);
         adapter.setPost(post);
 
@@ -74,36 +84,16 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         recyclerView.setAdapter(adapter);
 
         wheel.spin();
-        getComments();
+        handler.postDelayed(runnable, 1000);
     }
 
-    public void editPost(Post post) {
-        Intent i = new Intent(this, EditPostActivity.class);
-        i.putExtra("post", post.getPost_txt());
-        i.putExtra("location", post.getLocation());
-        startActivityForResult(i, 3);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-    }
-
-    public void newMessage(Post post) {
-        ConversationsDBHandler db = new ConversationsDBHandler(this);
-        String postID = String.valueOf(post.getPost_id());
-        if (db.exists(postID, Anomologita.regID, post.getReg_id())) {
-            Intent i = new Intent(this, ChatActivity.class);
-            Anomologita.conversation = db.getConversation(postID, Anomologita.regID, post.getReg_id());
-            startActivity(i);
-        } else {
-            Intent i = new Intent(this, MessageActivity.class);
-            i.putExtra("hashtag", post.getHashtagName());
-            i.putExtra("userID", post.getUser_id());
-            i.putExtra("regID", post.getReg_id());
-            i.putExtra("postID", String.valueOf(post.getPost_id()));
-            startActivityForResult(i,1);
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            getComments();
+            handler.postDelayed(this, 1000);
         }
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-        finish();
-    }
-
+    };
 
     void getComments() {
         if (Anomologita.isConnected()) {
@@ -120,8 +110,15 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     public void onCommentCompleted(List<Comment> comments, String what) {
         if (what.equals("getComments")) {
             adapter.setComments(comments);
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             wheel.stopSpinning();
+            if (comments.size() > adapter.getItemCount()) {
+                for (int i = comments.size(); i < comments.size(); i++) {
+                    adapter.addComment(comments.get(i));
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                }
+            } else {
+                adapter.notifyDataSetChanged();
+            }
         } else {
             if (Anomologita.isConnected()){
                 AttemptLogin setComment = new AttemptLogin();
@@ -148,6 +145,49 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                 sendNotification.execute();
             }
         }
+    }
+
+    public void commentDialog(final Comment comment){
+        boolean wrapInScrollView = true;
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Επεξεργασία")
+                .customView(R.layout.comment_dialog_layout, wrapInScrollView)
+                .iconRes(R.drawable.ic_setting_light)
+                .positiveText("OK")
+                .neutralText("ΔΙΑΓΡΑΦΗ")
+                .positiveColorRes(R.color.accentColor)
+                .neutralColorRes(R.color.primaryColor)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        editComment(comment);
+                    }
+
+                    @Override
+                    public void onNeutral(MaterialDialog dialog) {
+                        super.onNeutral(dialog);
+                        deleteComment(comment);
+                    }
+                })
+                .show();
+        commentET = (EditText) dialog.getView().findViewById(R.id.comment);
+        commentET.setText(comment.getComment());
+    }
+
+    private void editComment(Comment comment){
+        if(!(commentET.getText().toString()).equals(comment.getComment())){
+            Log.e("ko",comment.getCommentID()+" "+comment.getComment());
+            AttemptLogin editComment = new AttemptLogin();
+            editComment.editComment(comment.getCommentID(),commentET.getText().toString());
+            editComment.execute();
+        }
+    }
+
+    private void deleteComment(Comment comment){
+        AttemptLogin deleteComment = new AttemptLogin();
+        deleteComment.deleteComment(comment.getCommentID(), String.valueOf(post.getPost_id()));
+        deleteComment.execute();
     }
 
     private void okClick() {
@@ -206,6 +246,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        handler.removeCallbacks(runnable);
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);
         finish();

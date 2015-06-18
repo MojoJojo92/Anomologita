@@ -92,9 +92,10 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             }
         });
 
-        InputFilter filter = new InputFilter() {
-            public CharSequence filter(CharSequence source, int start, int end,
-                                       Spanned dest, int dstart, int dend) {
+        InputFilter hashtagFilter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
+                if(end > 20)
+                    return source.subSequence(start,20);
                 for (int i = start; i < end; i++) {
                     if (Character.isSpaceChar(source.charAt(i))) {
                         return "";
@@ -104,7 +105,16 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             }
         };
 
-        hashtagET.setFilters(new InputFilter[] { filter });
+        InputFilter nameFilter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
+                if(end > 40)
+                    return source.subSequence(start,40);
+                return null;
+            }
+        };
+
+        hashtagET.setFilters(new InputFilter[] { hashtagFilter });
+        groupNameET.setFilters(new InputFilter[] { nameFilter });
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +162,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     public void onImageSetComplete() {
         Anomologita.setCurrentGroupID(groupID);
         Anomologita.setCurrentGroupName(groupName);
+        Anomologita.setCurrentGroupUserID(Anomologita.userID);
         GroupProfile groupProfile = new GroupProfile();
         groupProfile.setGroup_id(Integer.parseInt(groupID));
         groupProfile.setGroupName(groupName);

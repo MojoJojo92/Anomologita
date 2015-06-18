@@ -104,8 +104,8 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
     }
 
     private void setMessageSize() {
-        messageSize.setText((personalMessageET.getText()).length() + "/100");
-        if ((personalMessageET.getText()).length() >= 100)
+        messageSize.setText((personalMessageET.getText()).length() + "/500");
+        if ((personalMessageET.getText()).length() >= 500)
             messageSize.setTextColor(getResources().getColor(R.color.primaryColor));
         else
             messageSize.setTextColor(getResources().getColor(R.color.secondaryTextColor));
@@ -138,9 +138,9 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
                 Toast.makeText(this, "Το μήνυμα είναι κενό!!!", Toast.LENGTH_SHORT).show();
             } else if (name.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(nameET);
-            } else if (message.length() > 100) {
+            } else if (message.length() > 500) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(personalMessageET);
-                Toast.makeText(this, "Το μήνυμα ξεπερνά τους 100 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Το μήνυμα ξεπερνά τους 500 χαρακτήρες!!!", Toast.LENGTH_SHORT).show();
             } else if (name.length() > 25) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(nameET);
                 Toast.makeText(this, "Το όνομα ξεπερνά τους 25 χαρακτήρες", Toast.LENGTH_SHORT).show();

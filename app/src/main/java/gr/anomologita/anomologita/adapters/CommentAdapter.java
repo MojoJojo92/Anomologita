@@ -1,7 +1,11 @@
 package gr.anomologita.anomologita.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final LayoutInflater inflater;
     private final Context context;
+    private final List<String> users = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
     private Post post;
 
@@ -62,39 +67,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             postHolder.post.setText(post.getPost_txt());
             postHolder.hashtag.setText(post.getHashtagName());
             postHolder.location.setText("(" + post.getLocation() + ")");
-            postHolder.postTime.setText(Anomologita.getTime(post.getTimestamp(),16));
+            postHolder.postTime.setText(Anomologita.getTime(post.getTimestamp(), 16));
             postHolder.numberOfLikes.setText(String.valueOf(post.getLikes()));
             postHolder.numberOfComments.setText(String.valueOf(post.getComments()));
-            if (String.valueOf(post.getUser_id()).equals(Anomologita.userID)) {
-                postHolder.editPost.setVisibility(View.VISIBLE);
-                postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-            } else {
-                postHolder.editPost.setVisibility(View.INVISIBLE);
-                postHolder.send_personal_message.setVisibility(View.VISIBLE);
-            }
-            if (String.valueOf(post.getUser_id()).equals(Anomologita.userID)) {
-                postHolder.editPost.setVisibility(View.INVISIBLE);
-                postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.messageTextA.setVisibility(View.INVISIBLE);
-                postHolder.messageTextB.setVisibility(View.INVISIBLE);
-            } else {
-                postHolder.editPost.setVisibility(View.INVISIBLE);
-                postHolder.send_personal_message.setVisibility(View.VISIBLE);
-                postHolder.messageTextA.setText("Προσωπικό");
-                postHolder.messageTextB.setText("Μήνυμα");
-            }
-            postHolder.send_personal_message.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CommentActivity) context).newMessage(post);
-                }
-            });
-            postHolder.editPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CommentActivity) context).editPost(post);
-                }
-            });
             if (post.isLiked())
                 postHolder.like.setImageResource(R.drawable.ic_fire_red);
             else
@@ -126,8 +101,49 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
         } else {
             CommentHolder commentHolder = (CommentHolder) holder;
-            commentHolder.comment_txt.setText(comments.get(position - 1).getComment());
+            final Comment currentComment = comments.get(position - 1);
+            commentHolder.comment_txt.setText(currentComment.getComment());
+            if (!currentComment.getUserID().isEmpty()) {
+                if (currentComment.getUserID().equals(Anomologita.getCurrentGroupUserID())) {
+                    SpannableStringBuilder sb = new SpannableStringBuilder("(Admin) " + currentComment.getComment());
+                    ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.primaryColor));
+                    sb.setSpan(fcs, 0, 7, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    commentHolder.comment_txt.setText(sb);
+                } else if (currentComment.getUserID().equals(post.getUser_id())) {
+                    SpannableStringBuilder sb = new SpannableStringBuilder("(Poster) " + currentComment.getComment());
+                    ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);
+                    sb.setSpan(fcs, 0, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    commentHolder.comment_txt.setText(sb);
+                } else if (currentComment.getUserID().equals(Anomologita.userID)) {
+                    SpannableStringBuilder sb = new SpannableStringBuilder("(Me) " + currentComment.getComment());
+                    ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.accentColor));
+                    sb.setSpan(fcs, 0, 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    commentHolder.comment_txt.setText(sb);
+                } else {
+                    if (!users.contains(currentComment.getUserID()))
+                        users.add(currentComment.getUserID());
+                    SpannableStringBuilder sb = new SpannableStringBuilder("(User " + (users.indexOf(currentComment.getUserID())+1) + ") " + currentComment.getComment());
+                    ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLACK);
+                    sb.setSpan(fcs, 0, 9, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    commentHolder.comment_txt.setText(sb);
+                }
+            }
+            commentHolder.comment_txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Anomologita.userID.equals(Anomologita.getCurrentGroupUserID())) {
+                        ((CommentActivity) context).commentDialog(currentComment);
+                    } else if (currentComment.getUserID().equals(Anomologita.userID)) {
+                        ((CommentActivity) context).commentDialog(currentComment);
+                    }
+                }
+            });
         }
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        notifyItemInserted(comments.size() - 1);
     }
 
     @Override
@@ -135,7 +151,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return comments.size() + 1;
     }
 
-    public void setPost(String text){
+    public void setPost(String text) {
         post.setPost_txt(text);
         notifyItemChanged(0);
     }
@@ -153,24 +169,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private final TextView post;
         private final TextView hashtag;
         private final TextView postTime;
-        private final ImageView send_personal_message;
         private final ImageView like;
-        private final ImageView editPost;
         private final TextView numberOfLikes;
         private final TextView numberOfComments;
-        private final TextView messageTextA;
-        private final TextView messageTextB;
         private final TextView location;
 
         public PostHolder(View itemView) {
             super(itemView);
-            messageTextA = (TextView) itemView.findViewById(R.id.messageTextA);
-            messageTextB = (TextView) itemView.findViewById(R.id.messageTextB);
             post = (TextView) itemView.findViewById(R.id.post);
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
             postTime = (TextView) itemView.findViewById(R.id.time);
-            send_personal_message = (ImageView) itemView.findViewById(R.id.message);
-            editPost = (ImageView) itemView.findViewById(R.id.edit);
             like = (ImageView) itemView.findViewById(R.id.like);
             numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);
             numberOfComments = (TextView) itemView.findViewById(R.id.commentCount);

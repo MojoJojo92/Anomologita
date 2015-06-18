@@ -2,12 +2,18 @@ package gr.anomologita.anomologita.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -35,6 +41,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
+import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -110,7 +117,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 }
                 if (Anomologita.getCurrentGroupID() != null) {
                     String theTitle = title.getText().toString();
-                    if(!theTitle.equals(getResources().getString(R.string.noInternet)) && !theTitle.equals(getResources().getString(R.string.deleted)) && !theTitle.equals(getResources().getString(R.string.groupName))){
+                    if (!theTitle.equals(getResources().getString(R.string.noInternet)) && !theTitle.equals(getResources().getString(R.string.deleted)) && !theTitle.equals(getResources().getString(R.string.groupName))) {
                         mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                         HidingGroupProfileListener.mGroupProfileOffset = 0;
                         name.setAlpha(0);
@@ -132,7 +139,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null){
+                if (Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null) {
                     Intent i = new Intent(getApplicationContext(), CreatePostActivity.class);
                     startActivityForResult(i, 1);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -144,6 +151,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         favoritesButton = (TextView) findViewById(R.id.favoritesButton);
         db = new FavoritesDBHandler(this);
         groupImage = (ImageView) findViewById(R.id.icon);
+        groupImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareGroup();
+            }
+        });
         editGroup = (TextView) findViewById(R.id.edit);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         AutofitHelper.create(groupNameTV);
@@ -198,9 +211,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             settingsDialog();
-        }else if (id == R.id.action_support) {
+        } else if (id == R.id.action_share) {
+            shareApp();
+        } else if (id == R.id.action_support) {
             supportDialog();
-        }else if (id == R.id.action_terms) {
+        } else if (id == R.id.action_terms) {
             Intent i = new Intent(getApplicationContext(), TermsActivity.class);
             startActivityForResult(i, 1);
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -226,7 +241,50 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
-    private void supportDialog(){
+    private void shareApp() {
+        String message = "https://play.google.com/store/apps/details?id=gr.anomologita.anomologita&hl=en";
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(share, "Share via"));
+    }
+
+    private void shareGroup() {
+        View view = mGroupProfileContainer;
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap = view.getDrawingCache();
+        Bitmap bitmap12 = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Bitmap bitmap1 = overlay(bitmap, bitmap12);
+        Uri imageUri = getImageUri(bitmap1);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("image/*");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "send"));
+    }
+
+    private static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth() + 10, bmp1.getHeight() + bmp2.getHeight() + 10, bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(bmp1, 5, bmp2.getHeight() + 5, null);
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setTextSize(50);
+        canvas.drawText("Ανομολόγητα Εφαρμογή Android", bmp2.getWidth() + 5, bmp2.getHeight() / 2 + 10, paint);
+        canvas.drawBitmap(bmp2, 0, 0, null);
+        return bmOverlay;
+    }
+
+    private Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "", "");
+        return Uri.parse(path);
+    }
+
+    private void supportDialog() {
         new MaterialDialog.Builder(this)
                 .title("Αναφορά")
                 .content(R.string.complaints)
@@ -244,17 +302,14 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 .show();
     }
 
-    private void support(){
+    private void support() {
         String[] TO = {"anomologita.m2@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
         emailIntent.setType("text/plain");
-
-
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Θέμα");
-
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -304,7 +359,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     public void setGroup() {
         if (Anomologita.isConnected()) {
-            if(Anomologita.getCurrentGroupID() != null){
+            if (Anomologita.getCurrentGroupID() != null) {
                 editGroup.setVisibility(View.INVISIBLE);
                 adapter = new ViewPagerAdapter(getSupportFragmentManager());
                 viewPager.setAdapter(adapter);
@@ -319,7 +374,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 AttemptLogin getGroup = new AttemptLogin();
                 getGroup.getGroup(Anomologita.getCurrentGroupID(), this);
                 getGroup.execute();
-            }else {
+            } else {
                 if (db.exists(Anomologita.getCurrentGroupName()))
                     db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 title.setText(R.string.deleted);
@@ -354,6 +409,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 groupNameTV.setText(groupProfile.getGroupName());
                 title.setText(groupProfile.getGroupName());
                 if (!db.exists(groupProfile.getGroup_name())) {
+                    db.updateFavorite(groupProfile);
                     db.updateFavorite(groupProfile);
                     favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
                     favoritesButton.setText(R.string.subscribeButton);
@@ -430,7 +486,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             }
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -457,11 +513,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             i.putExtra("hashtag", groupProfile.getHashtag_name());
             i.putExtra("name", groupProfile.getGroupName());
             i.putExtra("id", String.valueOf(groupProfile.getGroup_id()));
-            startActivityForResult(i, 1);
+            startActivityForResult(i, 3);
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {
             YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
-            Toast.makeText(Anomologita.getAppContext(), "ΔΕΝ ΥΠΑΡΧΕΙ ΣΙΝΔΕΣΗ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -491,6 +547,17 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 case Activity.RESULT_OK:
                     fragmentNav.updateDrawer();
                     setGroup();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    break;
+            }
+        } else if (requestCode == 3) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    fragmentNav.updateDrawer();
+                    setGroup();
+                    Anomologita.fragmentNew.refresh();
+                    Anomologita.fragmentTop.refresh();
                     break;
                 case Activity.RESULT_CANCELED:
                     break;

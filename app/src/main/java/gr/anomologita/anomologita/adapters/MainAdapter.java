@@ -2,6 +2,7 @@ package gr.anomologita.anomologita.adapters;
 
 import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,42 +124,28 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     mainFragment.newComment(currentPost);
                 }
             });
-            postHolder.send_personal_message.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mainFragment.newMessage(currentPost);
-                }
-            });
-            postHolder.editPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mainFragment.editPost(currentPost);
-                }
-            });
-            postHolder.adminIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mainFragment.adminDialog(currentPost);
-                }
-            });
-            if(Anomologita.userID.equals(Anomologita.getCurrentGroupUserID()) && !String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)){
-                postHolder.editPost.setVisibility(View.INVISIBLE);
-                postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.adminIcon.setVisibility(View.VISIBLE);
-                postHolder.messageTextA.setText("");
-                postHolder.messageTextB.setText("");
-            }else if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
-                postHolder.editPost.setVisibility(View.VISIBLE);
-                postHolder.send_personal_message.setVisibility(View.INVISIBLE);
-                postHolder.adminIcon.setVisibility(View.INVISIBLE);
-                postHolder.messageTextA.setText("Επεξεργασία");
-                postHolder.messageTextB.setText("Ποστ");
+            postHolder.adminIcon.setVisibility(View.VISIBLE);
+            if (Anomologita.userID.equals(Anomologita.getCurrentGroupUserID()) && !String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
+                postHolder.adminIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainFragment.adminDialog(currentPost, postHolder.postRowLayout, 1);
+                    }
+                });
+            } else if (String.valueOf(currentPost.getUser_id()).equals(Anomologita.userID)) {
+                postHolder.adminIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainFragment.adminDialog(currentPost, postHolder.postRowLayout, 2);
+                    }
+                });
             } else {
-                postHolder.editPost.setVisibility(View.INVISIBLE);
-                postHolder.send_personal_message.setVisibility(View.VISIBLE);
-                postHolder.adminIcon.setVisibility(View.INVISIBLE);
-                postHolder.messageTextA.setText("Προσωπικό");
-                postHolder.messageTextB.setText("Μήνυμα");
+                postHolder.adminIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainFragment.adminDialog(currentPost, postHolder.postRowLayout, 3);
+                    }
+                });
             }
             if (posts.size() - 1 == position - adCount)
                 mainFragment.loadMore(position + 1 - adCount);
@@ -213,28 +200,21 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final TextView postTime;
         private final TextView location;
         private final ImageView comments_word;
-        private final ImageView send_personal_message;
         private final ImageView like;
         private final ImageView adminIcon;
-        private final ImageView editPost;
         private final TextView numberOfLikes;
         private final TextView numberOfComments;
         private final RelativeLayout postRowLayout;
-        private final TextView messageTextA;
-        private final TextView messageTextB;
         private final TextView admin;
 
         public PostHolder(View itemView) {
             super(itemView);
             post = (TextView) itemView.findViewById(R.id.post);
+            post.setMovementMethod(LinkMovementMethod.getInstance());
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
             postTime = (TextView) itemView.findViewById(R.id.time);
             location = (TextView) itemView.findViewById(R.id.location);
-            messageTextA = (TextView) itemView.findViewById(R.id.messageTextA);
-            messageTextB = (TextView) itemView.findViewById(R.id.messageTextB);
             comments_word = (ImageView) itemView.findViewById(R.id.comment);
-            send_personal_message = (ImageView) itemView.findViewById(R.id.message);
-            editPost = (ImageView) itemView.findViewById(R.id.edit);
             like = (ImageView) itemView.findViewById(R.id.like);
             adminIcon = (ImageView) itemView.findViewById(R.id.adminIcon);
             numberOfLikes = (TextView) itemView.findViewById(R.id.likeCount);

@@ -21,14 +21,16 @@ public interface Keys {
         public static final String URL_SET_USER = "http://anomologita.gr/setUser.php";
         public static final String URL_POST = "http://anomologita.gr/post.php";
         public static final String URL_SEARCH = "http://anomologita.gr/search.php";
-        public static final String URL_COMMENT = "http://anomologita.gr/comment.php";
+        public static final String URL_COMMENT_1_8 = "http://anomologita.gr/comment1_8.php";
         public static final String URL_SET_GROUP_IMG = "http://anomologita.gr/setGroupImage.php";
         public static final String URL_EDIT_HASHTAG = "http://anomologita.gr/editHashtag.php";
         public static final String URL_DELETE_POST = "http://anomologita.gr/deletePost.php";
         public static final String URL_DELETE_GROUP = "http://anomologita.gr/deleteGroup.php";
+        public static final String URL_DELETE_COMMENT = "http://anomologita.gr/deleteComment.php";
         public static final String URL_CHECK_GROUP = "http://anomologita.gr/checkGroup.php";
         public static final String URL_SET_GROUP_NAME = "http://anomologita.gr/editGroupName.php";
         public static final String URL_EDIT_POST = "http://anomologita.gr/editPost.php";
+        public static final String URL_EDIT_COMMENT = "http://anomologita.gr/editComment.php";
         public static final String URL_SEND_MESSAGE = "http://anomologita.gr/GCM.php";
         public static final String URL_SEND_NOTIFICATION = "http://anomologita.gr/gcmLike.php";
 
@@ -83,6 +85,8 @@ public interface Keys {
         public static final int SET_GROUP_NAME = 16;
         public static final int EDIT_POST = 17;
         public static final int SEND_NOTIFICATION = 18;
+        public static final int EDIT_COMMENT = 19;
+        public static final int DELETE_COMMENT = 20;
 
     }
 

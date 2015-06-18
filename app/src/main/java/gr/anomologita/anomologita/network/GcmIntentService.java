@@ -63,6 +63,8 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
                                 notification(extras);
                             }
                             break;
+                        } else {
+                            sendAnnouncement(extras.getString("Notice"));
                         }
                 }
             }
@@ -80,10 +82,10 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
 
         String sender, receiver;
         PostsDBHandler db = new PostsDBHandler(this);
-        if(db.exists(Integer.parseInt(extras.getString("postID")))) {
+        if (db.exists(Integer.parseInt(extras.getString("postID")))) {
             sender = extras.getString("senderRegID");
             receiver = extras.getString("receiverRegID");
-        }else {
+        } else {
             sender = extras.getString("receiverRegID");
             receiver = extras.getString("senderRegID");
         }
@@ -173,6 +175,25 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
             android.app.Notification mNotify = new android.app.Notification.Builder(this)
                     .setContentTitle("Ανομολόγητα")
                     .setContentText(name + ": " + msg)
+                    .setSmallIcon(R.drawable.ic_stat_a)
+                    .setContentIntent(pIntent)
+                    .build();
+            if (Anomologita.isNotificationSoundOn())
+                mNotify.sound = sound;
+            NotificationManager mNM = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotify.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
+            mNM.notify(0, mNotify);
+        }
+    }
+
+    private void sendAnnouncement(String msg) {
+        if (Anomologita.isConnected()) {
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Intent intent = new Intent(this, MainActivity.class);
+            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            android.app.Notification mNotify = new android.app.Notification.Builder(this)
+                    .setContentTitle("Ανομολόγητα")
+                    .setContentText(msg)
                     .setSmallIcon(R.drawable.ic_stat_a)
                     .setContentIntent(pIntent)
                     .build();
