@@ -2,10 +2,12 @@ package gr.anomologita.anomologita.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -54,13 +56,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         SearchHolder searchHolder = (SearchHolder) holder;
         if(getItemViewType(position) == 0){
             searchHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_create_grey));
-            searchHolder.subsCount.setVisibility(View.INVISIBLE);
-           // searchHolder.background.setVisibility(View.INVISIBLE);
-            searchHolder.title.setText("Δημιούργησε Γκρούπ");
+            searchHolder.layout.setVisibility(View.INVISIBLE);
+            searchHolder.background.setVisibility(View.INVISIBLE);
+            searchHolder.title.setText(Html.fromHtml("<b><u>Δημιούργησε Γκρούπ</u></b>"));
         }else {
             Favorite current = groupSearches.get(position -1);
-            searchHolder.subsCount.setVisibility(View.VISIBLE);
             searchHolder.background.setVisibility(View.VISIBLE);
+            searchHolder.layout.setVisibility(View.VISIBLE);
             searchHolder.title.setText(current.get_name());
             searchHolder.subsCount.setText(createSubs(current.getSubs()));
             BitmapPool pool = Glide.get(context).getBitmapPool();
@@ -101,6 +103,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private final TextView title;
         private final TextView subsCount;
         private final ImageView icon;
+        private final LinearLayout layout;
         private final ImageView background;
 
         public SearchHolder(View itemView) {
@@ -108,6 +111,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.groupNameNav);
             subsCount = (TextView) itemView.findViewById(R.id.subCount);
+            layout = (LinearLayout) itemView.findViewById(R.id.subs);
             icon = (ImageView) itemView.findViewById(R.id.icon);
             background = (ImageView) itemView.findViewById(R.id.circle);
             title.setTextColor(context.getResources().getColor(R.color.primaryColorDark));

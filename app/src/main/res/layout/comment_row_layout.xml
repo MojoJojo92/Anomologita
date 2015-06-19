@@ -3,22 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtComment"
         android:layout_width="match_parent"
         android:autoLink="all"
-        android:drawablePadding="10dp"
-        android:drawableLeft="@drawable/ic_me"
-        android:drawableStart="@drawable/ic_me"
         android:linksClickable="true"
         android:textIsSelectable="true"
         android:layout_height="wrap_content"
         android:background="@drawable/post_background"
-        android:padding="5dp"/>
+        android:padding="10dp"/>
 
 </LinearLayout>

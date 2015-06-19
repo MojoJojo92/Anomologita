@@ -23,11 +23,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.millennialmedia.android.MMAd;
-import com.millennialmedia.android.MMInterstitial;
-import com.millennialmedia.android.MMRequest;
-import com.millennialmedia.android.RequestListener;
-
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -126,7 +121,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             }
         });
 
-        final MMInterstitial  interstitial = new MMInterstitial(this);
+  /*      final MMInterstitial  interstitial = new MMInterstitial(this);
         MMRequest request = new MMRequest();
         request.setAge("25");
         interstitial.setMMRequest(request);
@@ -137,7 +132,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                 interstitial.display(); // display the ad that was cached by fetch
             }
         });
-        interstitial.fetch();
+        interstitial.fetch(); */
     }
 
     private void setPostSize() {
@@ -244,6 +239,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     private void resultOK() {
         HidingGroupProfileListener.mGroupProfileOffset = 0;
         Intent intent = new Intent();
+        intent.putExtra("refresh",1);
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
@@ -155,20 +156,21 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
         if (id == R.id.editGroupComplete) {
             editGroup();
         } else if (id == R.id.delete) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Διαγραφή Γκρουπ")
-                    .setMessage("Σίγουρα θέλεις να διαγράψεις αυτή αυτό το γκρουπ;")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+            new MaterialDialog.Builder(this)
+                    .title("Διαγραφή Γκρουπ")
+                    .iconRes(R.drawable.ic_error_triangle)
+                    .content("Σίγουρα θέλεις να διαγράψεις αυτό το γκρουπ;")
+                    .positiveText("NAI")
+                    .positiveColorRes(R.color.accentColor)
+                    .neutralText("OXI")
+                    .neutralColorRes(R.color.primaryColor)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            super.onPositive(dialog);
                             deleteGroup();
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
         return super.onOptionsItemSelected(item);

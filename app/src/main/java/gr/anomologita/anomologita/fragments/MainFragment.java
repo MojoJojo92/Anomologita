@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -34,6 +35,7 @@ import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.activities.ChatActivity;
 import gr.anomologita.anomologita.activities.CommentActivity;
+import gr.anomologita.anomologita.activities.CreateGroupActivity;
 import gr.anomologita.anomologita.activities.EditPostActivity;
 import gr.anomologita.anomologita.activities.MainActivity;
 import gr.anomologita.anomologita.activities.MessageActivity;
@@ -50,8 +52,10 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     private String sort, groupID = null;
     private int mGroupProfileHeight;
     private LinearLayout mGroupProfileContainer, name;
+    private RelativeLayout mainButtons;
     private MainAdapter adapter;
-    private TextView search, title, favorite;
+    private TextView title;
+    private TextView favorite;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static MainFragment newInstance(String sort) {
@@ -87,7 +91,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
-        search = (TextView) view.findViewById(R.id.search);
+        mainButtons = (RelativeLayout) view.findViewById(R.id.mainButtons);
+        TextView search = (TextView) view.findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,13 +100,22 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 getActivity().onOptionsItemSelected(menu.findItem(R.id.search));
             }
         });
+        TextView create = (TextView) view.findViewById(R.id.create);
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CreateGroupActivity.class);
+                getActivity().startActivityForResult(i,2);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        });
 
         if (groupID == null) {
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
-            search.setVisibility(View.VISIBLE);
+            mainButtons.setVisibility(View.VISIBLE);
         } else {
-            search.setVisibility(View.INVISIBLE);
+            mainButtons.setVisibility(View.INVISIBLE);
         }
 
         adapter = new MainAdapter(this);
@@ -164,14 +178,14 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             getPosts.execute();
             mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             name.setAlpha(0);
-            search.setVisibility(View.INVISIBLE);
+            mainButtons.setVisibility(View.INVISIBLE);
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mGroupProfileContainer.animate().translationY(-mGroupProfileHeight).setInterpolator(new AccelerateInterpolator(2)).start();
             name.setAlpha(1);
             adapter.removeAll();
             if (Anomologita.isConnected())
-                search.setVisibility(View.VISIBLE);
+                mainButtons.setVisibility(View.VISIBLE);
         }
     }
 

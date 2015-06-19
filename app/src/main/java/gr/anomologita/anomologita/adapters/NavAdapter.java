@@ -2,6 +2,7 @@ package gr.anomologita.anomologita.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,7 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             favoritesHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_create));
             favoritesHolder.backgroundIcon.setVisibility(View.INVISIBLE);
             favoritesHolder.subs.setVisibility(View.INVISIBLE);
-            favoritesHolder.title.setText("Δημιούργησε Γκρούπ");
+            favoritesHolder.title.setText(Html.fromHtml("<b><u>Δημιούργησε Γκρούπ</u></b>"));
         } else if (getItemViewType(position) == 2) {
             FavoritesHolder favoritesHolder = (FavoritesHolder) holder;
             currentFavorite = myGroups.get(position - 2);

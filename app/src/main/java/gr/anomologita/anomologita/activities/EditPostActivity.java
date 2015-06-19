@@ -1,8 +1,6 @@
 package gr.anomologita.anomologita.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -131,20 +130,21 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         if (id == R.id.editPostComplete)
             editPost();
         else if (id == R.id.delete)
-            new AlertDialog.Builder(this)
-                    .setTitle("Διαγραφή Ανομολόγητου")
-                    .setMessage("Σίγουρα θέλεις να διαγράψεις αυτό το ανομολόγητο;")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+            new MaterialDialog.Builder(this)
+                    .title("Διαγραφή Ανομολογήτου")
+                    .iconRes(R.drawable.ic_error_triangle)
+                    .content("Σίγουρα θέλεις να διαγράψεις αυτό το ανομολόγητο;")
+                    .positiveText("NAI")
+                    .positiveColorRes(R.color.accentColor)
+                    .neutralText("OXI")
+                    .neutralColorRes(R.color.primaryColor)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            super.onPositive(dialog);
                             deletePost();
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         return super.onOptionsItemSelected(item);
     }

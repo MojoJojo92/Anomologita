@@ -1,8 +1,6 @@
 package gr.anomologita.anomologita.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 
@@ -125,20 +124,21 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void alert(final int position){
-        new AlertDialog.Builder(context)
-                .setTitle("Διαγραφή Ενημέρωσης")
-                .setMessage("Σίγουρα θέλεις να διαγράψεις αυτή την ενημέρωση;")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                       deleteData(position);
+        new MaterialDialog.Builder(context)
+                .title("Διαγραφή Ενημέρωσης")
+                .iconRes(R.drawable.ic_error_triangle)
+                .content("Σίγουρα θέλεις να διαγράψεις αυτή την ενημέρωση;")
+                .positiveText("NAI")
+                .positiveColorRes(R.color.accentColor)
+                .neutralText("OXI")
+                .neutralColorRes(R.color.primaryColor)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        deleteData(position);
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 

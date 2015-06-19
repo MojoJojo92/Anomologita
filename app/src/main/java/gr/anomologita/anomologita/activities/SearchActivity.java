@@ -73,7 +73,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
+        SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         theTextArea.setTextSize(15);
         searchView.setActivated(true);
         searchView.setQueryHint("Ψάξε για σχολές, περιοχές, άλλα");
@@ -105,7 +105,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
     }
 
     private void search(String search) {
-        if (Anomologita.isConnected()){
+        if (Anomologita.isConnected()) {
             AttemptLogin getSearch = new AttemptLogin();
             getSearch.getSearch(search, this);
             getSearch.execute();
@@ -120,15 +120,23 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
 
     @Override
     public void itemClicked(int position) {
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
-        Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getId()));
-        Anomologita.setCurrentGroupName(adapter.getData(position).get_name());
-        Anomologita.setCurrentGroupUserID(adapter.getData(position).getUserID());
-        Intent intent = new Intent();
-        setResult(Activity.RESULT_OK, intent);
-        db.close();
-        finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        if (position == -1) {
+            Intent i = new Intent(this, CreateGroupActivity.class);
+            i.putExtra("requestCode", 3);
+            startActivityForResult(i, 3);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        } else {
+            HidingGroupProfileListener.mGroupProfileOffset = 0;
+            Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getId()));
+            Anomologita.setCurrentGroupName(adapter.getData(position).get_name());
+            Anomologita.setCurrentGroupUserID(adapter.getData(position).getUserID());
+         /*   Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            db.close();
+            finish(); */
+            resultOK();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        }
     }
 
     @Override
@@ -142,6 +150,28 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         super.onPause();
         Anomologita.activityPaused();
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    resultOK();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    break;
+            }
+        }
+    }
+
+    private void resultOK() {
+        HidingGroupProfileListener.mGroupProfileOffset = 0;
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        db.close();
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
 
     @Override
     public void onBackPressed() {

@@ -7,15 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
-import com.millennialmedia.android.MMSDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +50,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
-            AdHolder adHolder = (AdHolder) holder;
+        /*    AdHolder adHolder = (AdHolder) holder;
             MMRequest request = new MMRequest();
             adHolder.adRelativeLayout.setMMRequest(request);
             adHolder.adRelativeLayout.getAd();
@@ -235,11 +228,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class AdHolder extends RecyclerView.ViewHolder {
       //  private final AdView ad;
       //  private final LinearLayout adLayout;
-        private final MMAdView adRelativeLayout;
+      //  private final MMAdView adRelativeLayout;
 
         public AdHolder(View itemView) {
             super(itemView);
-            adRelativeLayout = (MMAdView) itemView.findViewById(R.id.adView);
+         //   adRelativeLayout = (MMAdView) itemView.findViewById(R.id.adView);
             //ad = (AdView) itemView.findViewById(R.id.adView);
             //adLayout = (LinearLayout) itemView.findViewById((R.id.adLayout));
         }

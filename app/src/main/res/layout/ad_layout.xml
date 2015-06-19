@@ -2,10 +2,10 @@
 <LinearLayout
     android:id="@+id/adLayout"
     style="@style/PostTheme"
-    xmlns:mm="http://millennialmedia.com/android/schema"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="gone"
     android:orientation="vertical">
 
     <!-- <com.google.android.gms.ads.AdView
@@ -18,7 +18,7 @@
     <RelativeLayout
         android:id="@+id/adBannerRelativeLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">-->
+        android:layout_height="wrap_content">
 
     <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
@@ -28,6 +28,6 @@
         android:layout_centerHorizontal="true"
         mm:width="300"
         mm:height="250"
-        mm:apid="204166" />
+        mm:apid="204166" />-->
 
 </LinearLayout>

@@ -18,16 +18,57 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:id="@+id/search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:drawableTop="@drawable/ic_search"
-        android:text="@string/searchGroup"
-        android:textColor="@color/white"
-        android:clickable="true"
-        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/mainButtons"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="50dp"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/fakeView"
+            android:layout_toRightOf="@id/fakeView"
+            android:clickable="true"
+            android:drawableTop="@drawable/ic_search"
+            android:text="@string/searchGroup"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/fakeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mainDivider"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"/>
+
+        <TextView
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/fakeView"
+            android:layout_toStartOf="@id/fakeView"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:drawableTop="@drawable/ic_create_big"
+            android:text="@string/mainCreateGroup"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
 

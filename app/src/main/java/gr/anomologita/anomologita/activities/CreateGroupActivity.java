@@ -48,6 +48,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     private EditText groupNameET, hashtagET;
     private String image, groupName, hashtag, groupID;
     private RelativeLayout layout;
+    private int requestCode;
 
     private static String encodeToBase64(Bitmap image) {
         System.gc();
@@ -62,6 +63,11 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_group_layout);
+
+        final Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            requestCode = extras.getInt("requestCode");
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,8 +100,8 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
         InputFilter hashtagFilter = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
-                if(end > 20)
-                    return source.subSequence(start,20);
+                if (end > 20)
+                    return source.subSequence(start, 20);
                 for (int i = start; i < end; i++) {
                     if (Character.isSpaceChar(source.charAt(i))) {
                         return "";
@@ -107,14 +113,14 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
         InputFilter nameFilter = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
-                if(end > 40)
-                    return source.subSequence(start,40);
+                if (end > 40)
+                    return source.subSequence(start, 40);
                 return null;
             }
         };
 
-        hashtagET.setFilters(new InputFilter[] { hashtagFilter });
-        groupNameET.setFilters(new InputFilter[] { nameFilter });
+        hashtagET.setFilters(new InputFilter[]{hashtagFilter});
+        groupNameET.setFilters(new InputFilter[]{nameFilter});
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,14 +180,17 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        if (requestCode == 3)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        else
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.createGroupComplete) {
-            hashtag = hashtagET.getText().toString().replace("#","");
+            hashtag = hashtagET.getText().toString().replace("#", "");
             groupName = groupNameET.getText().toString();
             if (hashtag.equals("")) {
                 YoYo.with(Techniques.Tada).duration(700).playOn(hashtagET);
@@ -242,6 +251,9 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
         Intent intent = new Intent();
         setResult(RESULT_CANCELED, intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        if (requestCode == 3)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        else
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 }
