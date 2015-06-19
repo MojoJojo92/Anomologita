@@ -164,7 +164,6 @@ public class ChatActivity extends ActionBarActivity {
                 connection = false;
             }
         }
-
     }
 
     private void newChatMessage() {

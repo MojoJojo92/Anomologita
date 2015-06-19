@@ -80,13 +80,13 @@ public class NavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Favorite currentFavorite;
         if (getItemViewType(position) == 0) {
             TitleHolder titleHolder = (TitleHolder) holder;
-            titleHolder.title.setText("Τα Γκρούπ Μου");
+            titleHolder.title.setText("Τα Γκρουπ Μου");
         } else if (getItemViewType(position) == 1) {
             FavoritesHolder favoritesHolder = (FavoritesHolder) holder;
             favoritesHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_create));
             favoritesHolder.backgroundIcon.setVisibility(View.INVISIBLE);
             favoritesHolder.subs.setVisibility(View.INVISIBLE);
-            favoritesHolder.title.setText(Html.fromHtml("<b><u>Δημιούργησε Γκρούπ</u></b>"));
+            favoritesHolder.title.setText(Html.fromHtml("<b>Δημιούργησε νέο γκρουπ</b>"));
         } else if (getItemViewType(position) == 2) {
             FavoritesHolder favoritesHolder = (FavoritesHolder) holder;
             currentFavorite = myGroups.get(position - 2);

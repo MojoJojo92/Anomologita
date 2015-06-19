@@ -58,7 +58,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             searchHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_create_grey));
             searchHolder.layout.setVisibility(View.INVISIBLE);
             searchHolder.background.setVisibility(View.INVISIBLE);
-            searchHolder.title.setText(Html.fromHtml("<b><u>Δημιούργησε Γκρούπ</u></b>"));
+            searchHolder.title.setText(Html.fromHtml("<b>Δημιούργησε νέο γκρουπ</b>"));
         }else {
             Favorite current = groupSearches.get(position -1);
             searchHolder.background.setVisibility(View.VISIBLE);

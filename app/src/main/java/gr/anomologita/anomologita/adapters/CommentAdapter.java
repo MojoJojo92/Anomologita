@@ -107,42 +107,42 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             commentHolder.comment_txt.setText(currentComment.getComment() + "   ");
             if (!currentComment.getUserID().isEmpty()) {
                 if (currentComment.getUserID().equals(Anomologita.getCurrentGroupUserID())) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  (Admin) " + currentComment.getComment() + "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("  Admin: " + currentComment.getComment() + "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
                     sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                     ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.primaryColor));
-                    sb.setSpan(fcs, 0, 10, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(fcs, 0, 9, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else if (currentComment.getUserID().equals(post.getUser_id())) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  (Poster) " + currentComment.getComment() + "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("  Δημιουργός ποστ: " + currentComment.getComment() + "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
                     sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);
-                    sb.setSpan(fcs, 0, 11, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.posterColor));
+                    sb.setSpan(fcs, 0, 19, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else if (currentComment.getUserID().equals(Anomologita.userID)) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  (Me) " + currentComment.getComment()+ "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("  Εγώ: " + currentComment.getComment()+ "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
                     sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                     ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.accentColor));
-                    sb.setSpan(fcs, 0, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(fcs, 0, 7, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else {
                     if (!users.contains(currentComment.getUserID()))
                         users.add(currentComment.getUserID());
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  (User " + (users.indexOf(currentComment.getUserID())+1) + ") " + currentComment.getComment()+ "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("  Χρήστης " + (users.indexOf(currentComment.getUserID())+1) + ": " + currentComment.getComment()+ "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
                     sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                     ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLACK);
-                    sb.setSpan(fcs, 0, 11, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(fcs, 0, 13, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 }
             }

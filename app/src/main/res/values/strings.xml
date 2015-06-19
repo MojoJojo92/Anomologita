@@ -78,7 +78,8 @@
     <string name="messageDialog">ΠΡΟΣΩΠΙΚΟ ΜΗΝΥΜΑ</string>
     <string name="editDialog">ΕΠΕΞΕΡΓΑΣΙΑ ΠΟΣΤ</string>
     <string name="shareMenu">Κοινοποίηση</string>
-    <string name="mainCreateGroup"><u>Δημιούργησε Γκρούπ</u></string>
+    <string name="mainCreateGroup"><u>Δημιούργησε γκρουπ</u></string>
+    <string name="mainDivider">ή</string>
 
     <string name="postRules">
         1. ΔΕΝ βρίζουμε και ΔΕΝ στοχοποιούμε κανέναν ονομαστικά.\n\n
@@ -165,6 +166,5 @@
         Είμαστε ανοιχτοί σε οποιαδήποτε ερώτηση,σχόλιο ή ανησυχία σας. Αν αποφασίσετε να μας στείλετε πίσω πληροφορίες, συμφωνείτε ότι είμαστε ελεύθεροι να χρησιμοποιήσουμε τις πληροφορίες αυτές
         με κάθε τρόπο που κρίνουμε ότι απαιτείται, χωρις κανέναν περιορισμό ή αποζημίωση προς εσάς. Παρακαλώ στείλτε εδώ: anomologita.m2@gmail.com\n\n
      </string>
-    <string name="mainDivider">ή</string>
 
 </resources>

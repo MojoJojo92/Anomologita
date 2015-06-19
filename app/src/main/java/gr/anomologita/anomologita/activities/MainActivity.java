@@ -83,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MMSDK.initialize(this);
+        MMSDK.initialize(this);
         setContentView(R.layout.activity_main);
 
         new FetchCountTask().execute();
@@ -145,6 +146,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     Intent i = new Intent(getApplicationContext(), CreatePostActivity.class);
                     startActivityForResult(i, 1);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                }else {
+                    Toast.makeText(MainActivity.this,"Πρέπει να επιλέξεις γκρουπ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -317,8 +320,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this,
-                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,"There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
     }
 
