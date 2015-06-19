@@ -137,7 +137,7 @@
             android:layout_centerInParent="true"
             android:clickable="true"
             android:contentDescription="@string/editPostDescription"
-            android:src="@drawable/ic_admin"
+            android:src="@drawable/ic_action"
             android:visibility="invisible"/>
 
     </RelativeLayout>

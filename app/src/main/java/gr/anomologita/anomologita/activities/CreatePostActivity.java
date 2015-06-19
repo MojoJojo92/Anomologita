@@ -20,9 +20,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.millennialmedia.android.MMAd;
+import com.millennialmedia.android.MMInterstitial;
+import com.millennialmedia.android.MMRequest;
+import com.millennialmedia.android.RequestListener;
+
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -42,7 +44,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     private EditText postET, locationET;
     private TextView postSize, locationSize;
     private RelativeLayout layout;
-    private InterstitialAd mInterstitialAd;
+    private MMInterstitial interstitial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +84,6 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             }
         });
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id2));
-        requestNewInterstitial();
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                resultOK();
-            }
-        });
-
         postET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,18 +113,12 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             }
         });
 
-  /*      final MMInterstitial  interstitial = new MMInterstitial(this);
+        interstitial = new MMInterstitial(this);
         MMRequest request = new MMRequest();
         request.setAge("25");
+        request.setEthnicity("Greek");
         interstitial.setMMRequest(request);
         interstitial.setApid("204172");
-        interstitial.setListener(new RequestListener.RequestListenerImpl() {
-            @Override
-            public void requestCompleted(MMAd mmAd) {
-                interstitial.display(); // display the ad that was cached by fetch
-            }
-        });
-        interstitial.fetch(); */
     }
 
     private void setPostSize() {
@@ -220,12 +206,17 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                     Random r = new Random();
                     int Low = 1;
                     int High = 3;
-                    int R = r.nextInt(High-Low) + Low;
-                    if (mInterstitialAd.isLoaded() && R == 1) {
-                        mInterstitialAd.show();
-                    } else {
-                        resultOK();
+                    int R = r.nextInt(High - Low) + Low;
+                    if (R == 1) {
+                        interstitial.setListener(new RequestListener.RequestListenerImpl() {
+                            @Override
+                            public void requestCompleted(MMAd mmAd) {
+                                interstitial.display();
+                            }
+                        });
+                        interstitial.fetch();
                     }
+                    resultOK();
                 } else {
                     YoYo.with(Techniques.Tada).duration(700).playOn(layout);
                     Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
@@ -239,7 +230,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     private void resultOK() {
         HidingGroupProfileListener.mGroupProfileOffset = 0;
         Intent intent = new Intent();
-        intent.putExtra("refresh",1);
+        intent.putExtra("refresh", 1);
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
@@ -255,11 +246,6 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     protected void onPause() {
         super.onPause();
         Anomologita.activityPaused();
-    }
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override

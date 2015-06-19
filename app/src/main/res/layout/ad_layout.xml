@@ -5,29 +5,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
-    android:orientation="vertical">
-
-    <!-- <com.google.android.gms.ads.AdView
-         android:id="@+id/adView"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         ads:adSize="LARGE_BANNER"
-         ads:adUnitId="@string/banner_ad_unit_id">
-     </com.google.android.gms.ads.AdView>
-    <RelativeLayout
-        android:id="@+id/adBannerRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    android:orientation="vertical"
+    xmlns:mm="http://millennialmedia.com/android/schema">
 
     <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        mm:width="300"
-        mm:height="250"
-        mm:apid="204166" />-->
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        mm:width="320"
+        mm:apid="204166" />
 
 </LinearLayout>

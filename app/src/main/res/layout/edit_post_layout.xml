@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/paper_gradient">
+    android:background="@drawable/backrepeat">
 
     <include
         android:id="@+id/editPostToolbar"
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:inputType="textCapSentences|textMultiLine"
+            android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
             android:maxLines="20"
             android:selectAllOnFocus="true"
             android:textColor="@color/black"/>
@@ -56,10 +56,10 @@
             android:layout_weight="3"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:inputType="textCapSentences|textMultiLine"
+            android:inputType="textCapSentences"
             android:singleLine="false"
             android:ellipsize="end"
-            android:lines="1"
+            android:lines="2"
             android:selectAllOnFocus="true"
             android:textColor="@color/black"/>
 

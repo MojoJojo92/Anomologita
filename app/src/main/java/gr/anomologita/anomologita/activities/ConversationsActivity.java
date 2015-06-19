@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -58,9 +60,10 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
             }
         });
 
-        AdView ad = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        ad.loadAd(adRequest);
+        MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
+        MMRequest request = new MMRequest();
+        adLayout.setMMRequest(request);
+        adLayout.getAd();
 
         adapter = new ConversationsAdapter(this);
         setData();

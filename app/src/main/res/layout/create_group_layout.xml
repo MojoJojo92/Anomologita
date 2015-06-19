@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/paper_gradient">
+    android:background="@drawable/backrepeat">
 
     <include
         android:id="@+id/toolbar"
@@ -40,7 +40,6 @@
             android:paddingBottom="25dp"
             android:text="@string/add_new_image"
             android:textColor="@color/accentColor"/>
-
 
     </RelativeLayout>
 
@@ -82,6 +81,8 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/fakeView"
             android:layout_centerInParent="true"
+            android:inputType="textNoSuggestions|textVisiblePassword"
+            android:maxLength="20"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:hint="@string/createHashTagHint"

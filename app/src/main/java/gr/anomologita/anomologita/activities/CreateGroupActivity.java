@@ -100,8 +100,6 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
         InputFilter hashtagFilter = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
-                if (end > 20)
-                    return source.subSequence(start, 20);
                 for (int i = start; i < end; i++) {
                     if (Character.isSpaceChar(source.charAt(i))) {
                         return "";

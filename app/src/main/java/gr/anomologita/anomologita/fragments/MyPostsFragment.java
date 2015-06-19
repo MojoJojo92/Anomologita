@@ -22,8 +22,8 @@ import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Post;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -56,9 +56,12 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         animator.setRemoveDuration(100);
         recyclerView.setItemAnimator(animator);
 
-        AdView ad = (AdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        ad.loadAd(adRequest);
+        MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
+        MMRequest request = new MMRequest();
+        request.setAge("25");
+        request.setEthnicity("Greek");
+        adLayout.setMMRequest(request);
+        adLayout.getAd();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new MyPostsAdapter(this);

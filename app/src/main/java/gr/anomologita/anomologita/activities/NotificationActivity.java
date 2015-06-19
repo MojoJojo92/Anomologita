@@ -11,8 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -51,9 +51,12 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
             }
         });
 
-        AdView ad = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        ad.loadAd(adRequest);
+        MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
+        MMRequest request = new MMRequest();
+        request.setAge("25");
+        request.setEthnicity("Greek");
+        adLayout.setMMRequest(request);
+        adLayout.getAd();
 
         TextView titleTop = (TextView) findViewById(R.id.titleTop);
         TextView titleBottom = (TextView) findViewById(R.id.titleBottom);

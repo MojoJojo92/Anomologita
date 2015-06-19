@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,9 +48,12 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
-        AdView ad = (AdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        ad.loadAd(adRequest);
+        MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
+        MMRequest request = new MMRequest();
+        request.setAge("25");
+        request.setEthnicity("Greek");
+        adLayout.setMMRequest(request);
+        adLayout.getAd();
 
         recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

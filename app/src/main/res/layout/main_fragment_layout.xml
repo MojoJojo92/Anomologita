@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/paper_gradient"
+    android:background="@drawable/backrepeat"
     android:paddingTop="105dp">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -37,7 +37,8 @@
             android:clickable="true"
             android:drawableTop="@drawable/ic_search"
             android:text="@string/searchGroup"
-            android:textColor="@color/white"
+            android:textColor="@color/primaryColor"
+            android:alpha="0.5"
             android:textStyle="bold"
             android:visibility="visible"/>
 
@@ -45,9 +46,10 @@
             android:id="@+id/fakeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mainDivider"
+            android:text=""
             android:textSize="20sp"
-            android:textColor="@color/white"
+            android:alpha="0.5"
+            android:textColor="@color/primaryColor"
             android:textStyle="bold"
             android:layout_centerInParent="true"
             android:orientation="horizontal"/>
@@ -61,9 +63,10 @@
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/fakeView"
             android:layout_toStartOf="@id/fakeView"
-            android:textColor="@color/white"
+            android:textColor="@color/primaryColor"
             android:textStyle="bold"
             android:clickable="true"
+            android:alpha="0.5"
             android:drawableTop="@drawable/ic_create_big"
             android:text="@string/mainCreateGroup"
             android:visibility="visible"/>

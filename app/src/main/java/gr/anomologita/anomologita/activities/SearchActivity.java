@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -41,6 +42,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView titleTop = (TextView) findViewById(R.id.titleTop);
@@ -78,6 +80,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         searchView.setActivated(true);
         searchView.setQueryHint("Ψάξε για σχολές, περιοχές, άλλα");
         searchView.setIconified(false);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -130,10 +133,6 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
             Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getId()));
             Anomologita.setCurrentGroupName(adapter.getData(position).get_name());
             Anomologita.setCurrentGroupUserID(adapter.getData(position).getUserID());
-         /*   Intent intent = new Intent();
-            setResult(Activity.RESULT_OK, intent);
-            db.close();
-            finish(); */
             resultOK();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         }
