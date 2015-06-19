@@ -51,7 +51,8 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
         MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
-        request.setEthnicity("Greek");
+        request.setEthnicity(MMRequest.ETHNICITY_WHITE);
+        request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
         adLayout.getAd();
 

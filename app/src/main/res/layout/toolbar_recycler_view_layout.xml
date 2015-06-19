@@ -5,11 +5,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/backrepeat">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,9 +22,10 @@
             android:shadowColor="@color/white"
             android:shadowDx="2"
             android:shadowDy="2"
-            android:shadowRadius="0.006"
+            android:shadowRadius="0.6"
             android:text="@string/noNotificationsTop"
-            android:textColor="@color/dividerColorDark"
+            android:textColor="@color/primaryColor"
+            android:alpha="0.6"
             android:textSize="23sp"
             android:textStyle="bold"/>
 
@@ -47,11 +43,16 @@
             android:shadowDy="1"
             android:shadowRadius="0.006"
             android:text="@string/noNotificationsBottom"
-            android:textColor="@color/dividerColor"
+            android:textColor="@color/primaryColor"
+            android:alpha="0.4"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

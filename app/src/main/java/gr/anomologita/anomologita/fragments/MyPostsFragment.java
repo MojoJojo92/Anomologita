@@ -59,7 +59,8 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
-        request.setEthnicity("Greek");
+        request.setEthnicity(MMRequest.ETHNICITY_WHITE);
+        request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
         adLayout.getAd();
 

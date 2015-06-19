@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.millennialmedia.android.MMRequest;
 import com.millennialmedia.android.MMSDK;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
@@ -52,6 +54,7 @@ import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.EndpointGroups;
 import gr.anomologita.anomologita.extras.Keys.GetGroupProfileComplete;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
+import gr.anomologita.anomologita.extras.LocationValet;
 import gr.anomologita.anomologita.extras.Utils;
 import gr.anomologita.anomologita.fragments.MainFragment;
 import gr.anomologita.anomologita.fragments.NavFragment;
@@ -77,13 +80,22 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private NavFragment fragmentNav;
     private GroupProfile groupProfile = null;
     private int abPosition, mGroupProfileHeight;
+    private LocationValet locationValet;
     private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MMSDK.initialize(this);
-        MMSDK.initialize(this);
+        locationValet = new LocationValet(this, new LocationValet.ILocationValetListener()
+        {
+
+            public void onBetterLocationFound(Location userLocation)
+            {
+                MMRequest.setUserLocation(userLocation);
+            }
+        });
+        locationValet.startAquire(true);
         setContentView(R.layout.activity_main);
 
         new FetchCountTask().execute();
@@ -527,14 +539,15 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     @Override
     protected void onResume() {
-        super.onResume();
         Anomologita.activityResumed();
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
+        locationValet.stopAquire();
         Anomologita.activityPaused();
+        super.onPause();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

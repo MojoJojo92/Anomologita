@@ -13,6 +13,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -49,15 +51,6 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
     private String image, groupName, hashtag, groupID;
     private RelativeLayout layout;
     private int requestCode;
-
-    private static String encodeToBase64(Bitmap image) {
-        System.gc();
-        if (image == null) return null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        return encodeToString(b, DEFAULT);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +175,15 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         else
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
+    private static String encodeToBase64(Bitmap image) {
+        System.gc();
+        if (image == null) return null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        return encodeToString(b, DEFAULT);
     }
 
     @Override

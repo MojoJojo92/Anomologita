@@ -116,7 +116,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     sb.setSpan(fcs, 0, 9, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else if (currentComment.getUserID().equals(post.getUser_id())) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  Δημιουργός ποστ: " + currentComment.getComment() + "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("    Δημιουργός ποστ: " + currentComment.getComment() + "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
@@ -125,7 +125,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     sb.setSpan(fcs, 0, 19, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else if (currentComment.getUserID().equals(Anomologita.userID)) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  Εγώ: " + currentComment.getComment()+ "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("    Εγώ: " + currentComment.getComment()+ "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
@@ -136,7 +136,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     if (!users.contains(currentComment.getUserID()))
                         users.add(currentComment.getUserID());
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  Χρήστης " + (users.indexOf(currentComment.getUserID())+1) + ": " + currentComment.getComment()+ "   ");
+                    SpannableStringBuilder sb = new SpannableStringBuilder("    Χρήστης " + (users.indexOf(currentComment.getUserID())+1) + ": " + currentComment.getComment()+ "   ");
                     Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
                     d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
                     ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);

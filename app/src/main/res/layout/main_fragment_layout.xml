@@ -6,6 +6,103 @@
     android:background="@drawable/backrepeat"
     android:paddingTop="105dp">
 
+    <RelativeLayout
+        android:id="@+id/mainButtons"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="50dp"
+        android:visibility="visible"
+        android:alpha="0.5"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_above="@id/fakeView2"
+            android:layout_toEndOf="@id/fakeView"
+            android:layout_toRightOf="@id/fakeView"
+            android:clickable="true"
+            android:drawableTop="@drawable/ic_search"
+            android:layout_marginBottom="10dp"
+            android:text="@string/searchGroup"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/fakeView2"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/fakeView"
+            android:layout_toRightOf="@id/fakeView"
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fakeView2"
+            android:layout_toEndOf="@id/fakeView"
+            android:layout_toRightOf="@id/fakeView"
+            android:textColor="@color/primaryColor"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Ανακάλυψε τα ανομολόγητα των ήδη υπαρχουσών ομάδων και δημοσίευσε ανώνυμα τα δικά σου μυστικά"/>
+
+        <LinearLayout
+            android:id="@+id/fakeView"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:background="@color/primaryColor"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"/>
+
+        <TextView
+            android:id="@+id/create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/fakeView"
+            android:gravity="center"
+            android:layout_toStartOf="@id/fakeView"
+            android:layout_above="@+id/fakeView1"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:layout_marginBottom="10dp"
+            android:drawableTop="@drawable/ic_create_big"
+            android:text="@string/mainCreateGroup"
+            android:visibility="visible"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/fakeView1"
+            android:layout_toLeftOf="@id/fakeView"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/fakeView"
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@id/fakeView"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_toStartOf="@id/fakeView"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryColor"
+            android:layout_below="@id/fakeView1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Δημιούργησε μια νέα ομάδα και δες τις ανώνυμες δημοσιεύσεις που αναρτούν στον τοίχο σου αυτοί που σε ακολουθούν"/>
+
+    </RelativeLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -17,61 +114,6 @@
             android:layout_height="wrap_content"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <RelativeLayout
-        android:id="@+id/mainButtons"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="50dp"
-        android:visibility="gone"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/fakeView"
-            android:layout_toRightOf="@id/fakeView"
-            android:clickable="true"
-            android:drawableTop="@drawable/ic_search"
-            android:text="@string/searchGroup"
-            android:textColor="@color/primaryColor"
-            android:alpha="0.5"
-            android:textStyle="bold"
-            android:visibility="visible"/>
-
-        <TextView
-            android:id="@+id/fakeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="20sp"
-            android:alpha="0.5"
-            android:textColor="@color/primaryColor"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal"/>
-
-        <TextView
-            android:id="@+id/create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/fakeView"
-            android:layout_toStartOf="@id/fakeView"
-            android:textColor="@color/primaryColor"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:alpha="0.5"
-            android:drawableTop="@drawable/ic_create_big"
-            android:text="@string/mainCreateGroup"
-            android:visibility="visible"/>
-
-    </RelativeLayout>
 
 </RelativeLayout>
 

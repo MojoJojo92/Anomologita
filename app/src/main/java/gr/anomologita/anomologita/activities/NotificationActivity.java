@@ -54,7 +54,8 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
-        request.setEthnicity("Greek");
+        request.setEthnicity(MMRequest.ETHNICITY_WHITE);
+        request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
         adLayout.getAd();
 

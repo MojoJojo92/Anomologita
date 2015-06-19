@@ -56,7 +56,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             AdHolder adHolder = (AdHolder) holder;
             MMRequest request = new MMRequest();
             request.setAge("25");
-            request.setEthnicity("Greek");
+            request.setEthnicity(MMRequest.ETHNICITY_WHITE);
+            request.setEducation(MMRequest.EDUCATION_BACHELORS);
             adHolder.adRelativeLayout.setMMRequest(request);
             adHolder.adRelativeLayout.getAd();
             if (position > previousPosition)
@@ -88,28 +89,30 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentPost.isLiked()) {
-                        LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
-                        db.deleteLike(currentPost.getPost_id());
-                        posts.get(currentPosition).setLiked(false);
-                        currentPost.setLiked(false);
-                        postHolder.like.setImageResource(R.drawable.ic_fire_grey);
-                        mainFragment.setLike("-1", currentPost);
-                        currentPost.setLikes(currentPost.getLikes() - 1);
-                        postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
-                        db.close();
-                    } else {
-                        LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
-                        db.createLikes(currentPost.getPost_id());
-                        posts.get(currentPosition).setLiked(true);
-                        currentPost.setLiked(true);
-                        postHolder.like.setImageResource(R.drawable.ic_fire_red);
-                        mainFragment.setLike("1", currentPost);
-                        currentPost.setLikes(currentPost.getLikes() + 1);
-                        postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
-                        db.close();
+                    if(Anomologita.isConnected()){
+                        if (currentPost.isLiked()) {
+                            LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
+                            db.deleteLike(currentPost.getPost_id());
+                            posts.get(currentPosition).setLiked(false);
+                            currentPost.setLiked(false);
+                            postHolder.like.setImageResource(R.drawable.ic_fire_grey);
+                            mainFragment.setLike("-1", currentPost);
+                            currentPost.setLikes(currentPost.getLikes() - 1);
+                            postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
+                            db.close();
+                        } else {
+                            LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
+                            db.createLikes(currentPost.getPost_id());
+                            posts.get(currentPosition).setLiked(true);
+                            currentPost.setLiked(true);
+                            postHolder.like.setImageResource(R.drawable.ic_fire_red);
+                            mainFragment.setLike("1", currentPost);
+                            currentPost.setLikes(currentPost.getLikes() + 1);
+                            postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
+                            db.close();
+                        }
+                        Anomologita.refresh = true;
                     }
-                    Anomologita.refresh = true;
                 }
             });
             postHolder.numberOfLikes.setText(String.valueOf(currentPost.getLikes()));
