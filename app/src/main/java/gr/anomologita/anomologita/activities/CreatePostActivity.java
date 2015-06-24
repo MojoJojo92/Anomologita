@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +30,7 @@ import java.util.Random;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.databases.PostsDBHandler;
+import gr.anomologita.anomologita.extras.BackAwareEditText;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.PostComplete;
@@ -41,8 +41,8 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
 
     private String groupName, postTxt, location;
     private int groupID;
-    private EditText postET, locationET;
-    private TextView postSize, locationSize;
+    private TextView locationSize, postSize;
+    private BackAwareEditText postET, locationET;
     private RelativeLayout layout;
     private MMInterstitial interstitial;
 
@@ -59,9 +59,9 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        postET = (EditText) findViewById(R.id.currentPost);
+        postET = (BackAwareEditText) findViewById(R.id.currentPost);
         postET.setHint("Γράψε το ανομολόγητό σου...");
-        locationET = (EditText) findViewById(R.id.currentLocation);
+        locationET = (BackAwareEditText)(findViewById(R.id.currentLocation));
         locationET.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -98,6 +98,12 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             public void afterTextChanged(Editable s) {
             }
         });
+        postET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                postET.clearFocus();
+            }
+        });
         locationET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,6 +116,12 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+        locationET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                locationET.clearFocus();
             }
         });
 

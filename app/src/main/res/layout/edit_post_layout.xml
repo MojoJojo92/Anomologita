@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backrepeat">
+    android:background="@drawable/back_repeat">
 
     <include
         android:id="@+id/editPostToolbar"
@@ -13,6 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@+id/editPostToolbar"
         android:orientation="vertical">
 
@@ -26,15 +28,22 @@
             android:textColor="@color/secondaryTextColor"
             android:textSize="12sp"/>
 
-        <EditText
+        <gr.anomologita.anomologita.extras.BackAwareEditText
             android:id="@+id/currentPost"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:elegantTextHeight="true"
+            android:linksClickable="true"
+            android:autoLink="all"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
             android:maxLines="20"
+            android:shadowColor="@color/dividerColorDark"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="0.006"
             android:selectAllOnFocus="true"
             android:textColor="@color/black"/>
 
@@ -48,7 +57,7 @@
             android:textColor="@color/secondaryTextColor"
             android:textSize="12sp"/>
 
-        <EditText
+       <gr.anomologita.anomologita.extras.BackAwareEditText
             android:id="@+id/currentLocation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,6 +68,10 @@
             android:inputType="textCapSentences"
             android:singleLine="false"
             android:ellipsize="end"
+            android:shadowColor="@color/dividerColorDark"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="0.006"
             android:lines="2"
             android:selectAllOnFocus="true"
             android:textColor="@color/black"/>

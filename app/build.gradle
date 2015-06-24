@@ -8,8 +8,8 @@ android {
         applicationId "gr.anomologita.anomologita"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 14
-        versionName "1.9"
+        versionCode 18
+        versionName "2.3"
     }
     buildTypes {
         release {
@@ -40,4 +40,5 @@ dependencies {
     compile 'com.pnikosis:materialish-progress:1.5'
     compile "com.google.android.gms:play-services:7.5.0"
     compile 'com.afollestad:material-dialogs:0.7.5.5'
+    compile 'com.facebook.android:facebook-android-sdk:4.0.0'
 }

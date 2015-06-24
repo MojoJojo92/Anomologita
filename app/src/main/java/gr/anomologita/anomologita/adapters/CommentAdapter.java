@@ -71,7 +71,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             postHolder.location.setText("(" + post.getLocation() + ")");
             postHolder.postTime.setText(Anomologita.getTime(post.getTimestamp(), 16));
             postHolder.numberOfLikes.setText(String.valueOf(post.getLikes()));
-            postHolder.numberOfComments.setText(String.valueOf(post.getComments()));
+            postHolder.numberOfComments.setText(String.valueOf(comments.size()));
             if (post.isLiked())
                 postHolder.like.setImageResource(R.drawable.ic_fire_red);
             else
@@ -104,57 +104,42 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             CommentHolder commentHolder = (CommentHolder) holder;
             final Comment currentComment = comments.get(position - 1);
-            commentHolder.comment_txt.setText(currentComment.getComment() + "   ");
+            SpannableStringBuilder sb = new SpannableStringBuilder("  " + currentComment.getComment() + "  ");
+            Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
+            d.setBounds(0, 0, Anomologita.convert(15), Anomologita.convert(15));
+            ImageSpan imagespan = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+            sb.setSpan(imagespan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            commentHolder.comment_txt.setText(sb);
             if (!currentComment.getUserID().isEmpty()) {
                 if (currentComment.getUserID().equals(Anomologita.getCurrentGroupUserID())) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("  Admin: " + currentComment.getComment() + "   ");
-                    Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
-                    d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
-                    ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
-                    sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    sb = sb.insert(1, "  Admin:");
                     ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.primaryColor));
                     sb.setSpan(fcs, 0, 9, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else if (currentComment.getUserID().equals(post.getUser_id())) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("    Δημιουργός ποστ: " + currentComment.getComment() + "   ");
-                    Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
-                    d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
-                    ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
-                    sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    sb = sb.insert(1, "  Δημιουργός ποστ:");
                     ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.posterColor));
-                    sb.setSpan(fcs, 0, 19, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(fcs, 0, 20, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else if (currentComment.getUserID().equals(Anomologita.userID)) {
-                    SpannableStringBuilder sb = new SpannableStringBuilder("    Εγώ: " + currentComment.getComment()+ "   ");
-                    Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
-                    d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
-                    ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
-                    sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    sb = sb.insert(1, "  Εγώ:");
                     ForegroundColorSpan fcs = new ForegroundColorSpan(context.getResources().getColor(R.color.accentColor));
-                    sb.setSpan(fcs, 0, 7, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(fcs, 0, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 } else {
                     if (!users.contains(currentComment.getUserID()))
                         users.add(currentComment.getUserID());
-                    SpannableStringBuilder sb = new SpannableStringBuilder("    Χρήστης " + (users.indexOf(currentComment.getUserID())+1) + ": " + currentComment.getComment()+ "   ");
-                    Drawable d = context.getResources().getDrawable(R.drawable.ic_me);
-                    d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
-                    ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
-                    sb.setSpan(imagespan,0,1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    sb = sb.insert(1, "  Χρήστης " + (users.indexOf(currentComment.getUserID()) + 1) + ":");
                     ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLACK);
-                    sb.setSpan(fcs, 0, 13, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(fcs, 0, 14, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     commentHolder.comment_txt.setText(sb);
                 }
             }
-            if(Anomologita.userID.equals(Anomologita.getCurrentGroupUserID()) || currentComment.getUserID().equals(Anomologita.userID)){
-                SpannableStringBuilder sb = new SpannableStringBuilder(commentHolder.comment_txt.getText());
-                Drawable d = context.getResources().getDrawable(R.drawable.ic_edit);
-                d.setBounds(0, 0, Anomologita.convert(15),  Anomologita.convert(15));
-                ImageSpan imagespan = new ImageSpan(d,ImageSpan.ALIGN_BASELINE);
-                sb.setSpan(imagespan,sb.length()-1,sb.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                commentHolder.comment_txt.setText(sb);
-            }
-            commentHolder.comment_txt.setOnClickListener(new View.OnClickListener() {
+            if (Anomologita.userID.equals(Anomologita.getCurrentGroupUserID()) || currentComment.getUserID().equals(Anomologita.userID))
+                commentHolder.edit.setVisibility(View.VISIBLE);
+            else
+                commentHolder.edit.setVisibility(View.GONE);
+            commentHolder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (Anomologita.userID.equals(Anomologita.getCurrentGroupUserID())) {
@@ -184,10 +169,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class CommentHolder extends RecyclerView.ViewHolder {
         final TextView comment_txt;
+        final ImageView edit;
 
         public CommentHolder(View itemView) {
             super(itemView);
             comment_txt = (TextView) itemView.findViewById(R.id.txtComment);
+            edit = (ImageView) itemView.findViewById(R.id.edit);
         }
     }
 
@@ -202,7 +189,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public PostHolder(View itemView) {
             super(itemView);
-            post = (TextView) itemView.findViewById(R.id.post);
+            post = (TextView) itemView.findViewById(R.id.expandable_text);
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
             postTime = (TextView) itemView.findViewById(R.id.time);
             like = (ImageView) itemView.findViewById(R.id.like);

@@ -24,7 +24,7 @@ public class LocationValet
 
     public LocationValet(Context context, ILocationValetListener listener)
     {
-        _valetListener = new WeakReference<LocationValet.ILocationValetListener>(listener);
+        _valetListener = new WeakReference<>(listener);
 
         _locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         _listener = new ValetLocationListener();

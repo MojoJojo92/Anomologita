@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
+
       tools:context="com.anomologita.m2.anomologita2.activities.MainActivity">
 
     <item
@@ -25,7 +26,7 @@
     <item
         android:id="@+id/action_share"
         android:orderInCategory="103"
-        android:title="@string/shareMenu"
+        android:title="@string/shareApp"
         app:showAsAction="never"/>
 
     <item

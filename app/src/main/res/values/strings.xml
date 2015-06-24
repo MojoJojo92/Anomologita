@@ -5,8 +5,6 @@
     <string name="chat">chat</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="banner_ad_unit_id">ca-app-pub-5007584823334636/2263888508</string>
-    <string name="banner_ad_unit_id2">ca-app-pub-5007584823334636/9866050505</string>
 
     <string-array name="tabs">
         <item>ΝΕΑ</item>
@@ -59,7 +57,7 @@
     <string name="toolbarDelete">Delete</string>
     <string name="subsTextA">"Το γκρουπ αρέσει σε "</string>
     <string name="subsTextB">" άτομα"</string>
-    <string name="edit_group"><u>Επεξεργασία</u></string>
+    <string name="edit_group"><u>Μοιράσου το</u></string>
     <string name="notificationTitle">ΕΙΔΟΠΟΙΗΣΕΙΣ</string>
     <string name="switch2">ΗΧΟΣ ΕΙΔΟΠΟΙΗΣΕΩΝ</string>
     <string name="noInternet">ΔΕΝ ΥΠΑΡΧΕΙ ΣYΝΔΕΣΗ</string>
@@ -74,12 +72,10 @@
     <string name="noConversationsBottom">Πόσταρε ανομολόγητα\n ή\n στείλε προσωπικά μηνύματα\n για να αποκτήσεις</string>
     <string name="report">Αναφορά</string>
     <string name="admin">(Admin)</string>
-    <string name="shareDialog">ΚΟΙΝΟΠΟΙΗΣΗ</string>
+    <string name="shareDialog">ΚΟΙΝΟΠΟΙΗΣΕ ΤΟ ΠΟΣΤ</string>
     <string name="messageDialog">ΠΡΟΣΩΠΙΚΟ ΜΗΝΥΜΑ</string>
     <string name="editDialog">ΕΠΕΞΕΡΓΑΣΙΑ ΠΟΣΤ</string>
-    <string name="shareMenu">Κοινοποίηση</string>
     <string name="mainCreateGroup"><u>Δημιούργησε γκρουπ</u></string>
-    <string name="mainDivider">ή</string>
 
     <string name="postRules">
         1. ΔΕΝ βρίζουμε και ΔΕΝ στοχοποιούμε κανέναν ονομαστικά.\n\n
@@ -166,5 +162,10 @@
         Είμαστε ανοιχτοί σε οποιαδήποτε ερώτηση,σχόλιο ή ανησυχία σας. Αν αποφασίσετε να μας στείλετε πίσω πληροφορίες, συμφωνείτε ότι είμαστε ελεύθεροι να χρησιμοποιήσουμε τις πληροφορίες αυτές
         με κάθε τρόπο που κρίνουμε ότι απαιτείται, χωρις κανέναν περιορισμό ή αποζημίωση προς εσάς. Παρακαλώ στείλτε εδώ: anomologita.m2@gmail.com\n\n
      </string>
+    <string name="searchGroupText">Ανακάλυψε τα ανομολόγητα των ήδη υπαρχουσών ομάδων και δημοσίευσε ανώνυμα τα δικά σου μυστικά</string>
+    <string name="createGroupText">Δημιούργησε μια νέα ομάδα και δες τις ανώνυμες δημοσιεύσεις που αναρτούν στον τοίχο σου αυτοί που σε ακολουθούν</string>
+    <string name="editCommentDesc">Image fot editing comment</string>
+    <string name="shareGroupDesc">Share group button</string>
+    <string name="shareApp">Κοινποίησε το App</string>
 
 </resources>

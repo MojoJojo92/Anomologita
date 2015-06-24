@@ -3,10 +3,8 @@ package gr.anomologita.anomologita.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
@@ -22,10 +20,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.CompoundButton;
@@ -45,6 +45,7 @@ import com.millennialmedia.android.MMSDK;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import gr.anomologita.anomologita.Anomologita;
@@ -70,7 +71,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private final Handler handler = new Handler();
     private ViewPager viewPager;
     private LinearLayout mGroupProfileContainer, name;
-    private TextView favoritesButton, groupNameTV, groupSubs, title, editGroup;
+    private TextView favoritesButton;
+    private TextView favoritesButtonOn;
+    private TextView groupNameTV;
+    private TextView groupSubs;
+    private TextView title;
     private ImageView groupImage;
     private MaterialTabHost tabHost;
     private FloatingActionButton actionButton;
@@ -78,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private FavoritesDBHandler db;
     private DrawerLayout drawerLayout;
     private NavFragment fragmentNav;
+    private ImageView editGroup;
     private GroupProfile groupProfile = null;
     private int abPosition, mGroupProfileHeight;
     private LocationValet locationValet;
@@ -87,11 +93,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MMSDK.initialize(this);
-        locationValet = new LocationValet(this, new LocationValet.ILocationValetListener()
-        {
+        locationValet = new LocationValet(this, new LocationValet.ILocationValetListener() {
 
-            public void onBetterLocationFound(Location userLocation)
-            {
+            public void onBetterLocationFound(Location userLocation) {
                 MMRequest.setUserLocation(userLocation);
             }
         });
@@ -110,6 +114,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         mGroupProfileContainer.setTranslationY(-mGroupProfileHeight);
         name = (LinearLayout) findViewById(R.id.titleLayout);
 
+        favoritesButton = (TextView) findViewById(R.id.favoritesButton);
+        favoritesButtonOn = (TextView) findViewById(R.id.favoritesButtonOn);
+        editGroup = (ImageView) findViewById(R.id.shareGroup);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         fragmentNav = (NavFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         fragmentNav.setUp(R.id.fragment_navigation_drawer, drawerLayout, toolbar);
@@ -136,7 +143,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                         mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                         HidingGroupProfileListener.mGroupProfileOffset = 0;
                         name.setAlpha(0);
-                        favoritesButton.setVisibility(View.VISIBLE);
+                        if (Anomologita.like) {
+                            favoritesButtonOn.setVisibility(View.GONE);
+                            favoritesButton.setVisibility(View.VISIBLE);
+                        } else {
+                            favoritesButtonOn.setVisibility(View.VISIBLE);
+                            favoritesButton.setVisibility(View.GONE);
+                        }
                     }
                 }
             }
@@ -158,14 +171,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     Intent i = new Intent(getApplicationContext(), CreatePostActivity.class);
                     startActivityForResult(i, 1);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-                }else {
-                    Toast.makeText(MainActivity.this,"Πρέπει να επιλέξεις γκρουπ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Πρέπει να επιλέξεις γκρουπ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         actionButton.setTag(EndpointGroups.ACTION_BUTTON_TAG);
-
-        favoritesButton = (TextView) findViewById(R.id.favoritesButton);
         db = new FavoritesDBHandler(this);
         groupImage = (ImageView) findViewById(R.id.icon);
         groupImage.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +185,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 shareGroup();
             }
         });
-        editGroup = (TextView) findViewById(R.id.edit);
+        TextView share = (TextView) findViewById(R.id.edit);
         groupNameTV = (TextView) findViewById(R.id.groupNameProfile);
         AutofitHelper.create(groupNameTV);
         groupSubs = (TextView) findViewById(R.id.subs);
@@ -188,10 +199,24 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             }
         });
 
+        favoritesButtonOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favoritesClick();
+            }
+        });
+
         editGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editGroup();
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareGroup();
             }
         });
 
@@ -222,6 +247,25 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         return true;
     }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    Log.e("ok", "onMenuOpened", e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -263,40 +307,35 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(Intent.createChooser(share, "Share via"));
+        startActivity(Intent.createChooser(share, "Πες το και στους φίλους σου!"));
     }
 
     private void shareGroup() {
-        View view = mGroupProfileContainer;
+        drawerLayout.invalidate();
+        View view = drawerLayout;
         view.setDrawingCacheEnabled(true);
         Bitmap bitmap = view.getDrawingCache();
-        Bitmap bitmap12 = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        Bitmap bitmap1 = overlay(bitmap, bitmap12);
+        Bitmap bitmap1 = overlay(bitmap);
         Uri imageUri = getImageUri(bitmap1);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "send"));
+        startActivity(Intent.createChooser(shareIntent, "Κοινοποίησε το γκρουπ"));
     }
 
-    private static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
-        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth() + 10, bmp1.getHeight() + bmp2.getHeight() + 10, bmp1.getConfig());
+    private static Bitmap overlay(Bitmap bmp1) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
         Canvas canvas = new Canvas(bmOverlay);
         canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(bmp1, 5, bmp2.getHeight() + 5, null);
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(50);
-        canvas.drawText("Ανομολόγητα Εφαρμογή Android", bmp2.getWidth() + 5, bmp2.getHeight() / 2 + 10, paint);
-        canvas.drawBitmap(bmp2, 0, 0, null);
+        canvas.drawBitmap(bmp1, 0, 0, null);
         return bmOverlay;
     }
 
     private Uri getImageUri(Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "", "");
         return Uri.parse(path);
     }
@@ -314,6 +353,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
                         support();
+                        dialog.cancel();
                     }
                 })
                 .show();
@@ -332,7 +372,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this,"There is no email client installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -403,7 +443,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             }
         } else {
             title.setText(R.string.noInternet);
-            YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
+            YoYo.with(Techniques.Tada).duration(700).playOn(title);
             Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
@@ -427,13 +467,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 if (!db.exists(groupProfile.getGroup_name())) {
                     db.updateFavorite(groupProfile);
                     db.updateFavorite(groupProfile);
-                    favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                    favoritesButton.setText(R.string.subscribeButton);
-                    favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
+                    favoritesButtonOn.setVisibility(View.GONE);
+                    favoritesButton.setVisibility(View.VISIBLE);
                 } else {
-                    favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
-                    favoritesButton.setText(R.string.subscribedButton);
-                    favoritesButton.setTextColor(getResources().getColor(R.color.white));
+                    favoritesButton.setVisibility(View.GONE);
+                    favoritesButtonOn.setVisibility(View.VISIBLE);
                 }
                 mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                 HidingGroupProfileListener.mGroupProfileOffset = 0;
@@ -464,9 +502,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     void favoritesClick() {
         if (Anomologita.isConnected() && Anomologita.getCurrentGroupID() != null) {
             if (!db.exists(Anomologita.getCurrentGroupName())) {
-                favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribed_background));
-                favoritesButton.setText(R.string.subscribedButton);
-                favoritesButton.setTextColor(getResources().getColor(R.color.white));
+                favoritesButton.setVisibility(View.GONE);
+                favoritesButtonOn.setVisibility(View.VISIBLE);
                 db.createFavorite(groupProfile);
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει προστεθεί στα αγαπημένα", Toast.LENGTH_SHORT).show();
                 AttemptLogin setSubs = new AttemptLogin();
@@ -487,9 +524,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     sendNotification.execute();
                 }
             } else {
-                favoritesButton.setBackground(getResources().getDrawable(R.drawable.subscribe_background));
-                favoritesButton.setText(R.string.subscribeButton);
-                favoritesButton.setTextColor(getResources().getColor(R.color.accentColor));
+                favoritesButtonOn.setVisibility(View.GONE);
+                favoritesButton.setVisibility(View.VISIBLE);
                 db.deleteFavorite(db.getFavorite(Anomologita.getCurrentGroupName()).getId());
                 Toast.makeText(getApplicationContext(), "Το " + Anomologita.getCurrentGroupName() + " έχει διαγραφεί από τα αγαπημένα", Toast.LENGTH_SHORT).show();
                 fragmentNav.updateDrawer();
@@ -501,7 +537,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 groupSubs.setText(String.valueOf(subs));
             }
         } else {
-            YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
+            YoYo.with(Techniques.Tada).duration(700).playOn(title);
             Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
@@ -532,7 +568,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             startActivityForResult(i, 3);
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         } else {
-            YoYo.with(Techniques.Tada).duration(700).playOn(drawerLayout);
+            YoYo.with(Techniques.Tada).duration(700).playOn(title);
             Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }

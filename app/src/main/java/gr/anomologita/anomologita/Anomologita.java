@@ -29,7 +29,7 @@ public class Anomologita extends Application implements Preferences {
     public static Post currentPost;
     public static String userID = null, regID = null;
     public static Conversation conversation;
-    public static boolean refresh = false, onChat = false;
+    public static boolean refresh = false, onChat = false, like = false;
     public static MainFragment fragmentNew = null, fragmentTop = null;
     private static SharedPreferences SP;
     private static Anomologita sInstance;

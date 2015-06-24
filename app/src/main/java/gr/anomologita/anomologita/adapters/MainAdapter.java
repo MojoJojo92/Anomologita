@@ -29,10 +29,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final MainFragment mainFragment;
     private final int offset = Anomologita.convert(100);
     private int previousPosition;
+    private MMRequest request;
 
     public MainAdapter(MainFragment fragmentNew) {
         layoutInflater = LayoutInflater.from(fragmentNew.getActivity());
         this.mainFragment = fragmentNew;
+        request = new MMRequest();
+        request.setAge("25");
+        request.setEthnicity(MMRequest.ETHNICITY_WHITE);
+        request.setEducation(MMRequest.EDUCATION_BACHELORS);
     }
 
     public void setPostList(List<Post> posts) {
@@ -54,10 +59,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
             AdHolder adHolder = (AdHolder) holder;
-            MMRequest request = new MMRequest();
-            request.setAge("25");
-            request.setEthnicity(MMRequest.ETHNICITY_WHITE);
-            request.setEducation(MMRequest.EDUCATION_BACHELORS);
             adHolder.adRelativeLayout.setMMRequest(request);
             adHolder.adRelativeLayout.getAd();
             if (position > previousPosition)
@@ -89,7 +90,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Anomologita.isConnected()){
+                    if (Anomologita.isConnected()) {
                         if (currentPost.isLiked()) {
                             LikesDBHandler db = new LikesDBHandler(Anomologita.getAppContext());
                             db.deleteLike(currentPost.getPost_id());
@@ -214,7 +215,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public PostHolder(View itemView) {
             super(itemView);
-            post = (TextView) itemView.findViewById(R.id.post);
+            post = (TextView) itemView.findViewById(R.id.expandable_text);
             post.setMovementMethod(LinkMovementMethod.getInstance());
             hashtag = (TextView) itemView.findViewById(R.id.hashTag);
             postTime = (TextView) itemView.findViewById(R.id.time);

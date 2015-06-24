@@ -10,9 +10,8 @@
 
     <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         mm:width="320"
         mm:apid="204166" />
 

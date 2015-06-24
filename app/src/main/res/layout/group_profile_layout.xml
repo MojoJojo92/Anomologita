@@ -55,7 +55,7 @@
             android:layout_weight="2"
             android:background="@android:color/transparent"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
@@ -83,7 +83,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:drawableLeft="@drawable/ic_share_small"
+                android:drawableStart="@drawable/ic_share_small"
                 android:clickable="true"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="@string/edit_group"
                 android:textSize="12sp"/>
@@ -141,23 +144,22 @@
 
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/stats"
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
                 android:background="@android:color/transparent"
-                android:orientation="vertical"
-                android:weightSum="2">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:id="@+id/subsText"
+                    android:layout_height="20dp"
                     android:layout_gravity="start"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1">
+                    android:layout_marginBottom="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -194,18 +196,48 @@
                     android:id="@+id/favoritesButton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/subsText"
                     android:layout_gravity="start"
-                    android:layout_weight="1"
                     android:background="@drawable/subscribe_background"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/subscribeButton"
+                    android:visibility="gone"
+                    android:theme="@style/My.SubButton.Style.Off"/>
+
+                <TextView
+                    android:id="@+id/favoritesButtonOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_below="@+id/subsText"
+                    android:background="@drawable/subscribed_background"
                     android:drawableLeft="@drawable/ic_star_white"
                     android:drawableStart="@drawable/ic_star_white"
                     android:gravity="center"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="@string/subscribeButton"
+                    android:paddingLeft="57dp"
+                    android:paddingRight="57dp"
+                    android:text="@string/subscribedButton"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
                     android:theme="@style/My.SubButton.Style.Off"/>
 
-            </LinearLayout>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/shareGroup"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toEndOf="@+id/stats"
+                android:layout_toRightOf="@+id/stats"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="@string/shareGroupDesc"/>
+
         </RelativeLayout>
     </LinearLayout>
 
@@ -215,6 +247,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/titleSize"
         android:layout_alignParentBottom="true"
+        android:clickable="false"
         android:layout_gravity="bottom"
         android:alpha="0"
         android:background="@drawable/bottom_gradient">

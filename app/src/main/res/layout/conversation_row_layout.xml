@@ -15,6 +15,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:visibility="invisible"
         android:contentDescription="@string/deleteConversationDesc"
         android:src="@drawable/ic_delete"/>
 

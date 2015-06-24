@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -43,15 +44,13 @@ public class ChatActivity extends ActionBarActivity {
     private EditText editText;
     private int conversationID;
     private String receiverName, receiverRegID, message, hashtag, postID;
-    private RelativeLayout layout, messageLayout;
-    private Boolean connection = true;
+    private RelativeLayout messageLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_comment_layout);
         Anomologita.onChat = true;
-        layout = (RelativeLayout) findViewById(R.id.chatCommentLayout);
         editText = (EditText) findViewById(R.id.editText);
         messageLayout = (RelativeLayout) findViewById(R.id.textField);
         ProgressWheel wheel = (ProgressWheel) findViewById(R.id.wheel);
@@ -147,21 +146,20 @@ public class ChatActivity extends ActionBarActivity {
             YoYo.with(Techniques.Tada).duration(700).playOn(messageLayout);
             Toast.makeText(this, "Ξεπέρασες τους 500 χαρακτήρες", Toast.LENGTH_SHORT).show();
         } else {
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            editText.setText("");
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            Log.e("ok","ok");
             if (Anomologita.isConnected()) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                editText.setText("");
+                recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 AttemptLogin sendMessage = new AttemptLogin();
                 sendMessage.sendMessage(Anomologita.regID, receiverRegID, receiverName, message, hashtag, String.valueOf(postID));
                 sendMessage.execute();
                 newChatMessage();
                 updateConversation();
-                connection = true;
-            } else if (connection) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(layout);
+            } else {
+                YoYo.with(Techniques.Tada).duration(700).playOn(editText);
                 Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
-                connection = false;
             }
         }
     }

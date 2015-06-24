@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millennialmedia.android.MMAdView;
 import com.millennialmedia.android.MMRequest;
@@ -98,16 +99,24 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     }
 
     public void postClick(Notification notification) {
-        ok = true;
-        PostsDBHandler db = new PostsDBHandler(this);
-        Post post = db.getPost(Integer.parseInt(notification.getId()));
-        db.close();
-        Intent i = new Intent(this, CommentActivity.class);
-        post.setLiked(new LikesDBHandler(this).exists(post.getPost_id()));
-        post.setUser_id(Anomologita.USER_ID);
-        startActivityForResult(i, 1);
-        Anomologita.currentPost = post;
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        if(Anomologita.isConnected()){
+            ok = true;
+            PostsDBHandler db = new PostsDBHandler(this);
+            if(db.exists(Integer.parseInt(notification.getId()))){
+                Post post = db.getPost(Integer.parseInt(notification.getId()));
+                db.close();
+                Intent i = new Intent(this, CommentActivity.class);
+                post.setLiked(new LikesDBHandler(this).exists(post.getPost_id()));
+                post.setUser_id(Anomologita.USER_ID);
+                startActivityForResult(i, 1);
+                Anomologita.currentPost = post;
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            }else {
+                Toast.makeText(Anomologita.getAppContext(), "Το ανομολόγητο έχει διαγραφεί", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

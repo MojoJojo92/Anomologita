@@ -43,6 +43,12 @@ public class ChatDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void deleteChats(int conID) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_MESSAGES + " WHERE " + KEY_CONVERSATION_ID + " = '" + conID + "'");
+        db.close();
+    }
+
     public void createMessage(ChatMessage message) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();

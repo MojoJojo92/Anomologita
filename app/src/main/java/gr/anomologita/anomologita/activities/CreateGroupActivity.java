@@ -13,9 +13,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -32,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.databases.FavoritesDBHandler;
+import gr.anomologita.anomologita.extras.BackAwareEditText;
 import gr.anomologita.anomologita.extras.Keys.CheckGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.CreateGroupComplete;
 import gr.anomologita.anomologita.extras.Keys.ImageSetComplete;
@@ -47,7 +45,7 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
     private static final int SELECT_PICTURE = 1;
     private ImageView picture;
-    private EditText groupNameET, hashtagET;
+    private BackAwareEditText groupNameET, hashtagET;
     private String image, groupName, hashtag, groupID;
     private RelativeLayout layout;
     private int requestCode;
@@ -76,18 +74,30 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
 
         layout = (RelativeLayout) findViewById(R.id.createGroupLayout);
         picture = (ImageView) findViewById(R.id.groupImage);
-        groupNameET = (EditText) findViewById(R.id.groupName);
+        groupNameET = (BackAwareEditText) findViewById(R.id.groupName);
         groupNameET.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 return keyCode == KeyEvent.KEYCODE_ENTER;
             }
         });
-        hashtagET = (EditText) findViewById(R.id.hashTag);
+        groupNameET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                groupNameET.clearFocus();
+            }
+        });
+        hashtagET = (BackAwareEditText) findViewById(R.id.hashTag);
         hashtagET.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 return keyCode == KeyEvent.KEYCODE_ENTER;
+            }
+        });
+        hashtagET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                hashtagET.clearFocus();
             }
         });
 

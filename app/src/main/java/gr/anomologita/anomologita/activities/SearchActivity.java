@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
+import com.millennialmedia.android.MMAdView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -56,6 +57,9 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
                 onBackPressed();
             }
         });
+
+        MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
+        adLayout.setVisibility(View.GONE);
 
         db = new PostsDBHandler(this);
         adapter = new SearchAdapter(this);

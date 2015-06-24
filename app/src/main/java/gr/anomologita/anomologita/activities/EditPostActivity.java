@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,7 @@ import java.util.List;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
+import gr.anomologita.anomologita.extras.BackAwareEditText;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -32,7 +32,7 @@ import gr.anomologita.anomologita.objects.Post;
 public class EditPostActivity extends ActionBarActivity implements LoginMode, MyPostsComplete {
 
     private String postID, currentPost, currentLocation;
-    private EditText postET, locationET;
+    private BackAwareEditText postET, locationET;
     private TextView postSize, locationSize;
     private RelativeLayout layout;
 
@@ -55,9 +55,9 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        postET = (EditText) findViewById(R.id.currentPost);
+        postET = (BackAwareEditText) findViewById(R.id.currentPost);
         postET.setText(currentPost);
-        locationET = (EditText) findViewById(R.id.currentLocation);
+        locationET = (BackAwareEditText) findViewById(R.id.currentLocation);
         locationET.setText(currentLocation);
         postSize = (TextView) findViewById(R.id.postSize);
         setPostSize();
@@ -85,6 +85,13 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
             public void afterTextChanged(Editable s) {
             }
         });
+        postET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                postET.clearFocus();
+            }
+        });
+
 
         locationET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,6 +105,12 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+        locationET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                locationET.clearFocus();
             }
         });
     }

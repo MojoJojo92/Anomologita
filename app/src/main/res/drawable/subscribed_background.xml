@@ -15,8 +15,8 @@
                 android:color="@color/accentColor"/>
             <padding
                 android:bottom="0dip"
-                android:left="60dip"
-                android:right="60dip"
+                android:left="0dip"
+                android:right="0dip"
                 android:top="0dip"/>
         </shape>
     </item>

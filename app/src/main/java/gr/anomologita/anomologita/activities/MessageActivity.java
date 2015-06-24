@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.databases.ChatDBHandler;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
+import gr.anomologita.anomologita.extras.BackAwareEditText;
 import gr.anomologita.anomologita.extras.HidingGroupProfileListener;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.network.AttemptLogin;
@@ -34,7 +34,7 @@ import gr.anomologita.anomologita.objects.Conversation;
 public class MessageActivity extends ActionBarActivity implements LoginMode {
 
     private String hashtag, message, regID, postID, name;
-    private EditText personalMessageET, nameET;
+    private BackAwareEditText personalMessageET, nameET;
     private TextView messageSize, nameSize;
     private RelativeLayout layout;
 
@@ -50,9 +50,9 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
         setContentView(R.layout.edit_post_layout);
         layout = (RelativeLayout) findViewById(R.id.editPostLayout);
 
-        personalMessageET = (EditText) findViewById(R.id.currentPost);
+        personalMessageET = (BackAwareEditText) findViewById(R.id.currentPost);
         personalMessageET.setHint("Γράψε το μήνυμά σου...");
-        nameET = (EditText) findViewById(R.id.currentLocation);
+        nameET = (BackAwareEditText) findViewById(R.id.currentLocation);
         nameET.setHint("Γράψε όνομα ή ψευδώνυμο!");
         messageSize = (TextView) findViewById(R.id.postSize);
         setMessageSize();
@@ -86,6 +86,12 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
             public void afterTextChanged(Editable s) {
             }
         });
+        personalMessageET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                personalMessageET.clearFocus();
+            }
+        });
 
         nameET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -99,6 +105,12 @@ public class MessageActivity extends ActionBarActivity implements LoginMode {
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+        nameET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
+            @Override
+            public void onImeBack(BackAwareEditText editText) {
+                nameET.clearFocus();
             }
         });
     }

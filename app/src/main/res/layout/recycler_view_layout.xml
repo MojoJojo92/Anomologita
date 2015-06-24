@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backrepeat">
+    android:background="@drawable/back_repeat">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -21,10 +21,10 @@
 
     <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
+        android:layout_height="60dp"
         mm:width="320"
         mm:apid="204166" />
 

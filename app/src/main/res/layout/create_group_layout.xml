@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backrepeat">
+    android:background="@drawable/back_repeat">
 
     <include
         android:id="@+id/toolbar"
@@ -56,7 +56,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/fakeView2">
 
-        <EditText
+        <gr.anomologita.anomologita.extras.BackAwareEditText
             android:id="@+id/groupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_centerInParent="true"
             android:orientation="horizontal"/>
 
-        <EditText
+        <gr.anomologita.anomologita.extras.BackAwareEditText
             android:id="@+id/hashTag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

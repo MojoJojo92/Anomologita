@@ -78,7 +78,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.main_fragment_layout, container, false);
+        final View view = inflater.inflate(R.layout.main_fragment_layout, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listPostsNew);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         name = (LinearLayout) getActivity().findViewById(R.id.titleLayout);
@@ -100,8 +100,25 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 getActivity().onOptionsItemSelected(menu.findItem(R.id.search));
             }
         });
+        TextView searchText = (TextView) view.findViewById(R.id.searchText);
+        searchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Menu menu = ((MainActivity) getActivity()).getMenu();
+                getActivity().onOptionsItemSelected(menu.findItem(R.id.search));
+            }
+        });
         TextView create = (TextView) view.findViewById(R.id.create);
         create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CreateGroupActivity.class);
+                getActivity().startActivityForResult(i,2);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        });
+        TextView createText = (TextView) view.findViewById(R.id.createText);
+        createText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CreateGroupActivity.class);
@@ -131,6 +148,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 } else {
                     favorite.setVisibility(View.VISIBLE);
                 }
+                view.clearFocus();
             }
 
             @Override
@@ -226,7 +244,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
 
     public void adminDialog(final Post post, final View view, int type) {
         boolean wrapInScrollView = true;
-        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(post.getHashtagName())
                 .customView(R.layout.admin_dialog_layout, wrapInScrollView)
                 .negativeText("ΑΚΥΡΟ")
@@ -238,6 +256,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 @Override
                 public void onClick(View v) {
                     newMessage(post);
+                    dialog.cancel();
                 }
             });
         } else {
@@ -249,6 +268,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 @Override
                 public void onClick(View v) {
                     editPost(post);
+                    dialog.cancel();
                 }
             });
         } else {
@@ -259,11 +279,13 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             @Override
             public void onClick(View v) {
                 share(view);
+                dialog.cancel();
             }
         });
     }
 
     private void share(View v) {
+        v.invalidate();
         v.setDrawingCacheEnabled(true);
         Bitmap bitmap = v.getDrawingCache();
         Bitmap bitmap12 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.ic_launcher);
@@ -274,7 +296,7 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "send"));
+        startActivity(Intent.createChooser(shareIntent, "Κοινοποίησε το ποστ"));
     }
 
     private static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
@@ -284,8 +306,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
         canvas.drawBitmap(bmp1, 5, bmp2.getHeight() + 5, null);
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
-        paint.setTextSize(50);
-        canvas.drawText("Ανομολόγητα Εφαρμογή Android",bmp2.getWidth()+5,bmp2.getHeight()/2 +10,paint);
+        paint.setTextSize(Anomologita.convert(18));
+        canvas.drawText("Ανομολόγητα Android",bmp2.getWidth()+5,bmp2.getHeight()/2 +10,paint);
         canvas.drawBitmap(bmp2, 0, 0, null);
         return bmOverlay;
     }

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -38,7 +37,6 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     private final Handler handler = new Handler();
 
     private CommentAdapter adapter;
-    private RelativeLayout layout;
     private RecyclerView recyclerView;
     private Post post;
     private ProgressWheel wheel;
@@ -48,7 +46,6 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_comment_layout);
-        layout = (RelativeLayout) findViewById(R.id.chatCommentLayout);
         post = Anomologita.currentPost;
         wheel = (ProgressWheel) findViewById(R.id.wheel);
 
@@ -101,7 +98,6 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
             setComment.setComment(String.valueOf(post.getPost_id()), null, "getComments", this);
             setComment.execute();
         } else {
-            YoYo.with(Techniques.Tada).duration(700).playOn(layout);
             Toast.makeText(Anomologita.getAppContext(),R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
@@ -194,17 +190,17 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         EditText commentET = (EditText) findViewById(R.id.editText);
         String comment = commentET.getText().toString();
         if (comment.equals("")) {
-            YoYo.with(Techniques.Tada).duration(700).playOn(layout);
+            YoYo.with(Techniques.Tada).duration(700).playOn(commentET);
             Toast.makeText(Anomologita.getAppContext(), "Κενό Σχόλιο", Toast.LENGTH_SHORT).show();
         } else {
             if (Anomologita.isConnected()) {
-                wheel.spin();
-                AttemptLogin setComment = new AttemptLogin();
-                setComment.setComment(String.valueOf(post.getPost_id()), comment, "setComment", this);
-                setComment.execute();
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(commentET.getWindowToken(), 0);
-                commentET.setText("");
+                    wheel.spin();
+                    AttemptLogin setComment = new AttemptLogin();
+                    setComment.setComment(String.valueOf(post.getPost_id()), comment, "setComment", this);
+                    setComment.execute();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(commentET.getWindowToken(), 0);
+                    commentET.setText("");
                 if (!post.getUser_id().equals(Anomologita.userID)) {
                     String text = "To ανομολόγητο σου " + post.getHashtagName() + " έχει νέα σχόλια";
                     AttemptLogin sendNotification = new AttemptLogin();
@@ -212,7 +208,7 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                     sendNotification.execute();
                 }
             } else {
-                YoYo.with(Techniques.Tada).duration(700).playOn(layout);
+                YoYo.with(Techniques.Tada).duration(700).playOn(commentET);
                 Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
             }
         }

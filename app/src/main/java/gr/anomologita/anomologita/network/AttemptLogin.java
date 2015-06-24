@@ -540,6 +540,9 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
 
             Log.d("request!", "starting");
             JSONObject json = jsonParser.makeHttpRequest(URL_DELETE_POST, "POST", params);
+            PostsDBHandler db = new PostsDBHandler(context);
+            db.deletePost(Integer.parseInt(postID));
+            db.close();
 
             Log.d("Login attempt", json.toString());
             success = json.getInt(TAG_SUCCESS);

@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.millennialmedia.android.MMAdView;
 import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -23,6 +21,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
 import gr.anomologita.anomologita.adapters.ConversationsAdapter;
+import gr.anomologita.anomologita.databases.ChatDBHandler;
 import gr.anomologita.anomologita.databases.ConversationsDBHandler;
 import gr.anomologita.anomologita.extras.Keys.LoginMode;
 import gr.anomologita.anomologita.objects.Conversation;
@@ -91,9 +90,12 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
     }
 
     private void deleteConversation(int conID){
-        ConversationsDBHandler db =  new ConversationsDBHandler(this);
-        db.deleteConversation(conID);
-        db.close();
+        ConversationsDBHandler dbCon =  new ConversationsDBHandler(this);
+        dbCon.deleteConversation(conID);
+        dbCon.close();
+        ChatDBHandler dbChat = new ChatDBHandler(this);
+        dbChat.deleteChats(conID);
+        dbChat.close();
     }
 
     public void selected(Conversation conversation) {

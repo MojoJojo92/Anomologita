@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import gr.anomologita.anomologita.objects.Post;
 
@@ -66,6 +67,7 @@ public class PostsDBHandler extends SQLiteOpenHelper {
     }
 
     public Post getPost(int postID) {
+        Log.e("postID",postID+"");
         SQLiteDatabase db = getReadableDatabase();
         String Query = "SELECT * FROM " + TABLE_POSTS + " WHERE " + KEY_POST_ID + " = '" + postID +"'";
         Cursor cursor1 = db.rawQuery(Query, null);
@@ -104,6 +106,13 @@ public class PostsDBHandler extends SQLiteOpenHelper {
         db.execSQL("delete from " + TABLE_POSTS);
         db.close();
     }
+
+    public void deletePost(int postID) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_POSTS + " WHERE " + KEY_POST_ID + " = '" + postID + "'");
+        db.close();
+    }
+
 
     public boolean exists(int postID){
         SQLiteDatabase db = getReadableDatabase();
