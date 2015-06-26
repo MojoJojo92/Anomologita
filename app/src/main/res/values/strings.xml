@@ -167,5 +167,6 @@
     <string name="editCommentDesc">Image fot editing comment</string>
     <string name="shareGroupDesc">Share group button</string>
     <string name="shareApp">Κοινποίησε το App</string>
+    <string name="conIconDesc">Conversation User Icon</string>
 
 </resources>

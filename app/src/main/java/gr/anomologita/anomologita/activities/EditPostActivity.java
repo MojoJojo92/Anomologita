@@ -167,6 +167,8 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
             AttemptLogin deletePost = new AttemptLogin();
             deletePost.deletePost(postID, this);
             deletePost.execute();
+        }else {
+            Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 

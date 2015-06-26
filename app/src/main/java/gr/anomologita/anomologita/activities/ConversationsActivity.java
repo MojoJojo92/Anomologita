@@ -14,9 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -59,13 +56,13 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
             }
         });
 
-        MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
+    /*    MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
         request.setEthnicity(MMRequest.ETHNICITY_WHITE);
         request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
-        adLayout.getAd();
+        adLayout.getAd(); */
 
         adapter = new ConversationsAdapter(this);
         setData();
@@ -78,8 +75,6 @@ public class ConversationsActivity extends ActionBarActivity implements LoginMod
         recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
-                .margin(Anomologita.convert(10)).color(getResources().getColor(R.color.primaryColor)).build());
 
     }
 

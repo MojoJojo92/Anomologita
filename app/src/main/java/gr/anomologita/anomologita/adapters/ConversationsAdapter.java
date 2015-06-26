@@ -50,27 +50,25 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ConversationsHolder conversationsHolder = (ConversationsHolder) holder;
         final int currentPosition = position;
-        if(position == conversations.size()){
+        if (position == conversations.size()) {
             conversationsHolder.layout.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             conversationsHolder.layout.setVisibility(View.VISIBLE);
             final Conversation currentCon = conversations.get(position);
             AutofitHelper.create(conversationsHolder.senderName);
+            AutofitHelper.create(conversationsHolder.hashTag);
             PostsDBHandler db = new PostsDBHandler(context);
             if (db.exists(Integer.parseInt(currentCon.getPostID())))
-                conversationsHolder.senderName.setText("Με " + currentCon.getName() + " στο " + currentCon.getHashtag());
+                conversationsHolder.senderName.setText(currentCon.getName());
             else
-                conversationsHolder.senderName.setText("Με Ανώνυμο στο " + currentCon.getHashtag());
-            Log.e("test", currentCon.getLastSenderID()+ " "+ Anomologita.userID);
+                conversationsHolder.senderName.setText("Ανώνυμος");
+            conversationsHolder.hashTag.setText(currentCon.getHashtag());
+            Log.e("test", currentCon.getLastSenderID() + " " + Anomologita.userID);
             if ((String.valueOf(currentCon.getLastSenderID()).equals(Anomologita.userID))) {
                 conversationsHolder.lastSenderName.setText("Εγώ: ");
-            }else {
-                if (db.exists(Integer.parseInt(currentCon.getPostID())))
-                    conversationsHolder.lastSenderName.setText(currentCon.getName() + ": ");
-                else
-                    conversationsHolder.lastSenderName.setText("Ανώνυμος: ");
+            } else {
+                conversationsHolder.lastSenderName.setText("");
             }
-            AutofitHelper.create(conversationsHolder.txtMessage);
             if (currentCon.getLastMessage().length() < 30)
                 conversationsHolder.txtMessage.setText(currentCon.getLastMessage());
             else
@@ -78,29 +76,51 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             conversationsHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ConversationsActivity)context).delete(currentCon.getConversationID(), currentPosition);
+                    ((ConversationsActivity) context).delete(currentCon.getConversationID(), currentPosition);
                 }
             });
             conversationsHolder.senderName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ConversationsActivity)context).selected(currentCon);
+                    ((ConversationsActivity) context).selected(currentCon);
+                }
+            });
+            conversationsHolder.me.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ConversationsActivity) context).selected(currentCon);
+                }
+            });
+            conversationsHolder.txtMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ConversationsActivity) context).selected(currentCon);
+                }
+            });
+            conversationsHolder.hashTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ConversationsActivity) context).selected(currentCon);
                 }
             });
             conversationsHolder.conLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ConversationsActivity)context).selected(currentCon);
+                    ((ConversationsActivity) context).selected(currentCon);
                 }
             });
             if (currentCon.getSeen().equals("no")) {
-                conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
-                conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryColor));
-                conversationsHolder.senderName.setTextColor(context.getResources().getColor(R.color.primaryColor));
-            }else {
-                conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
-                conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
+                conversationsHolder.time.setTextColor(context.getResources().getColor(R.color.primaryColor));
+                conversationsHolder.me.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_me_red));
+                conversationsHolder.layout.setBackgroundColor(context.getResources().getColor(R.color.primaryColorTransparent));
+            } else {
+                conversationsHolder.lastSenderName.setTextColor(context.getResources().getColor(R.color.dividerColorDark));
+                conversationsHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.dividerColorDark));
                 conversationsHolder.senderName.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
+                conversationsHolder.hashTag.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
+                conversationsHolder.me.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_me_grey));
+                conversationsHolder.layout.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+                conversationsHolder.time.setTextColor(context.getResources().getColor(R.color.dividerColor));
             }
             conversationsHolder.time.setText(Anomologita.getTime(currentCon.getTime(), 0));
         }
@@ -127,6 +147,8 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         final TextView senderName;
         final TextView txtMessage;
         final TextView time;
+        final TextView hashTag;
+        final ImageView me;
         final ImageView delete;
         final RelativeLayout layout;
         final LinearLayout conLayout;
@@ -134,10 +156,12 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         public ConversationsHolder(View itemView) {
             super(itemView);
             lastSenderName = (TextView) itemView.findViewById(R.id.lastSenderName);
-            senderName = (TextView) itemView.findViewById(R.id.conversationTitle);
+            senderName = (TextView) itemView.findViewById(R.id.name);
+            hashTag = (TextView) itemView.findViewById(R.id.hashTag);
             txtMessage = (TextView) itemView.findViewById(R.id.txtMessageName);
             time = (TextView) itemView.findViewById(R.id.time);
             delete = (ImageView) itemView.findViewById(R.id.delete);
+            me = (ImageView) itemView.findViewById(R.id.meIcon);
             layout = (RelativeLayout) itemView.findViewById(R.id.conRowLayout);
             conLayout = (LinearLayout) itemView.findViewById(R.id.conLayout);
         }

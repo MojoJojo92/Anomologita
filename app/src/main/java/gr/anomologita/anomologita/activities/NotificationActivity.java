@@ -12,10 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,13 +48,13 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
             }
         });
 
-        MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
+      /*  MMAdView adLayout = (MMAdView) findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
         request.setEthnicity(MMRequest.ETHNICITY_WHITE);
         request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
-        adLayout.getAd();
+        adLayout.getAd(); */
 
         TextView titleTop = (TextView) findViewById(R.id.titleTop);
         TextView titleBottom = (TextView) findViewById(R.id.titleBottom);
@@ -77,11 +73,6 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(notificationsAdapter);
-        recyclerView.addItemDecoration(
-                new HorizontalDividerItemDecoration.Builder(this)
-                        .margin(Anomologita.convert(10))
-                        .color(getResources().getColor(R.color.primaryColor))
-                        .build());
 
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(100);
@@ -90,12 +81,16 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
     }
 
     public void groupClick(Notification notification) {
-        HidingGroupProfileListener.mGroupProfileOffset = 0;
-        Anomologita.setCurrentGroupID(String.valueOf(notification.getId()));
-        Intent intent = new Intent();
-        setResult(Activity.RESULT_OK, intent);
-        finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        if(Anomologita.isConnected()){
+            HidingGroupProfileListener.mGroupProfileOffset = 0;
+            Anomologita.setCurrentGroupID(String.valueOf(notification.getId()));
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        }else {
+            Toast.makeText(Anomologita.getAppContext(), R.string.noInternet, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void postClick(Notification notification) {

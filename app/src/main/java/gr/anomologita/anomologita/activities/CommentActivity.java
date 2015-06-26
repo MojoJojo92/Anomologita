@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -81,14 +80,14 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
         recyclerView.setAdapter(adapter);
 
         wheel.spin();
-        handler.postDelayed(runnable, 1000);
+        handler.postDelayed(runnable, 500);
     }
 
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             getComments();
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, 500);
         }
     };
 
@@ -120,6 +119,8 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                 AttemptLogin setComment = new AttemptLogin();
                 setComment.setComment(String.valueOf(post.getPost_id()), null, "getComments", this);
                 setComment.execute();
+            }else {
+                Toast.makeText(Anomologita.getAppContext(),R.string.noInternet, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -140,6 +141,8 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
                 sendNotification.sendNotification(text, "like", String.valueOf(post.getPost_id()), post.getReg_id());
                 sendNotification.execute();
             }
+        }else {
+            Toast.makeText(Anomologita.getAppContext(),R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -172,18 +175,25 @@ public class CommentActivity extends ActionBarActivity implements CommentComplet
     }
 
     private void editComment(Comment comment){
-        if(!(commentET.getText().toString()).equals(comment.getComment())){
-            Log.e("ko",comment.getCommentID()+" "+comment.getComment());
-            AttemptLogin editComment = new AttemptLogin();
-            editComment.editComment(comment.getCommentID(),commentET.getText().toString());
-            editComment.execute();
+        if(Anomologita.isConnected()){
+            if(!(commentET.getText().toString()).equals(comment.getComment())){
+                AttemptLogin editComment = new AttemptLogin();
+                editComment.editComment(comment.getCommentID(),commentET.getText().toString());
+                editComment.execute();
+            }
+        }else {
+            Toast.makeText(Anomologita.getAppContext(),R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void deleteComment(Comment comment){
-        AttemptLogin deleteComment = new AttemptLogin();
-        deleteComment.deleteComment(comment.getCommentID(), String.valueOf(post.getPost_id()));
-        deleteComment.execute();
+        if(Anomologita.isConnected()){
+            AttemptLogin deleteComment = new AttemptLogin();
+            deleteComment.deleteComment(comment.getCommentID(), String.valueOf(post.getPost_id()));
+            deleteComment.execute();
+        }else {
+            Toast.makeText(Anomologita.getAppContext(),R.string.noInternet, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void okClick() {

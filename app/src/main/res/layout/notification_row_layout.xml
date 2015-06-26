@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:minHeight="80dp"
+    android:layout_margin="5dp"
     android:padding="5dp">
 
     <ImageView
@@ -14,7 +13,6 @@
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_centerInParent="true"
         android:contentDescription="@string/notificationDescription"
         android:src="@drawable/ic_fire_big"/>
 
@@ -22,14 +20,13 @@
         android:id="@+id/notificationText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_toEndOf="@+id/image"
         android:layout_toRightOf="@+id/image"
         android:layout_toLeftOf="@+id/delete"
         android:layout_toStartOf="@+id/delete"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:gravity="center|start"
+        android:gravity="start"
         android:maxLines="3"
         android:minLines="2"
         android:text="@string/notification"/>
@@ -38,9 +35,10 @@
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
         android:src="@drawable/ic_delete"
         android:contentDescription="@string/deleteNotificationDesc"/>
 
@@ -48,10 +46,13 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:textSize="12sp"
         android:text="@string/time"
-        android:textColor="#9E9E9E"/>
+        android:textColor="@color/dividerColor"/>
 
 </RelativeLayout>

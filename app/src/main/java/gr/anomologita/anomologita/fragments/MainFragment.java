@@ -25,6 +25,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -335,6 +336,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
                 sendNotification.sendNotification(text, "like", String.valueOf(post.getPost_id()), post.getReg_id());
                 sendNotification.execute();
             }
+        }else {
+            Toast.makeText(getActivity(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -343,6 +346,8 @@ public class MainFragment extends Fragment implements LoginMode, GetPostsComplet
             AttemptLogin getPost = new AttemptLogin();
             getPost.getPosts(groupID, sort, String.valueOf(position), String.valueOf(position + 20), this);
             getPost.execute();
+        }else {
+            Toast.makeText(getActivity(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 

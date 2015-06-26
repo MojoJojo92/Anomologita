@@ -22,19 +22,23 @@
             android:id="@+id/groupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:gravity="top"
+            android:shadowColor="@color/white"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="0.9"
+            android:textStyle="bold"
             android:text="@string/groupName"/>
 
-        <ImageView
-            android:id="@+id/editPost"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:contentDescription="@string/editPostDesc"
-            android:src="@drawable/ic_edit"/>
+            android:gravity="end"
+            android:text="@string/time"
+            android:textColor="@color/dividerColor"/>
 
     </RelativeLayout>
 
@@ -102,17 +106,15 @@
             android:text="@string/commentCount"
             android:textColor="@color/primaryColorDark"/>
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/editPost"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_toEndOf="@+id/commentCount"
-            android:layout_toRightOf="@+id/commentCount"
-            android:gravity="end"
-            android:text="@string/time"
-            android:textColor="@color/primaryColorDark"/>
+            android:clickable="true"
+            android:contentDescription="@string/editPostDesc"
+            android:src="@drawable/ic_edit"/>
 
     </RelativeLayout>
 

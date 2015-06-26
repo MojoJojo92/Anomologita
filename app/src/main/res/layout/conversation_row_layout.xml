@@ -4,8 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:minHeight="90dp"
     android:padding="10dp">
 
     <ImageView
@@ -15,41 +13,89 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:visibility="invisible"
         android:contentDescription="@string/deleteConversationDesc"
-        android:src="@drawable/ic_delete"/>
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:text="@string/time"
-        android:textColor="@color/secondaryTextColor"/>
+        android:textColor="@color/dividerColor"/>
 
-    <TextView
-        android:id="@+id/conversationTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <RelativeLayout
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/time"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/meIcon"
+            android:layout_centerInParent="true"
+            android:alpha="0.5"
+            android:src="@drawable/ic_me_grey"
+            android:contentDescription="@string/conIconDesc"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/conversationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/icon"
         android:layout_toLeftOf="@+id/time"
-        android:layout_alignParentTop="true"
-        android:maxLines="2"
-        android:text="@string/conTitle"
-        android:textSize="17sp"/>
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toStartOf="@+id/time">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:maxLines="1"
+            android:shadowColor="@color/white"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="0.9"
+            android:text="@string/conTitle"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/hashTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:maxLines="1"
+            android:shadowColor="@color/white"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="0.9"
+            android:text="@string/conTitle"
+            android:textSize="13sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/conLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_below="@+id/conversationTitle"
+        android:layout_toEndOf="@+id/icon"
         android:layout_toLeftOf="@+id/time"
+        android:layout_toRightOf="@+id/icon"
         android:layout_toStartOf="@+id/time"
         android:orientation="horizontal">
 
@@ -57,16 +103,20 @@
             android:id="@+id/lastSenderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:text="@string/sender"
-            android:textColor="@color/secondaryTextColor"/>
+            android:textColor="@color/dividerColorDark"
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/txtMessageName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:maxLines="1"
             android:text="@string/lastMessage"
-            android:textColor="@color/secondaryTextColor"/>
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="13sp"/>
 
     </LinearLayout>
 

@@ -83,10 +83,10 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
         this.groupID = groupID;
     }
 
-    public void setHashtag(String hashtag, String groupName) {
+    public void setHashtag(String hashtag, String groupID) {
         mode = LoginMode.SET_HASHTAG;
         this.hashtag = hashtag;
-        this.groupName = groupName;
+        this.groupID = groupID;
     }
 
     public void setLike(String postID, String liked) {

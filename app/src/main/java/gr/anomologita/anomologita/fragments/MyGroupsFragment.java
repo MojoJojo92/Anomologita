@@ -10,9 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,13 +47,13 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
         animator.setAddDuration(100);
         animator.setRemoveDuration(100);
 
-        MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
+    /*    MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
         request.setEthnicity(MMRequest.ETHNICITY_WHITE);
         request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
-        adLayout.getAd();
+        adLayout.getAd(); */
 
         recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -63,6 +62,7 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
         recyclerView.addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getActivity())
                         .margin(Anomologita.convert(10))
+                        .size(Anomologita.convert(0.5f))
                         .color(getResources().getColor(R.color.primaryColor))
                         .build());
         adapter.setGroups(groups);
@@ -84,6 +84,8 @@ public class MyGroupsFragment extends Fragment implements MyGroupsComplete, Logi
             AttemptLogin getUserGroups = new AttemptLogin();
             getUserGroups.getUserGroups(this);
             getUserGroups.execute();
+        }else {
+            Toast.makeText(getActivity(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 

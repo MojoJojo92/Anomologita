@@ -216,6 +216,8 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
             Anomologita.setCurrentGroupID(null);
             Anomologita.setCurrentGroupUserID(null);
             returnResult();
+        }else {
+            Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -233,7 +235,7 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
                 checkGroup.execute();
             } else if (!newHashtag.equals(currentHashtag)) {
                 AttemptLogin setHashtag = new AttemptLogin();
-                setHashtag.setHashtag(groupID, newHashtag);
+                setHashtag.setHashtag(newHashtag, groupID);
                 setHashtag.execute();
             }
         } else {
@@ -245,23 +247,27 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
 
     @Override
     public void onImageSetComplete() {
-        if (!newGroupName.equals(currentGroupName)) {
-            AttemptLogin checkGroup = new AttemptLogin();
-            checkGroup.checkGroup(newGroupName, this);
-            checkGroup.execute();
-        } else if (!newHashtag.equals(currentHashtag)) {
-            AttemptLogin setHashtag = new AttemptLogin();
-            setHashtag.setHashtag(groupID, newHashtag);
-            setHashtag.execute();
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
-            finish();
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-        } else {
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
-            finish();
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        if(Anomologita.isConnected()){
+            if (!newGroupName.equals(currentGroupName)) {
+                AttemptLogin checkGroup = new AttemptLogin();
+                checkGroup.checkGroup(newGroupName, this);
+                checkGroup.execute();
+            } else if (!newHashtag.equals(currentHashtag)) {
+                AttemptLogin setHashtag = new AttemptLogin();
+                setHashtag.setHashtag(groupID, newHashtag);
+                setHashtag.execute();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            } else {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        }else {
+            Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -285,6 +291,8 @@ public class EditGroupActivity extends ActionBarActivity implements LoginMode, I
                 setResult(RESULT_OK, intent);
                 finish();
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }else {
+                Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
             }
         }
     }

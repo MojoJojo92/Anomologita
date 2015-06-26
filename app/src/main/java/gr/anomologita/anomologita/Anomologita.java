@@ -183,7 +183,7 @@ public class Anomologita extends Application implements Preferences {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    public static int convert(int dp) {
+    public static int convert(float dp) {
         Resources r = getsInstance().getResources();
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }

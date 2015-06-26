@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millennialmedia.android.MMAdView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -68,11 +69,13 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).margin(Anomologita.convert(10))
-                .color(getResources().getColor(R.color.primaryColor)).build());
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
+                .margin(Anomologita.convert(10))
+                .size(Anomologita.convert(0.5f))
+                .color(getResources().getColor(R.color.primaryColor))
+                .build());
 
         search("");
-
     }
 
     @Override
@@ -116,6 +119,8 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
             AttemptLogin getSearch = new AttemptLogin();
             getSearch.getSearch(search, this);
             getSearch.execute();
+        }else {
+            Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 

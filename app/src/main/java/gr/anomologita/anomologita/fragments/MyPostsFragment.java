@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import gr.anomologita.anomologita.Anomologita;
 import gr.anomologita.anomologita.R;
@@ -22,8 +23,6 @@ import gr.anomologita.anomologita.extras.Keys.MyPostsComplete;
 import gr.anomologita.anomologita.network.AttemptLogin;
 import gr.anomologita.anomologita.objects.Post;
 
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         recyclerView.addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getActivity())
                         .margin(Anomologita.convert(10))
+                        .size(Anomologita.convert(0.5f))
                         .color(getResources().getColor(R.color.primaryColor))
                         .build());
 
@@ -56,13 +56,13 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
         animator.setRemoveDuration(100);
         recyclerView.setItemAnimator(animator);
 
-        MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
+      /*  MMAdView adLayout = (MMAdView) view.findViewById(R.id.adView);
         MMRequest request = new MMRequest();
         request.setAge("25");
         request.setEthnicity(MMRequest.ETHNICITY_WHITE);
         request.setEducation(MMRequest.EDUCATION_BACHELORS);
         adLayout.setMMRequest(request);
-        adLayout.getAd();
+        adLayout.getAd(); */
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new MyPostsAdapter(this);
@@ -87,6 +87,8 @@ public class MyPostsFragment extends Fragment implements MyPostsComplete, LoginM
             AttemptLogin getUserPosts = new AttemptLogin();
             getUserPosts.getUserPosts(this);
             getUserPosts.execute();
+        }else {
+            Toast.makeText(getActivity(), R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 

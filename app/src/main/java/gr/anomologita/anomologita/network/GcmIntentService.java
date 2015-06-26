@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -59,6 +60,8 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
                                     AttemptLogin attemptLogin = new AttemptLogin();
                                     attemptLogin.getUserPosts(this);
                                     attemptLogin.execute();
+                                }else {
+                                    Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
                                 }
                                 notification(extras);
                             }

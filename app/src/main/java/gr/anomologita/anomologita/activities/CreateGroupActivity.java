@@ -162,6 +162,8 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
             AttemptLogin setImage = new AttemptLogin();
             setImage.image(image, groupID, this);
             setImage.execute();
+        }else {
+            Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -252,6 +254,8 @@ public class CreateGroupActivity extends ActionBarActivity implements LoginMode,
                 createGroup.createGroup(hashtag, groupName, this);
                 createGroup.execute();
                 progressDialog();
+            }else {
+                Toast.makeText(this, R.string.noInternet, Toast.LENGTH_SHORT).show();
             }
         }
     }

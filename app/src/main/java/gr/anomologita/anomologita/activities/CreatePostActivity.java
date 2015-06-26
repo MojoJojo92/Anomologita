@@ -218,7 +218,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                     setPost.execute();
                     Random r = new Random();
                     int Low = 1;
-                    int High = 3;
+                    int High = 2;
                     int R = r.nextInt(High - Low) + Low;
                     if (R == 1) {
                         interstitial.setListener(new RequestListener.RequestListenerImpl() {

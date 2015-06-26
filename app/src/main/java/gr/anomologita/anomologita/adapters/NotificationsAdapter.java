@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 
@@ -88,7 +87,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notificationHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alert(currentPosition);
+                    deleteData(currentPosition);
                 }
             });
             if (getItemViewType(position) == 0) {
@@ -121,25 +120,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .into(notificationHolder.image);
             }
         }
-    }
-
-    private void alert(final int position){
-        new MaterialDialog.Builder(context)
-                .title("Διαγραφή Ενημέρωσης")
-                .iconRes(R.drawable.ic_error_triangle)
-                .content("Σίγουρα θέλεις να διαγράψεις αυτή την ενημέρωση;")
-                .positiveText("NAI")
-                .positiveColorRes(R.color.accentColor)
-                .neutralText("OXI")
-                .neutralColorRes(R.color.primaryColor)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        deleteData(position);
-                    }
-                })
-                .show();
     }
 
     private void deleteData(int position) {

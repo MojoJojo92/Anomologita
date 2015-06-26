@@ -63,6 +63,7 @@
 
     <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="50dp"

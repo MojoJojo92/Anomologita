@@ -22,6 +22,7 @@
     <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_height="60dp"
