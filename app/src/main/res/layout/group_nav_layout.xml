@@ -49,6 +49,7 @@
         android:layout_margin="5dp"
         android:background="@drawable/subscribe_background"
         android:orientation="horizontal"
+        android:visibility="invisible"
         android:padding="2dp">
 
         <TextView

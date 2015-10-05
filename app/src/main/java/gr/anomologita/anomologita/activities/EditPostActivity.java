@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,12 +36,14 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
     private BackAwareEditText postET, locationET;
     private TextView postSize, locationSize;
     private RelativeLayout layout;
+    private LinearLayout dummy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_post_layout);
         layout = (RelativeLayout) findViewById(R.id.editPostLayout);
+        dummy = (LinearLayout) findViewById(R.id.dummyView);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -88,10 +91,9 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         postET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
             @Override
             public void onImeBack(BackAwareEditText editText) {
-                postET.clearFocus();
+                dummy.findFocus();
             }
         });
-
 
         locationET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,7 +112,7 @@ public class EditPostActivity extends ActionBarActivity implements LoginMode, My
         locationET.setBackPressedListener(new BackAwareEditText.BackPressedListener() {
             @Override
             public void onImeBack(BackAwareEditText editText) {
-                locationET.clearFocus();
+                dummy.findFocus();
             }
         });
     }

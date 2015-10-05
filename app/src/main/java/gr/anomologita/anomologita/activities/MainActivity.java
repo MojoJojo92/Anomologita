@@ -464,6 +464,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 groupSubs.setText(String.valueOf(groupProfile.getSubscribers()));
                 groupNameTV.setText(groupProfile.getGroupName());
                 title.setText(groupProfile.getGroupName());
+
                 if (!db.exists(groupProfile.getGroup_name())) {
                     db.updateFavorite(groupProfile);
                     db.updateFavorite(groupProfile);
@@ -473,6 +474,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                     favoritesButton.setVisibility(View.GONE);
                     favoritesButtonOn.setVisibility(View.VISIBLE);
                 }
+
                 mGroupProfileContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                 HidingGroupProfileListener.mGroupProfileOffset = 0;
                 name.setAlpha(0);
@@ -587,6 +589,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    //    if (Anomologita.userID.equals(groupProfile.getUser_id()))
+    //        Anomologita.setCurrentGroupUserID(groupProfile.getUser_id());
         if (requestCode == 1) {
             switch (resultCode) {
                 case Activity.RESULT_OK:

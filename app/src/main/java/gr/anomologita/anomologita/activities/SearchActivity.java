@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -141,6 +142,7 @@ public class SearchActivity extends ActionBarActivity implements LoginMode, Sear
             HidingGroupProfileListener.mGroupProfileOffset = 0;
             Anomologita.setCurrentGroupID(String.valueOf(adapter.getData(position).getId()));
             Anomologita.setCurrentGroupName(adapter.getData(position).get_name());
+            Log.e("idAdmin",adapter.getData(position).getUserID()+" "+Anomologita.userID);
             Anomologita.setCurrentGroupUserID(adapter.getData(position).getUserID());
             resultOK();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

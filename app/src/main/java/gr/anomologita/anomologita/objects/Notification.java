@@ -6,10 +6,19 @@ public class Notification {
     private String text;
     private String type;
     private String id;
+    private String adminID;
     private String time;
 
     public Notification() {
 
+    }
+
+    public String getAdminID() {
+        return adminID;
+    }
+
+    public void setAdminID(String adminID) {
+        this.adminID = adminID;
     }
 
     public String getTime() {

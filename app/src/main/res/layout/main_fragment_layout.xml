@@ -51,9 +51,9 @@
             android:layout_toRightOf="@id/fakeView"/>
 
         <TextView
+            android:id="@+id/searchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/searchText"
             android:layout_below="@id/fakeView2"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
@@ -104,8 +104,8 @@
             android:layout_toStartOf="@id/fakeView"/>
 
         <TextView
-            android:layout_width="match_parent"
             android:id="@+id/createText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fakeView1"
             android:layout_marginLeft="25dp"

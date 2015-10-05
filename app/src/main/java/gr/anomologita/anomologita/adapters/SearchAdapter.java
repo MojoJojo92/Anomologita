@@ -62,7 +62,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else {
             Favorite current = groupSearches.get(position -1);
             searchHolder.background.setVisibility(View.VISIBLE);
-            searchHolder.layout.setVisibility(View.VISIBLE);
+           // searchHolder.layout.setVisibility(View.VISIBLE);
             searchHolder.title.setText(current.get_name());
             searchHolder.subsCount.setText(createSubs(current.getSubs()));
             BitmapPool pool = Glide.get(context).getBitmapPool();

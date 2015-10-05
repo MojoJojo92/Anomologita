@@ -5,6 +5,8 @@
     <string name="chat">chat</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="banner_ad">ca-app-pub-5007584823334636/2263888508</string>
+    <string name="full_ad">ca-app-pub-5007584823334636/9866050505</string>
 
     <string-array name="tabs">
         <item>ΝΕΑ</item>
@@ -57,7 +59,7 @@
     <string name="toolbarDelete">Delete</string>
     <string name="subsTextA">"Το γκρουπ αρέσει σε "</string>
     <string name="subsTextB">" άτομα"</string>
-    <string name="edit_group"><u>Μοιράσου το</u></string>
+    <string name="edit_group"> Share</string>
     <string name="notificationTitle">ΕΙΔΟΠΟΙΗΣΕΙΣ</string>
     <string name="switch2">ΗΧΟΣ ΕΙΔΟΠΟΙΗΣΕΩΝ</string>
     <string name="noInternet">ΔΕΝ ΥΠΑΡΧΕΙ ΣYΝΔΕΣΗ</string>
@@ -166,7 +168,7 @@
     <string name="createGroupText">Δημιούργησε μια νέα ομάδα και δες τις ανώνυμες δημοσιεύσεις που αναρτούν στον τοίχο σου αυτοί που σε ακολουθούν</string>
     <string name="editCommentDesc">Image fot editing comment</string>
     <string name="shareGroupDesc">Share group button</string>
-    <string name="shareApp">Κοινποίησε το App</string>
+    <string name="shareApp">Μοιράσου το App</string>
     <string name="conIconDesc">Conversation User Icon</string>
 
 </resources>

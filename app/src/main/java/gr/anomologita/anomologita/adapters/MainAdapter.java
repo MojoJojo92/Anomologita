@@ -10,8 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +28,17 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final MainFragment mainFragment;
     private final int offset = Anomologita.convert(100);
     private int previousPosition;
-    private MMRequest request;
+    // private MMRequest request;
+    private com.google.android.gms.ads.AdRequest request;
 
     public MainAdapter(MainFragment fragmentNew) {
         layoutInflater = LayoutInflater.from(fragmentNew.getActivity());
         this.mainFragment = fragmentNew;
-        request = new MMRequest();
+        request = new com.google.android.gms.ads.AdRequest.Builder().build();
+    /*    request = new MMRequest();
         request.setAge("25");
         request.setEthnicity(MMRequest.ETHNICITY_WHITE);
-        request.setEducation(MMRequest.EDUCATION_BACHELORS);
+        request.setEducation(MMRequest.EDUCATION_BACHELORS); */
     }
 
     public void setPostList(List<Post> posts) {
@@ -59,8 +60,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
             AdHolder adHolder = (AdHolder) holder;
-            adHolder.adRelativeLayout.setMMRequest(request);
-            adHolder.adRelativeLayout.getAd();
+            adHolder.adRelativeLayout.loadAd(request);
+        //    adHolder.adRelativeLayout.setMMRequest(request);
+        //    adHolder.adRelativeLayout.getAd();
             if (position > previousPosition)
                 animateAd(adHolder, true);
             else
@@ -231,11 +233,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class AdHolder extends RecyclerView.ViewHolder {
-        private final MMAdView adRelativeLayout;
+        // private final MMAdView adRelativeLayout;
+        private final AdView adRelativeLayout;
 
         public AdHolder(View itemView) {
             super(itemView);
-            adRelativeLayout = (MMAdView) itemView.findViewById(R.id.adView);
+            adRelativeLayout = (AdView) itemView.findViewById(R.id.adView);
         }
     }
 

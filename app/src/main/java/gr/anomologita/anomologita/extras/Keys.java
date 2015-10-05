@@ -32,7 +32,7 @@ public interface Keys {
         public static final String URL_EDIT_POST = "http://anomologita.gr/editPost.php";
         public static final String URL_EDIT_COMMENT = "http://anomologita.gr/editComment.php";
         public static final String URL_SEND_MESSAGE = "http://anomologita.gr/GCM.php";
-        public static final String URL_SEND_NOTIFICATION = "http://anomologita.gr/gcmLike.php";
+        public static final String URL_SEND_NOTIFICATION = "http://anomologita.gr/notificationGCM.php";
 
         public static final String ACTION_BUTTON_TAG = "post";
         public static final String TAG_SUCCESS = "success";

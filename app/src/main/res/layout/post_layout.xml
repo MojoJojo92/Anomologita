@@ -39,6 +39,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="@string/time"
+            android:visibility="invisible"
             android:textColor="@color/primaryColorLight"/>
 
     </RelativeLayout>

@@ -84,6 +84,7 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
         if(Anomologita.isConnected()){
             HidingGroupProfileListener.mGroupProfileOffset = 0;
             Anomologita.setCurrentGroupID(String.valueOf(notification.getId()));
+            Anomologita.setCurrentGroupUserID(Anomologita.userID);
             Intent intent = new Intent();
             setResult(Activity.RESULT_OK, intent);
             finish();
@@ -98,6 +99,7 @@ public class NotificationActivity extends ActionBarActivity implements LoginMode
             ok = true;
             PostsDBHandler db = new PostsDBHandler(this);
             if(db.exists(Integer.parseInt(notification.getId()))){
+                Anomologita.setCurrentGroupUserID(notification.getAdminID());
                 Post post = db.getPost(Integer.parseInt(notification.getId()));
                 db.close();
                 Intent i = new Intent(this, CommentActivity.class);

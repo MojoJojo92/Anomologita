@@ -80,14 +80,15 @@
 
             <TextView
                 android:id="@+id/edit"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:layout_alignParentBottom="true"
                 android:drawableLeft="@drawable/ic_share_small"
                 android:drawableStart="@drawable/ic_share_small"
                 android:clickable="true"
                 android:layout_marginTop="5dp"
-                android:gravity="center"
+                android:gravity="bottom"
                 android:text="@string/edit_group"
                 android:textSize="12sp"/>
 

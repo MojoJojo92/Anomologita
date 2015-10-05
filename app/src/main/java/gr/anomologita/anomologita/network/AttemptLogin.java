@@ -955,6 +955,7 @@ public class AttemptLogin extends AsyncTask<String, String, String> implements E
             params.add(new BasicNameValuePair("type", type));
             params.add(new BasicNameValuePair("id", id));
             params.add(new BasicNameValuePair("registrationIDs", regID));
+            params.add(new BasicNameValuePair("adminID", Anomologita.getCurrentGroupUserID()));
             params.add(new BasicNameValuePair("operation", "notification"));
 
             Log.d("request!", "starting");

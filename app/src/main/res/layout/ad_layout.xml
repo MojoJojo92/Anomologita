@@ -6,13 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:mm="http://millennialmedia.com/android/schema">
+    xmlns:mm="http://millennialmedia.com/android/schema"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
 
-    <com.millennialmedia.android.MMAdView
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        ads:adSize="LARGE_BANNER"
+        ads:adUnitId="@string/banner_ad">
+    </com.google.android.gms.ads.AdView>
+
+   <!-- <com.millennialmedia.android.MMAdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         mm:width="320"
-        mm:apid="204166" />
+        mm:apid="204166" />-->
 
 </LinearLayout>

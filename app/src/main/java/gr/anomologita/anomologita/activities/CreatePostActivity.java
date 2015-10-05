@@ -1,6 +1,7 @@
 package gr.anomologita.anomologita.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +21,9 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.millennialmedia.android.MMAd;
-import com.millennialmedia.android.MMInterstitial;
-import com.millennialmedia.android.MMRequest;
-import com.millennialmedia.android.RequestListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -44,13 +45,16 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     private TextView locationSize, postSize;
     private BackAwareEditText postET, locationET;
     private RelativeLayout layout;
-    private MMInterstitial interstitial;
+    private LinearLayout dummy;
+    //  private MMInterstitial interstitial;
+    private InterstitialAd interstitial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_post_layout);
         layout = (RelativeLayout) findViewById(R.id.editPostLayout);
+        dummy = (LinearLayout) findViewById(R.id.dummyView);
 
         dialog();
         Toolbar toolbar = (Toolbar) findViewById(R.id.editPostToolbar);
@@ -61,7 +65,7 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
 
         postET = (BackAwareEditText) findViewById(R.id.currentPost);
         postET.setHint("Γράψε το ανομολόγητό σου...");
-        locationET = (BackAwareEditText)(findViewById(R.id.currentLocation));
+        locationET = (BackAwareEditText) (findViewById(R.id.currentLocation));
         locationET.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -102,8 +106,11 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             @Override
             public void onImeBack(BackAwareEditText editText) {
                 postET.clearFocus();
+                locationET.clearFocus();
+                dummy.requestFocus();
             }
         });
+
         locationET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,16 +129,30 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
             @Override
             public void onImeBack(BackAwareEditText editText) {
                 locationET.clearFocus();
+                postET.clearFocus();
+                dummy.requestFocus();
             }
         });
 
-        interstitial = new MMInterstitial(this);
+        interstitial = new InterstitialAd(this);
+        interstitial.setAdUnitId(getResources().getString(R.string.full_ad));
+
+        interstitial.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        requestNewInterstitial();
+
+       /* interstitial = new MMInterstitial(this);
         MMRequest request = new MMRequest();
         request.setAge("25");
         request.setEthnicity(MMRequest.ETHNICITY_WHITE);
         request.setEducation(MMRequest.EDUCATION_BACHELORS);
         interstitial.setMMRequest(request);
-        interstitial.setApid("204172");
+        interstitial.setApid("204172"); */
     }
 
     private void setPostSize() {
@@ -221,13 +242,15 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
                     int High = 2;
                     int R = r.nextInt(High - Low) + Low;
                     if (R == 1) {
-                        interstitial.setListener(new RequestListener.RequestListenerImpl() {
+                        if (interstitial.isLoaded())
+                            interstitial.show();
+                      /*  interstitial.setListener(new RequestListener.RequestListenerImpl() {
                             @Override
                             public void requestCompleted(MMAd mmAd) {
                                 interstitial.display();
                             }
                         });
-                        interstitial.fetch();
+                        interstitial.fetch(); */
                     }
                     resultOK();
                 } else {
@@ -259,6 +282,11 @@ public class CreatePostActivity extends ActionBarActivity implements LoginMode, 
     protected void onPause() {
         super.onPause();
         Anomologita.activityPaused();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder() .build();
+        interstitial.loadAd(adRequest);
     }
 
     @Override

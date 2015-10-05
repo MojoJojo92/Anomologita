@@ -13,8 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_below="@+id/editPostToolbar"
         android:orientation="vertical">
 
@@ -43,9 +41,12 @@
             android:shadowColor="@color/dividerColorDark"
             android:shadowDx="1"
             android:shadowDy="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:shadowRadius="0.006"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/black"/>
+            android:selectAllOnFocus="false"
+            android:textStyle="bold"
+            android:textColor="@color/primaryColorDark"/>
 
         <TextView
             android:id="@+id/locationSize"
@@ -61,21 +62,30 @@
             android:id="@+id/currentLocation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
             android:layout_weight="3"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:inputType="textCapSentences"
             android:singleLine="false"
             android:ellipsize="end"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:shadowColor="@color/dividerColorDark"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="0.006"
+            android:textStyle="bold"
             android:lines="2"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/black"/>
+            android:selectAllOnFocus="false"
+            android:textColor="@color/primaryColorDark"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dummyView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"/>
 
 </RelativeLayout>

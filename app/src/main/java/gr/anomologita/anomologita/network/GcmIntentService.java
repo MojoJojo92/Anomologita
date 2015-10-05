@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -138,6 +139,7 @@ public class GcmIntentService extends IntentService implements Keys.MyPostsCompl
         notification.setId(extras.getString("id"));
         notification.setType(extras.getString("type"));
         notification.setText(extras.getString("text"));
+        notification.setAdminID(extras.getString("adminID"));
         if (Anomologita.isActivityVisible())
             sendNotNotification(extras.getString("text"));
         if (!db.exists(extras.getString("id"), extras.getString("type"))) {
